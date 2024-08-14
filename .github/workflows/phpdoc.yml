@@ -1,0 +1,22 @@
+name: Generate and Publish Documentation
+
+on:
+  push:
+    branches:
+      - test
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Run PHPDoc
+        run: docker run --rm -v "$(pwd):/data" "phpdoc/phpdoc:3" -d /data/src -t /data/docs
+
+      - name: Upload documentation
+        uses: actions/upload-artifact@v3
+        with:
+          name: php-docs
+          path: docs/
