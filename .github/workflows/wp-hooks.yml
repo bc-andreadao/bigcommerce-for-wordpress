@@ -25,7 +25,7 @@ jobs:
         run: composer require pronamic/wp-documentor --dev
       
       - name: Generate Documentation
-        run: vendor/bin/wp-documentor generate hooks
+        run: vendor/bin/wp-documentor parse src
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
