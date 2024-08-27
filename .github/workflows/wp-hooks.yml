@@ -22,7 +22,7 @@ jobs:
         run: composer install --no-dev
 
       - name: Install wp-documentor
-        run: composer require pronamic/wp-documentor
+        run: composer require pronamic/wp-documentor --dev
       
       - name: Generate Documentation
         run: vendor/bin/wp-documentor generate hooks
