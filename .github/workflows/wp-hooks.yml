@@ -1,0 +1,32 @@
+name: Generate Documentation
+
+on:
+  push:
+    branches:
+      - test-hooks
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.0'
+
+      - name: Install Composer dependencies
+        run: composer install --no-dev
+
+      - name: Generate Documentation
+        run: vendor/bin/wp-documentor generate hooks
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs
+          publish_branch: gh-pages-hooks
