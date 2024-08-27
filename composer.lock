@@ -126,7 +126,7 @@
             "version": "v2.3.4",
             "source": {
                 "type": "git",
-                "url": "git@github.com:moderntribe/bigcommerce-api-php-v3.git",
+                "url": "https://github.com/moderntribe/bigcommerce-api-php-v3.git",
                 "reference": "054f0c7bc188560bdcad24c7ace908def11a5c9e"
             },
             "dist": {
