@@ -21,6 +21,9 @@ jobs:
       - name: Install Composer dependencies
         run: composer install --no-dev
 
+      - name: Install wp-documentor
+        run: composer require pronamic/wp-documentor
+      
       - name: Generate Documentation
         run: vendor/bin/wp-documentor generate hooks
 
