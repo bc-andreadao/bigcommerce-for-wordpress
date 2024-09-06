@@ -24,6 +24,9 @@ jobs:
 
       - name: Install wp-documentor
         run: composer require bc-andreadao/wp-documentor:dev-main --dev
+
+      - name: Install symfony/filesystem
+        run: composer require symfony/filesystem --dev
       
       - name: Generate Documentation
         run: vendor/bin/wp-documentor parse src --format=markdown
