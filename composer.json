@@ -26,12 +26,16 @@
     "repositories": [
         {
             "type": "vcs",
-            "url": "git@github.com:moderntribe/bigcommerce-api-php-v3.git",
+            "url": "https://github.com/moderntribe/bigcommerce-api-php-v3.git",
             "no-api": true
         },
         {
             "type": "vcs",
             "url": "git@github.com:bordoni/phpass.git"
+        },
+        {
+            "type": "git",
+            "url": "https://github.com/bc-andreadao/wp-documentor.git"
         }
     ],
     "autoload": {
