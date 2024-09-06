@@ -28,6 +28,12 @@ jobs:
       - name: Generate Documentation
         run: vendor/bin/wp-documentor parse src --format=markdown
 
+      - name: Upload documentation
+        uses: actions/upload-artifact@v4
+        with:
+          name: wp-documentor-docs
+          path: docs/
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
