@@ -39,8 +39,7 @@ jobs:
 
       - name: Inject HTML into Template
         run: |
-          cat << 'EOF' > docs/hooks.html
-          $(cat << 'TEMPLATE'
+          cat <<EOF > docs/hooks.html
           <!DOCTYPE html>
           <html lang="en">
           <head>
@@ -58,13 +57,15 @@ jobs:
                   <h1>Documentation</h1>
               </header>
               <main class="phpdocumentor">
-                  $(cat docs/hooks-temp.html)
+          EOF
+          
+          cat docs/hooks-temp.html >> docs/hooks.html
+
+          cat <<EOF >> docs/hooks.html
               </main>
               <script src="https://cdn.jsdelivr.net/npm/prismjs@1.23.0/prism.min.js"></script>
           </body>
           </html>
-          TEMPLATE
-          )
           EOF
 
       - name: Upload documentation
