@@ -32,7 +32,7 @@ jobs:
         run: vendor/bin/wp-documentor parse src --format=markdown --output=docs/hooks.md
 
       - name: Run PHPDoc
-        run: docker run --rm -v "$(pwd):/data" "phpdoc/phpdoc:3" -d /data/src -t /data/docs/phpdoc
+        run: docker run --rm -v "$(pwd):/data" "phpdoc/phpdoc:3" -d /data/src -t /data/docs
 
       - name: Install Pandoc
         run: sudo apt-get install pandoc
