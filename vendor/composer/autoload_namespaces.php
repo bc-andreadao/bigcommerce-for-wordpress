@@ -6,6 +6,12 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
+    'cli' => array($vendorDir . '/wp-cli/php-cli-tools/lib'),
+    'WP_CLI\\' => array($vendorDir . '/wp-cli/wp-cli/php'),
     'Pimple' => array($vendorDir . '/pimple/pimple/src'),
+    'Oxymel' => array($vendorDir . '/nb/oxymel'),
+    'Mustache' => array($vendorDir . '/mustache/mustache/src'),
+    'Hautelook' => array($vendorDir . '/bordoni/phpass/src'),
     'Bigcommerce' => array($vendorDir . '/bigcommerce/api/src'),
+    'Behat\\Gherkin' => array($vendorDir . '/behat/gherkin/src'),
 );
