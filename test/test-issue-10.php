@@ -17,12 +17,12 @@
  */
 function test_issue_10_prefix_1( $first_param, $second_param ) {
 	/**
-	 * Prefix 1.
+	 * Prefix 1 description.
 	 *
-	 * @param string $first_param This is the first argument
-	 * @param string $second_param This is the second argument
+	 * @param string $first_param_prefix_1 This is the first argument. Change up description here.
+	 * @param object $second_param_prefix_1 This is the second argument for prefix 1
 	 */
-	return apply_filters( 'prefix_1_filter', $first_param, $second_param );
+	return apply_filters( 'prefix_1_filter_name', $first_param_test, $second_param_test );
 }
 
 /**
@@ -34,12 +34,12 @@ function test_issue_10_prefix_1( $first_param, $second_param ) {
  */
 function test_issue_10_prefix_2( $first_param, $second_param ) {
 	/**
-	 * Prefix 2.
+	 * Prefix 2 description.
 	 *
-	 * @param string $first_param This is the first argument
-	 * @param string $second_param This is the second argument
+	 * @param array $first_param_prefix_2 This is the first argument for prefix 2
+	 * @param Exampletype $second_param_prefix_2 This is the second argument for prefix 2
 	 */
-	return apply_filters( 'prefix_2_filter', $first_param, $second_param );
+	return apply_filters( 'prefix_2_filter_name', $first_param, $second_param );
 }
 
 /**
@@ -51,10 +51,10 @@ function test_issue_10_prefix_2( $first_param, $second_param ) {
  */
 function test_issue_10_prefix_3( $first_param, $second_param ) {
 	/**
-	 * Prefix 3.
+	 * Prefix 3 description.
 	 *
-	 * @param string $first_param This is the first argument
-	 * @param string $second_param This is the second argument
+	 * @param integer $first_param_prefix_3 This is the first argument for prefix 3
+	 * @param boolean $second_param_prefix_3 This is the second argument for prefix 3
 	 */
-	return apply_filters( 'prefix_3_filter', $first_param, $second_param );
+	return apply_filters( 'prefix_3_filter_name', $first_param, $second_param );
 }

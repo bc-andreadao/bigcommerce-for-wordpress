@@ -9,42 +9,42 @@
 
 ## Filters
 
-### `prefix_1_filter`
+### `prefix_1_filter_name`
 
-*Prefix 1.*
+*Prefix 1 description.*
 
 **Arguments**
 
 Argument | Type | Description
 -------- | ---- | -----------
-`$first_param` | `string` | This is the first argument
-`$second_param` | `string` | This is the second argument
+`first_param_prefix_1` | `string` | This is the first argument. Change up description here.
+`second_param_prefix_1` | `object` | This is the second argument for prefix 1
 
 Source: [test/test-issue-10.php](test-issue-10.php), [line 19](test-issue-10.php#L19-L25)
 
-### `prefix_2_filter`
+### `prefix_2_filter_name`
 
-*Prefix 2.*
+*Prefix 2 description.*
 
 **Arguments**
 
 Argument | Type | Description
 -------- | ---- | -----------
-`$first_param` | `string` | This is the first argument
-`$second_param` | `string` | This is the second argument
+`first_param_prefix_2` | `array` | This is the first argument for prefix 2
+`second_param_prefix_2` | `\Exampletype` | This is the second argument for prefix 2
 
 Source: [test/test-issue-10.php](test-issue-10.php), [line 36](test-issue-10.php#L36-L42)
 
-### `prefix_3_filter`
+### `prefix_3_filter_name`
 
-*Prefix 3.*
+*Prefix 3 description.*
 
 **Arguments**
 
 Argument | Type | Description
 -------- | ---- | -----------
-`$first_param` | `string` | This is the first argument
-`$second_param` | `string` | This is the second argument
+`first_param_prefix_3` | `int` | This is the first argument for prefix 3
+`second_param_prefix_3` | `bool` | This is the second argument for prefix 3
 
 Source: [test/test-issue-10.php](test-issue-10.php), [line 53](test-issue-10.php#L53-L59)
 
