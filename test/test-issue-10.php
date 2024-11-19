@@ -58,3 +58,17 @@ function test_issue_10_prefix_3( $first_param, $second_param ) {
 	 */
 	return add_filter( 'prefix_3_filter_name', $first_param, $second_param );
 }
+
+/**
+ * Test function for prefix 4
+ */
+
+function test_issue_10_prefix_4( $first_param, $second_param ) {
+	/**
+	 * Prefix 4 description.
+	 *
+	 * @param string $first_param_prefix_4 This is the first argument for prefix 4
+	 * @param object $second_param_prefix_4 This is the second argument for prefix 4
+	 */
+	return add_action( 'prefix_4_filter_name', $first_param, $second_param );
+}

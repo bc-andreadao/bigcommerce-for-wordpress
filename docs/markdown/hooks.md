@@ -5,7 +5,18 @@
 
 ## Actions
 
-*This project does not contain any WordPress actions.*
+### `prefix_4_filter_name`
+
+*Prefix 4 description.*
+
+**Arguments**
+
+Argument | Type | Description
+-------- | ---- | -----------
+`first_param_prefix_4` | `string` | This is the first argument for prefix 4
+`second_param_prefix_4` | `object` | This is the second argument for prefix 4
+
+Source: [test/test-issue-10.php](test-issue-10.php), [line 67](test-issue-10.php#L67-L73)
 
 ## Filters
 
