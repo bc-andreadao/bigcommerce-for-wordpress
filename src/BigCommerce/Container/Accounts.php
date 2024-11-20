@@ -23,88 +23,155 @@ use Pimple\Container;
 /**
  * Class Accounts
  *
+ * Handles the registration and initialization of various account-related services
+ * such as login, registration, countries, wishlists, profile settings, and customer groups.
+ *
  * @package BigCommerce\Container
  */
 class Accounts extends Provider {
-	const LOGIN            = 'accounts.login';
-	const REGISTER         = 'accounts.register';
-	const COUNTRIES        = 'accounts.countries';
-	const COUNTRIES_PATH   = 'accounts.countries.path';
-	const DELETE_ADDRESS   = 'accounts.delete_address';
-	const NAV_MENU         = 'accounts.nav_menu';
-	const SUB_NAV          = 'accounts.sub_nav';
-	const USER_PROFILE     = 'accounts.user_profile';
-	const GROUP_PROXY      = 'accounts.groups.proxy';
-	const PASSWORD_RESET   = 'accounts.password_reset';
-	const CHANNEL_SETTINGS = 'accounts.channel_settings';
+    const LOGIN            = 'accounts.login';
+    const REGISTER         = 'accounts.register';
+    const COUNTRIES        = 'accounts.countries';
+    const COUNTRIES_PATH   = 'accounts.countries.path';
+    const DELETE_ADDRESS   = 'accounts.delete_address';
+    const NAV_MENU         = 'accounts.nav_menu';
+    const SUB_NAV          = 'accounts.sub_nav';
+    const USER_PROFILE     = 'accounts.user_profile';
+    const GROUP_PROXY      = 'accounts.groups.proxy';
+    const PASSWORD_RESET   = 'accounts.password_reset';
+    const CHANNEL_SETTINGS = 'accounts.channel_settings';
 
-	const PUBLIC_WISHLIST        = 'accounts.wishlist.public';
-	const WISHLIST_ROUTER        = 'accounts.wishlist.router';
-	const WISHLIST_CREATE        = 'accounts.wishlist.create';
-	const WISHLIST_EDIT          = 'accounts.wishlist.edit';
-	const WISHLIST_DELETE        = 'accounts.wishlist.delete';
-	const WISHLIST_ADD           = 'accounts.wishlist.add_item';
-	const WISHLIST_REMOVE        = 'accounts.wishlist.remove_item';
-	const WISHLIST_ADD_ITEM_VIEW = 'accounts.wishlist.add_item_view';
-
-	public function register( Container $container ) {
-		$this->login( $container );
-		$this->countries( $container );
-		$this->profile( $container );
-		$this->addresses( $container );
-		$this->customer_groups( $container );
-		$this->wishlists( $container );
-		$this->passwords( $container );
-		$this->channel_settings( $container );
-	}
+    const PUBLIC_WISHLIST        = 'accounts.wishlist.public';
+    const WISHLIST_ROUTER        = 'accounts.wishlist.router';
+    const WISHLIST_CREATE        = 'accounts.wishlist.create';
+    const WISHLIST_EDIT          = 'accounts.wishlist.edit';
+    const WISHLIST_DELETE        = 'accounts.wishlist.delete';
+    const WISHLIST_ADD           = 'accounts.wishlist.add_item';
+    const WISHLIST_REMOVE        = 'accounts.wishlist.remove_item';
+    const WISHLIST_ADD_ITEM_VIEW = 'accounts.wishlist.add_item_view';
 
     /**
-     * Handle login logic methods
+     * Registers various services into the container
      *
-     * @param Container $container
+     * @param Container $container The dependency injection container
      */
-	private function login( Container $container ) {
-		$container[ self::LOGIN ] = function ( Container $container ) {
-			return new Login( $container[ Api::FACTORY ] );
-		};
+    public function register( Container $container ) {
+        $this->login( $container );
+        $this->countries( $container );
+        $this->profile( $container );
+        $this->addresses( $container );
+        $this->customer_groups( $container );
+        $this->wishlists( $container );
+        $this->passwords( $container );
+        $this->channel_settings( $container );
+    }
 
-		$container[ self::REGISTER ] = function ( Container $container ) {
-			return new Register( $container[ Api::FACTORY ], new Connections() );
-		};
+    /**
+     * Registers and handles login-related actions.
+     *
+     * @param Container $container The dependency injection container
+     */
+    private function login( Container $container ) {
+        /** Registering login service */
+        $container[ self::LOGIN ] = function ( Container $container ) {
+            return new Login( $container[ Api::FACTORY ] );
+        };
 
-		add_action( 'wp_login', $this->create_callback( 'connect_customer_id', function ( $username, $user ) use ( $container ) {
-			$container[ self::LOGIN ]->connect_customer_id( $username, $user );
-		} ), 10, 2 );
+        /** Registering register service */
+        $container[ self::REGISTER ] = function ( Container $container ) {
+            return new Register( $container[ Api::FACTORY ], new Connections() );
+        };
 
+        /**
+         * Action hook to connect customer ID after successful login.
+         *
+         * @param string $username Username of the logged-in user
+         * @param WP_User $user The WP user object
+         */
+        add_action( 'wp_login', $this->create_callback( 'connect_customer_id', function ( $username, $user ) use ( $container ) {
+            $container[ self::LOGIN ]->connect_customer_id( $username, $user );
+        } ), 10, 2 );
+
+		/**
+		 * Filter login URL for custom redirection.
+		 *
+		 * @param string $url       The login URL.
+		 * @param string $redirect  The URL to redirect to after login.
+		 * @param bool   $reauth    Whether the login is a re-authentication attempt.
+		 * @return string Modified login URL.
+		 */
 		add_filter( 'login_url', $this->create_callback( 'login_url', function ( $url, $redirect, $reauth ) use ( $container ) {
 			return $container[ self::LOGIN ]->login_url( $url, $redirect, $reauth );
 		} ), 10, 3 );
 
+		/**
+		 * Filter login errors to handle custom error messages.
+		 *
+		 * @param \WP_Error $errors  The login errors.
+		 * @param string    $redirect The URL to redirect to after login.
+		 * @return \WP_Error Modified login errors.
+		 */
 		add_filter( 'wp_login_errors', $this->create_callback( 'login_errors', function ( $errors, $redirect ) use ( $container ) {
 			return $container[ self::LOGIN ]->login_error_handler( $errors, $redirect );
 		} ), 10, 2 );
 
+		/**
+		 * Filter lost password URL for custom redirection.
+		 *
+		 * @param string $url       The lost password URL.
+		 * @param string $redirect  The URL to redirect to after password reset.
+		 * @return string Modified lost password URL.
+		 */
 		add_filter( 'lostpassword_url', $this->create_callback( 'lostpassword_url', function ( $url, $redirect ) use ( $container ) {
 			return $container[ self::LOGIN ]->lostpassword_url( $url, $redirect );
 		} ), 10, 2 );
 
+		/**
+		 * Filter user data before sending the lost password email.
+		 *
+		 * @param array    $user_data User data.
+		 * @param \WP_Error $errors   Any errors found.
+		 * @return array Modified user data.
+		 */
 		add_filter( 'lostpassword_user_data', $this->create_callback( 'lostpassword_user_data', function ( $user_data, $errors ) use ( $container ) {
 			return $container[ self::LOGIN ]->before_reset_password_email( $user_data, $errors );
 		} ), 10, 2 );
 
+		/**
+		 * Action hook for handling lost password errors.
+		 *
+		 * @param \WP_Error $error Error object from the lost password process.
+		 */
 		add_action( 'lostpassword_post', $this->create_callback( 'lostpassword_post', function ( $error ) use ( $container ) {
 			return $container[ self::LOGIN ]->lostpassword_error_handler( $error );
 		} ), 10, 1 );
 
+		/**
+		 * Filter registration URL for custom redirection.
+		 *
+		 * @param string $url The registration URL.
+		 * @return string Modified registration URL.
+		 */
 		add_filter( 'register_url', $this->create_callback( 'register_url', function ( $url ) use ( $container ) {
 			return $container[ self::LOGIN ]->register_url( $url );
 		} ), 10, 1 );
 
+		/**
+		 * Redirect account pages to authentication pages and vice versa.
+		 */
 		add_action( 'template_redirect', $this->create_callback( 'redirects', function () use ( $container ) {
 			$container[ self::LOGIN ]->redirect_account_pages_to_auth();
 			$container[ self::LOGIN ]->redirect_auth_pages_to_account();
 		} ), 10, 0 );
 
+		/**
+		 * Filter authentication process for new user login.
+		 *
+		 * @param WP_User|null $user     The WP_User object on successful authentication, or null if authentication fails.
+		 * @param string       $username The username.
+		 * @param string       $password The password.
+		 * @return WP_User|null The authenticated user or null if authentication fails.
+		 */
 		add_filter( 'authenticate', $this->create_callback( 'authenticate_new_user', function ( $user, $username, $password ) use ( $container ) {
 			if ( $container[ Api::CONFIG_COMPLETE ] ) {
 				return $container[ self::LOGIN ]->authenticate_new_user( $user, $username, $password );
@@ -113,6 +180,15 @@ class Accounts extends Provider {
 			return $user;
 		} ), 40, 3 );
 
+		/**
+		 * Filter password check for linked accounts.
+		 *
+		 * @param bool   $match   Whether the password matches.
+		 * @param string $password The password to check.
+		 * @param string $hash     The stored password hash.
+		 * @param int    $user_id  The user ID.
+		 * @return bool Modified password match result.
+		 */
 		add_filter( 'check_password', $this->create_callback( 'check_password', function ( $match, $password, $hash, $user_id ) use ( $container ) {
 			if ( $container[ Api::CONFIG_COMPLETE ] ) {
 				return $container[ self::LOGIN ]->check_password_for_linked_accounts( $match, $password, $hash, $user_id );
@@ -121,206 +197,276 @@ class Accounts extends Provider {
 			return $match;
 		} ), 10, 4 );
 
+		/**
+		 * Action hook for creating a customer when a new user registers.
+		 *
+		 * @param int   $user_id  The new user ID.
+		 * @param array $userdata The user data.
+		 */
 		add_action( 'user_register', $this->create_callback( 'create_customer_from_admin', function ( $user_id, $userdata ) use ( $container ) {
 			$container[ self::REGISTER ]->maybe_create_new_customer( $user_id, $userdata );
 		} ), 10, 2 );
+
 	}
 
     /**
-     * Register countries container and handle requests for it
+     * Registers and handles country-related services and requests.
      *
-     * @param Container $container
+     * @param Container $container The dependency injection container
      */
-	private function countries( Container $container ) {
-		$container[ self::COUNTRIES ] = function ( Container $container ) {
-			return new Countries( $container[ self::COUNTRIES_PATH ] );
-		};
+    private function countries( Container $container ) {
+        /** Registering countries service */
+        $container[ self::COUNTRIES ] = function ( Container $container ) {
+            return new Countries( $container[ self::COUNTRIES_PATH ] );
+        };
 
-		$container[ self::COUNTRIES_PATH ] = function ( Container $container ) {
-			$file = plugin_dir_path( $container['plugin_file'] ) . 'assets/data/countries.json';
+        /** Registering countries path */
+        $container[ self::COUNTRIES_PATH ] = function ( Container $container ) {
+            $file = plugin_dir_path( $container['plugin_file'] ) . 'assets/data/countries.json';
 
-			/**
-			 * Filters countries data file.
-			 *
-			 * @param string $file Countries data json file path.
-			 */
-			return apply_filters( 'bigcommerce/countries/data_file', $file );
-		};
+            /**
+             * Filters the path of the countries data file.
+             *
+             * @param string $file Countries data json file path
+             */
+            return apply_filters( 'bigcommerce/countries/data_file', $file );
+        };
 
-		add_filter( 'bigcommerce/countries/data', $this->create_callback( 'countries', function ( $data ) use ( $container ) {
-			return $container[ self::COUNTRIES ]->get_countries();
-		} ), 5, 1 );
+        /** Adding filters to fetch and handle country data */
+        add_filter( 'bigcommerce/countries/data', $this->create_callback( 'countries', function ( $data ) use ( $container ) {
+            return $container[ self::COUNTRIES ]->get_countries();
+        } ), 5, 1 );
+
 		$countries_js_config = $this->create_callback( 'countries_js_config', function ( $config ) use ( $container ) {
 			return $container[ self::COUNTRIES ]->js_config( $config );
 		} );
+
+		/**
+		 * Filter to modify the JavaScript configuration for BigCommerce's storefront.
+		 *
+		 * @param array $config The existing JavaScript configuration.
+		 * @return array Modified JavaScript configuration.
+		 */
 		add_filter( 'bigcommerce/js_config', $countries_js_config, 10, 1 );
+
+		/**
+		 * Filter to modify the JavaScript configuration for BigCommerce's admin panel.
+		 *
+		 * @param array $config The existing JavaScript configuration.
+		 * @return array Modified JavaScript configuration.
+		 */
 		add_filter( 'bigcommerce/admin/js_config', $countries_js_config, 10, 1 );
-	}
+    }
 
     /**
-     * Handle profile container requests
+     * Registers profile-related services and actions.
      *
-     * @param Container $container
+     * @param Container $container The dependency injection container
      */
-	private function profile( Container $container ) {
-		$container[ self::NAV_MENU ] = function ( Container $container ) {
-			return new Nav_Menu();
-		};
+    private function profile( Container $container ) {
+        /** Registering navigation menu service */
+        $container[ self::NAV_MENU ] = function ( Container $container ) {
+            return new Nav_Menu();
+        };
 
-		add_filter( 'wp_setup_nav_menu_item', $this->create_callback( 'loginregister_menu_item', function ( $item ) use ( $container ) {
-			return $container[ self::NAV_MENU ]->filter_account_menu_items( $item );
-		} ), 10, 1 );
+        /** Action to filter account menu items */
+        add_filter( 'wp_setup_nav_menu_item', $this->create_callback( 'loginregister_menu_item', function ( $item ) use ( $container ) {
+            return $container[ self::NAV_MENU ]->filter_account_menu_items( $item );
+        } ), 10, 1 );
 
-		$container[ self::SUB_NAV ] = function ( Container $container ) {
-			return new Sub_Nav();
-		};
-		add_filter( 'the_content', $this->create_callback( 'account_subnav', function ( $content ) use ( $container ) {
-			return $container[ self::SUB_NAV ]->add_subnav_above_content( $content );
-		} ), 10, 1 );
+        /** Registering sub-navigation service */
+        $container[ self::SUB_NAV ] = function ( Container $container ) {
+            return new Sub_Nav();
+        };
 
-		$container[ self::USER_PROFILE ] = function ( Container $container ) {
-			return new User_Profile_Settings();
-		};
-		$render_profile_settings         = $this->create_callback( 'render_profile_settings', function ( $user ) use ( $container ) {
-			$container[ self::USER_PROFILE ]->render_profile_settings( $user );
-		} );
-		$save_profile_settings           = $this->create_callback( 'save_profile_settings', function ( $user_id ) use ( $container ) {
-			$container[ self::USER_PROFILE ]->save_profile_settings( $user_id );
-		} );
-		add_action( 'show_user_profile', $render_profile_settings, 10, 1 );
-		add_action( 'edit_user_profile', $render_profile_settings, 10, 1 );
-		add_action( 'personal_options_update', $save_profile_settings, 10, 1 );
-		add_action( 'edit_user_profile_update', $save_profile_settings, 10, 1 );
-	}
+        /** Action to add subnav above content */
+        add_filter( 'the_content', $this->create_callback( 'account_subnav', function ( $content ) use ( $container ) {
+            return $container[ self::SUB_NAV ]->add_subnav_above_content( $content );
+        } ), 10, 1 );
+
+        /** Registering user profile settings service */
+        $container[ self::USER_PROFILE ] = function ( Container $container ) {
+            return new User_Profile_Settings();
+        };
+
+        /** Action to render and save profile settings */
+        $render_profile_settings         = $this->create_callback( 'render_profile_settings', function ( $user ) use ( $container ) {
+            $container[ self::USER_PROFILE ]->render_profile_settings( $user );
+        } );
+        $save_profile_settings           = $this->create_callback( 'save_profile_settings', function ( $user_id ) use ( $container ) {
+            $container[ self::USER_PROFILE ]->save_profile_settings( $user_id );
+        } );
+
+        add_action( 'show_user_profile', $render_profile_settings, 10, 1 );
+        add_action( 'edit_user_profile', $render_profile_settings, 10, 1 );
+        add_action( 'personal_options_update', $save_profile_settings, 10, 1 );
+        add_action( 'edit_user_profile_update', $save_profile_settings, 10, 1 );
+    }
 
     /**
-     * @param Container $container
-     */
-	private function addresses( Container $container ) {
-		$container[ self::DELETE_ADDRESS ] = function ( Container $container ) {
-			return new Delete_Address_Handler();
-		};
-		add_action( 'parse_request', $this->create_callback( 'handle_delete_address', function () use ( $container ) {
-			$container[ self::DELETE_ADDRESS ]->handle_request( $_POST );
-		} ), 10, 0 );
-	}
-
-    /**
-     * @param Container $container
-     */
-	private function customer_groups( Container $container ) {
-		$container[ self::GROUP_PROXY ] = function ( Container $container ) {
-			return new Customer_Group_Proxy();
-		};
-		add_filter( 'bigcommerce/customer/group_info', $this->create_callback( 'set_customer_group_info', function ( $info, $group_id ) use ( $container ) {
-			return $container[ self::GROUP_PROXY ]->filter_group_info( $info, $group_id );
-		} ), 10, 2 );
-	}
-
-    /**
-     * Handle wishlists container logic
+     * Registers and handles address-related services and actions.
      *
-     * @param Container $container
+     * @param Container $container The dependency injection container
      */
-	private function wishlists( Container $container ) {
-		$container[ self::PUBLIC_WISHLIST ] = function ( Container $container ) {
-			return new Wishlist_Request_Parser( $container[ Api::FACTORY ]->wishlists() );
-		};
+    private function addresses( Container $container ) {
+        /** Registering delete address handler */
+        $container[ self::DELETE_ADDRESS ] = function ( Container $container ) {
+            return new Delete_Address_Handler();
+        };
 
-		add_action( 'parse_request', $this->create_callback( 'public_wishlist_request', function ( \WP $wp ) use ( $container ) {
-			$container[ self::PUBLIC_WISHLIST ]->setup_wishlist_request( $wp );
-		} ), 10, 1 );
+        /** Action to handle address deletion requests */
+        add_action( 'parse_request', $this->create_callback( 'handle_delete_address', function () use ( $container ) {
+            $container[ self::DELETE_ADDRESS ]->handle_request( $_POST );
+        } ), 10, 0 );
+    }
 
+    /**
+     * Registers customer group-related services and actions.
+     *
+     * @param Container $container The dependency injection container
+     */
+    private function customer_groups( Container $container ) {
+        /** Registering customer group proxy service */
+        $container[ self::GROUP_PROXY ] = function ( Container $container ) {
+            return new Customer_Group_Proxy();
+        };
+
+        /** Filter to set customer group information */
+        add_filter( 'bigcommerce/customer/group_info', $this->create_callback( 'set_customer_group_info', function ( $info, $group_id ) use ( $container ) {
+            return $container[ self::GROUP_PROXY ]->filter_group_info( $info, $group_id );
+        } ), 10, 2 );
+    }
+
+    /**
+     * Registers and handles wishlist-related services and actions.
+     *
+     * @param Container $container The dependency injection container
+     */
+    private function wishlists( Container $container ) {
+        /** Registering public wishlist parser */
+        $container[ self::PUBLIC_WISHLIST ] = function ( Container $container ) {
+            return new Wishlist_Request_Parser( $container[ Api::FACTORY ]->wishlists() );
+        };
+
+        /** Action to handle public wishlist requests */
+        add_action( 'parse_request', $this->create_callback( 'public_wishlist_request', function ( \WP $wp ) use ( $container ) {
+            $container[ self::PUBLIC_WISHLIST ]->setup_wishlist_request( $wp );
+        } ), 10, 1 );
+		
+		/** Initialize the wishlist request router */
 		$container[ self::WISHLIST_ROUTER ] = function ( Container $container ) {
 			return new Wishlist_Actions\Request_Router();
 		};
-
+	
+		/** Handle the wishlist action request */
 		add_action( 'bigcommerce/action_endpoint/' . Wishlist_Actions\Request_Router::ACTION, $this->create_callback( 'handle_wishlist_action', function ( $args ) use ( $container ) {
 			$container[ self::WISHLIST_ROUTER ]->handle_request( $args );
 		} ), 10, 1 );
-
+	
+		/** Initialize the create wishlist action handler */
 		$container[ self::WISHLIST_CREATE ] = function ( Container $container ) {
 			return new Wishlist_Actions\Create_Wishlist( $container[ Api::FACTORY ]->wishlists() );
 		};
-
+	
+		/** Handle create wishlist request */
 		add_action( 'bigcommerce/wishlist_endpoint/' . Wishlist_Actions\Create_Wishlist::ACTION, $this->create_callback( 'create_wishlist', function ( $args ) use ( $container ) {
 			$container[ self::WISHLIST_CREATE ]->handle_request( $args );
 		} ), 10, 1 );
-
+	
+		/** Initialize the edit wishlist action handler */
 		$container[ self::WISHLIST_EDIT ] = function ( Container $container ) {
 			return new Wishlist_Actions\Edit_Wishlist( $container[ Api::FACTORY ]->wishlists() );
 		};
-
+	
+		/** Handle edit wishlist request */
 		add_action( 'bigcommerce/wishlist_endpoint/' . Wishlist_Actions\Edit_Wishlist::ACTION, $this->create_callback( 'edit_wishlist', function ( $args ) use ( $container ) {
 			$container[ self::WISHLIST_EDIT ]->handle_request( $args );
 		} ), 10, 1 );
-
+	
+		/** Initialize the delete wishlist action handler */
 		$container[ self::WISHLIST_DELETE ] = function ( Container $container ) {
 			return new Wishlist_Actions\Delete_Wishlist( $container[ Api::FACTORY ]->wishlists() );
 		};
-
+	
+		/** Handle delete wishlist request */
 		add_action( 'bigcommerce/wishlist_endpoint/' . Wishlist_Actions\Delete_Wishlist::ACTION, $this->create_callback( 'delete_wishlist', function ( $args ) use ( $container ) {
 			$container[ self::WISHLIST_DELETE ]->handle_request( $args );
 		} ), 10, 1 );
-
+	
+		/** Initialize the add item to wishlist action handler */
 		$container[ self::WISHLIST_ADD ] = function ( Container $container ) {
 			return new Wishlist_Actions\Add_Item( $container[ Api::FACTORY ]->wishlists() );
 		};
-
+	
+		/** Handle add item to wishlist request */
 		add_action( 'bigcommerce/wishlist_endpoint/' . Wishlist_Actions\Add_Item::ACTION, $this->create_callback( 'add_wishlist_item', function ( $args ) use ( $container ) {
 			$container[ self::WISHLIST_ADD ]->handle_request( $args );
 		} ), 10, 1 );
-
+	
+		/** Initialize the remove item from wishlist action handler */
 		$container[ self::WISHLIST_REMOVE ] = function ( Container $container ) {
 			return new Wishlist_Actions\Remove_Item( $container[ Api::FACTORY ]->wishlists() );
 		};
-
+	
+		/** Handle remove item from wishlist request */
 		add_action( 'bigcommerce/wishlist_endpoint/' . Wishlist_Actions\Remove_Item::ACTION, $this->create_callback( 'remove_wishlist_item', function ( $args ) use ( $container ) {
 			$container[ self::WISHLIST_REMOVE ]->handle_request( $args );
 		} ), 10, 1 );
-
+	
+		/** Initialize the add item view to product single page */
 		$container[ self::WISHLIST_ADD_ITEM_VIEW ] = function ( Container $container ) {
 			return new Add_Item_View( $container[ Api::FACTORY ]->wishlists() );
 		};
-
+	
+		/** Add item view to product single page template */ 
 		$add_item_view_to_product_single = $this->create_callback( 'add_item_view_to_product_single', function ( $data, $template, $options ) use ( $container ) {
 			return $container[ self::WISHLIST_ADD_ITEM_VIEW ]->filter_product_single_template( $data, $template, $options );
 		} );
 		add_action( 'bigcommerce/template=components/products/product-single.php/data', $add_item_view_to_product_single, 10, 3 );
 		// Decided not to show on the shortcode single
 		//add_action( 'bigcommerce/template=components/products/product-shortcode-single.php/data', $add_item_view_to_product_single, 10, 3 );
-	}
+		}
+		
+		/**
+		 * Handle passwords container and hooks
+		 * @param Container $container
+		 */
+		private function passwords( Container $container ) {
+			/** Initialize password reset action handler */
+			$container[ self::PASSWORD_RESET ] = function ( Container $container ) {
+				return new Password_Reset( $container[ Api::FACTORY ]->customer() );
+			};
+		
+			/** Sync password reset with BigCommerce */
+			add_action( 'after_password_reset', $this->create_callback( 'sync_reset_password', function ( $user, $password ) use ( $container ) {
+				$container[ self::PASSWORD_RESET ]->sync_reset_password_with_bigcommerce( $user, $password );
+			} ), 10, 2 );
+		
+			/** Sync password change with BigCommerce */
+			add_action( 'profile_update', $this->create_callback( 'sync_changed_password', function ( $user, $old_user_data ) use ( $container ) {
+				$container[ self::PASSWORD_RESET ]->sync_password_change_with_bigcommerce( $user, $old_user_data );
+			} ), 10, 2 );
+		}
+		
+		/**
+		 * Handle channel settings container and hooks
+		 * @param Container $container
+		 */
+		private function channel_settings( Container $container ) {
+			/** Initialize channel settings action handler */
+			$container[ self::CHANNEL_SETTINGS ] = function ( Container $container ) {
+				return new Channel_Settings( new Connections(), $container[ Api::FACTORY ]->customers() );
+			};
+		
+			/** Sync global logins with BigCommerce */
+			add_action( 'bigcommerce/sync_global_logins', $this->create_callback( 'sync_global_logins', function () use ( $container ) {
+				$container[ self::CHANNEL_SETTINGS ]->sync_global_logins();
+			} ) );
+		
+			/** Schedule global logins sync */ 
+			add_action( 'bigcommerce/channel/promote', $this->create_callback( 'schedule_global_logins_sync', function () use ( $container ) {
+				$container[ self::CHANNEL_SETTINGS ]->schedule_sync();
+			} ) );
+		}
 
-    /**
-     * Handle passwords container and hooks
-     * @param Container $container
-     */
-	private function passwords( Container $container ) {
-		$container[ self::PASSWORD_RESET ] = function ( Container $container ) {
-			return new Password_Reset( $container[ Api::FACTORY ]->customer() );
-		};
-
-		add_action( 'after_password_reset', $this->create_callback( 'sync_reset_password', function ( $user, $password ) use ( $container ) {
-			$container[ self::PASSWORD_RESET ]->sync_reset_password_with_bigcommerce( $user, $password );
-		} ), 10, 2 );
-
-		add_action( 'profile_update', $this->create_callback( 'sync_changed_password', function ( $user, $old_user_data ) use ( $container ) {
-			$container[ self::PASSWORD_RESET ]->sync_password_change_with_bigcommerce( $user, $old_user_data );
-		} ), 10, 2 );
-	}
-
-	private function channel_settings( Container $container ) {
-		$container[ self::CHANNEL_SETTINGS ] = function ( Container $container ) {
-			return new Channel_Settings( new Connections(), $container[ Api::FACTORY ]->customers() );
-		};
-
-		add_action( 'bigcommerce/sync_global_logins', $this->create_callback( 'sync_global_logins', function () use ( $container ) {
-			$container[ self::CHANNEL_SETTINGS ]->sync_global_logins();
-		} ) );
-
-		add_action( 'bigcommerce/channel/promote', $this->create_callback( 'schedule_global_logins_sync', function () use ( $container ) {
-			$container[ self::CHANNEL_SETTINGS ]->schedule_sync();
-		} ) );
-	}
-
-}
+	}		

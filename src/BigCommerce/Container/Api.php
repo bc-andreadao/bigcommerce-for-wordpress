@@ -131,14 +131,31 @@ class Api extends Provider {
 			return ( count( array_filter( $credentials ) ) === count( $credentials ) );
 		};
 
+		/**
+		 * Filters whether the API credentials are set.
+		 *
+		 * @param bool $set Whether the API credentials are set.
+		 * @return bool The modified state of API credentials.
+		 */
 		add_filter( 'bigcommerce/plugin/credentials_set', $this->create_callback( 'credentials_set', function ( $set ) use ( $container ) {
 			return $container[ self::CONFIG_COMPLETE ];
 		} ), 10, 1 );
 
+		/**
+		 * Filters the default headers for API requests.
+		 *
+		 * @param array $headers The default headers.
+		 * @return array The modified headers with additional plugin info.
+		 */
 		add_filter( 'bigcommerce/api/default_headers', $this->create_callback( 'request_headers', function ( $headers ) use ( $container ) {
 			return $container[ self::HEADERS ]->add_plugin_info_headers( $headers );
 		} ), 10, 1 );
 
+		/**
+		 * Configures the static properties of the global V2 API client upon plugin load.
+		 *
+		 * @return void
+		 */
 		add_action( 'plugins_loaded', $this->create_callback( 'configure_v2_client', function () use ( $container ) {
 			// configure the static properties of the global v2 client
 			$v3_url = untrailingslashit( $container[ self::HOST ] );
