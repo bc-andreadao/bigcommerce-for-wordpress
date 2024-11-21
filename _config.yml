@@ -1,0 +1,4 @@
+theme: minima
+header_pages:
+  - index.md
+  - bigcommerce-hooks.md
