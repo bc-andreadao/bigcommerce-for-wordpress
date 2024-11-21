@@ -7,15 +7,47 @@ use BigCommerce\Checkout\Requirements_Notice;
 use BigCommerce\Settings\Sections\Channels;
 use Pimple\Container;
 
+/**
+ * Registers checkout-related functionality for the BigCommerce platform, including customer login and checkout requirements.
+ * This class extends the Provider class and interacts with various BigCommerce services, such as customer login and checkout 
+ * requirements, through a Pimple container.
+ */
 class Checkout extends Provider {
+	/**
+	 * Constant for the requirements notice action in the checkout process. 
+	 * It is used to trigger the display of a requirements notice during the checkout process, 
+	 * informing customers about any prerequisites or terms they need to acknowledge before proceeding.
+	 * @var string
+	 */
 	const REQUIREMENTS_NOTICE = 'checkout.requirements_notice';
+
+	/**
+	 * Constant for the customer login action in the checkout process.
+	 * It is used to trigger the corresponding handler for customer login during checkout.
+	 * @var string
+	 */
 	const LOGIN               = 'checkout.customer_login';
 
+    /**
+     * Registers the checkout-related functionality in the container.
+     *
+     * @param Container $container The Pimple container to register services in.
+     * 
+     * @return void
+     */
 	public function register( Container $container ) {
 		$this->requirements( $container );
 		$this->customer_login( $container );
 	}
 
+    /**
+     * Registers services related to the checkout requirements.
+     * This method sets up services for the requirements notice, admin actions, and filters.
+     *
+     * @param Container $container The Pimple container to register services in.
+     * 
+     * @return void
+     */
 	private function requirements( Container $container ) {
 		$container[ self::REQUIREMENTS_NOTICE ] = function ( Container $container ) {
 			return new Requirements_Notice( $container[ Merchant::SETUP_STATUS ] );
@@ -58,6 +90,14 @@ class Checkout extends Provider {
 		} ), 1, 1 );
 	}
 
+    /**
+     * Registers services related to the customer login functionality during checkout.
+     * This method sets up the customer login service and modifies the checkout URL to include the login token.
+     *
+     * @param Container $container The Pimple container to register services in.
+     * 
+     * @return void
+     */
 	private function customer_login( Container $container ) {
 		$container[ self::LOGIN ] = function ( Container $container ) {
 			return new Customer_Login( $container[ Merchant::ONBOARDING_API ], $container[ Api::FACTORY ]->store() );

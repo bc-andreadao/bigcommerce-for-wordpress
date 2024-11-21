@@ -11,5 +11,8 @@ else
     echo "Docs directory for markdown template already exists."
 fi
 
-# Generate documentation in Markdown format
- vendor/bin/wp-documentor parse test/bigcommerce --format=markdown --output=docs/bigcommerce-hooks.md
+# Generate hook documentation in Markdown format
+ vendor/bin/wp-documentor parse test --format=markdown --output=docs/hooks.md
+
+# Generate documentation for classes in Markdown format
+ docker run --rm -v "$(pwd):/data" -v "/Users/andrea.dao/Documents/devFolder/phpDocumentor-markdown:/phpdoc" phpdoc/phpdoc:3 -d /data/test -t /data/docs --template=/phpdoc/themes/markdown

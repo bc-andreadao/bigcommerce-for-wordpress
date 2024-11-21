@@ -20,6 +20,7 @@ pimple.json
 /node_modules/
 phpdoc.json
 vendor/*
+.phpdoc/*
 
 # Packages #
 ############

@@ -15,19 +15,85 @@ use BigCommerce\Forms\Update_Profile_Handler;
 use BigCommerce\Forms\Switch_Currency_Handler;
 use Pimple\Container;
 
+/**
+ * Provides form-related functionality for handling various form actions like user registration, address updates,
+ * gift certificate purchases, and error handling. Registers form handlers and processes corresponding actions
+ * based on incoming requests. This class interacts with the Pimple container for dependency injection.
+ */
 class Forms extends Provider {
+    /**
+     * Constant for the delete address form action. It is used to trigger the corresponding handler for address deletion.
+     * @var string
+     */
     const DELETE_ADDRESS   = 'forms.delete_address';
+    /**
+     * Constant for the registration form action. It is used to trigger the corresponding handler for user registration.
+     * @var string
+     */
     const REGISTER         = 'forms.register';
+
+    /**
+     * Constant for the product review form action. It is used to trigger the corresponding handler for submitting product reviews.
+     * @var string
+     */
     const REVIEW           = 'forms.review';
+
+    /**
+     * Constant for the update address form action. It is used to trigger the corresponding handler for updating a user's address.
+     * @var string
+     */
     const UPDATE_ADDRESS   = 'forms.update_address';
+
+    /**
+     * Constant for the update profile form action. It is used to trigger the corresponding handler for updating the user's profile.
+     * @var string
+     */
     const UPDATE_PROFILE   = 'forms.update_profile';
+
+    /**
+     * Constant for the gift certificate purchase form action. It is used to trigger the corresponding handler for purchasing a gift certificate.
+     * @var string
+     */
     const GIFT_CERTIFICATE = 'forms.purchase_gift_certificate';
+
+    /**
+     * Constant for the form error handling action. It is used to trigger the corresponding handler for form submission errors.
+     * @var string
+     */
     const ERRORS           = 'forms.errors';
+
+    /**
+     * Constant for the form success handling action. It is used to trigger the corresponding handler for form submission success.
+     * @var string
+     */
     const SUCCESS          = 'forms.success';
+
+    /**
+     * Constant for the form redirects handling action. It is used to trigger the corresponding handler for form submission redirects.
+     * @var string
+     */
     const REDIRECTS        = 'forms.redirects';
+
+    /**
+     * Constant for the messaging handling action. It is used to trigger the corresponding handler for messaging during form submissions.
+     *
+     * @var string
+     */
     const MESSAGING        = 'forms.messaging';
+
+    /**
+     * Constant for the switch currency form action. It is used to trigger the corresponding handler for switching currencies during form submissions.
+     * @var string
+     */
     const SWITCH_CURRENCY  = 'forms.switch_currency';
 
+    /**
+     * Registers the form-related actions and handlers.
+     * 
+     * @param Container $container The container instance used to inject dependencies.
+     * 
+     * @return void
+     */
     public function register(Container $container) {
         $this->actions($container);
         $this->errors($container);
@@ -36,6 +102,13 @@ class Forms extends Provider {
         $this->messaging($container);
     }
 
+    /**
+     * Registers form actions related to deleting, updating addresses, and handling user registrations.
+     *
+     * @param Container $container The container instance used to inject dependencies.
+     * 
+     * @return void
+     */
     private function actions(Container $container) {
         /**
          * Parses incoming requests and triggers the corresponding form action 
@@ -129,6 +202,13 @@ class Forms extends Provider {
         }), 10, 1);
     }
 
+    /**
+     * Registers the error handling actions for form submissions.
+     * 
+     * @param Container $container The container instance used to inject dependencies.
+     * 
+     * @return void
+     */
     private function errors(Container $container) {
         $container[self::ERRORS] = function (Container $container) {
             return new Error_Handler();
