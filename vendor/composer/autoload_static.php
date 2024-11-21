@@ -143,6 +143,7 @@ class ComposerStaticInite3b7bc6dcf7f80d1326d7975fb9f5e3f
             'Psr\\Clock\\' => 10,
             'Pronamic\\WordPress\\Documentor\\' => 30,
             'PhpParser\\' => 10,
+            'PhpDocumentorMarkdown\\' => 22,
             'Peast\\' => 6,
             'PHPStan\\PhpDocParser\\' => 21,
         ),
@@ -223,8 +224,8 @@ class ComposerStaticInite3b7bc6dcf7f80d1326d7975fb9f5e3f
         'phpDocumentor\\Reflection\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
-            1 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
-            2 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
+            1 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
+            2 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
         ),
         'phpDocumentor\\' => 
         array (
@@ -380,8 +381,8 @@ class ComposerStaticInite3b7bc6dcf7f80d1326d7975fb9f5e3f
         ),
         'Psr\\Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/http-message/src',
-            1 => __DIR__ . '/..' . '/psr/http-factory/src',
+            0 => __DIR__ . '/..' . '/psr/http-factory/src',
+            1 => __DIR__ . '/..' . '/psr/http-message/src',
         ),
         'Psr\\Http\\Client\\' => 
         array (
@@ -406,6 +407,10 @@ class ComposerStaticInite3b7bc6dcf7f80d1326d7975fb9f5e3f
         'PhpParser\\' => 
         array (
             0 => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser',
+        ),
+        'PhpDocumentorMarkdown\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/saggre/phpdocumentor-markdown/src',
         ),
         'Peast\\' => 
         array (
@@ -441,9 +446,9 @@ class ComposerStaticInite3b7bc6dcf7f80d1326d7975fb9f5e3f
         ),
         'Illuminate\\Support\\' => 
         array (
-            0 => __DIR__ . '/..' . '/illuminate/macroable',
+            0 => __DIR__ . '/..' . '/illuminate/collections',
             1 => __DIR__ . '/..' . '/illuminate/conditionable',
-            2 => __DIR__ . '/..' . '/illuminate/collections',
+            2 => __DIR__ . '/..' . '/illuminate/macroable',
             3 => __DIR__ . '/..' . '/illuminate/support',
         ),
         'Illuminate\\Contracts\\' => 
@@ -540,8 +545,8 @@ class ComposerStaticInite3b7bc6dcf7f80d1326d7975fb9f5e3f
         ),
         'Codeception\\' => 
         array (
-            0 => __DIR__ . '/..' . '/codeception/stub/src',
-            1 => __DIR__ . '/..' . '/codeception/codeception/src/Codeception',
+            0 => __DIR__ . '/..' . '/codeception/codeception/src/Codeception',
+            1 => __DIR__ . '/..' . '/codeception/stub/src',
             2 => __DIR__ . '/..' . '/lucatume/wp-browser/src/Codeception',
         ),
         'Carbon\\Doctrine\\' => 

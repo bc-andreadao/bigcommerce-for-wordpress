@@ -4,15 +4,21 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "96cdd9acfcb60dc9b8a9f1708081a965",
+    "content-hash": "a656cb28179e40e0a169afb4e8edbca6",
     "packages": [
         {
             "name": "bc-andreadao/wp-documentor",
             "version": "dev-main",
-            "dist": {
-                "type": "path",
-                "url": "../wp-documentor",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/bc-andreadao/wp-documentor.git",
                 "reference": "feac073439922bf99a54a7c75a6b4698f62497f5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/bc-andreadao/wp-documentor/zipball/feac073439922bf99a54a7c75a6b4698f62497f5",
+                "reference": "feac073439922bf99a54a7c75a6b4698f62497f5",
+                "shasum": ""
             },
             "require": {
                 "php": ">=8.0",
@@ -32,6 +38,7 @@
                 "squizlabs/php_codesniffer": "^3.6",
                 "wp-coding-standards/wpcs": "^2.3"
             },
+            "default-branch": true,
             "bin": [
                 "bin/wp-documentor"
             ],
@@ -88,10 +95,10 @@
                 "phpdoc",
                 "wordpress"
             ],
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
+            "support": {
+                "source": "https://github.com/bc-andreadao/wp-documentor/tree/main"
+            },
+            "time": "2024-11-20T16:36:50+00:00"
         },
         {
             "name": "bigcommerce/api",
@@ -930,6 +937,69 @@
                 "source": "https://github.com/php-fig/log/tree/1.1.4"
             },
             "time": "2021-05-03T11:20:27+00:00"
+        },
+        {
+            "name": "saggre/phpdocumentor-markdown",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Saggre/phpDocumentor-markdown.git",
+                "reference": "f9bb90abde2c7c7c740265ae5e3bab5cfa2d9ed4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Saggre/phpDocumentor-markdown/zipball/f9bb90abde2c7c7c740265ae5e3bab5cfa2d9ed4",
+                "reference": "f9bb90abde2c7c7c740265ae5e3bab5cfa2d9ed4",
+                "shasum": ""
+            },
+            "require-dev": {
+                "php": ">=7.4",
+                "phpunit/phpunit": "^9.5",
+                "twig/twig": "2.*"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "PhpDocumentorMarkdown\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "PhpDocumentorMarkdown\\Test\\": "tests/"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "vendor/bin/phpunit"
+                ],
+                "create-docs": [
+                    "phpdoc && cp -r example/* docs/.wiki"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Saggre",
+                    "email": "sakri.koskimies@hotmail.com"
+                }
+            ],
+            "description": "Markdown template for phpDocumentor3",
+            "keywords": [
+                "documentation",
+                "github",
+                "gitlab",
+                "markdown",
+                "phpdoc",
+                "phpdocumentor"
+            ],
+            "support": {
+                "source": "https://github.com/Saggre/phpDocumentor-markdown/tree/0.1.4",
+                "issues": "https://github.com/Saggre/phpDocumentor-markdown/issues"
+            },
+            "time": "2023-11-24T13:50:50+00:00"
         },
         {
             "name": "symfony/console",
@@ -10646,7 +10716,8 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "bc-andreadao/wp-documentor": 20
+        "bc-andreadao/wp-documentor": 20,
+        "saggre/phpdocumentor-markdown": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

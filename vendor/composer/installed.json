@@ -55,10 +55,16 @@
                         "name": "bc-andreadao/wp-documentor",
                         "version": "dev-main",
                         "version_normalized": "dev-main",
-                        "dist": {
-                                "type": "path",
-                                "url": "../wp-documentor",
+                        "source": {
+                                "type": "git",
+                                "url": "https://github.com/bc-andreadao/wp-documentor.git",
                                 "reference": "feac073439922bf99a54a7c75a6b4698f62497f5"
+                        },
+                        "dist": {
+                                "type": "zip",
+                                "url": "https://api.github.com/repos/bc-andreadao/wp-documentor/zipball/feac073439922bf99a54a7c75a6b4698f62497f5",
+                                "reference": "feac073439922bf99a54a7c75a6b4698f62497f5",
+                                "shasum": ""
                         },
                         "require": {
                                 "php": ">=8.0",
@@ -78,6 +84,8 @@
                                 "squizlabs/php_codesniffer": "^3.6",
                                 "wp-coding-standards/wpcs": "^2.3"
                         },
+                        "time": "2024-11-20T16:36:50+00:00",
+                        "default-branch": true,
                         "bin": [
                                 "bin/wp-documentor"
                         ],
@@ -135,9 +143,8 @@
                                 "phpdoc",
                                 "wordpress"
                         ],
-                        "transport-options": {
-                                "symlink": true,
-                                "relative": true
+                        "support": {
+                                "source": "https://github.com/bc-andreadao/wp-documentor/tree/main"
                         },
                         "install-path": "../bc-andreadao/wp-documentor"
                 },
@@ -5404,6 +5411,72 @@
                                 }
                         ],
                         "install-path": "../react/promise"
+                },
+                {
+                        "name": "saggre/phpdocumentor-markdown",
+                        "version": "dev-master",
+                        "version_normalized": "dev-master",
+                        "source": {
+                                "type": "git",
+                                "url": "https://github.com/Saggre/phpDocumentor-markdown.git",
+                                "reference": "f9bb90abde2c7c7c740265ae5e3bab5cfa2d9ed4"
+                        },
+                        "dist": {
+                                "type": "zip",
+                                "url": "https://api.github.com/repos/Saggre/phpDocumentor-markdown/zipball/f9bb90abde2c7c7c740265ae5e3bab5cfa2d9ed4",
+                                "reference": "f9bb90abde2c7c7c740265ae5e3bab5cfa2d9ed4",
+                                "shasum": ""
+                        },
+                        "require-dev": {
+                                "php": ">=7.4",
+                                "phpunit/phpunit": "^9.5",
+                                "twig/twig": "2.*"
+                        },
+                        "time": "2023-11-24T13:50:50+00:00",
+                        "default-branch": true,
+                        "type": "library",
+                        "installation-source": "dist",
+                        "autoload": {
+                                "psr-4": {
+                                        "PhpDocumentorMarkdown\\": "src/"
+                                }
+                        },
+                        "autoload-dev": {
+                                "psr-4": {
+                                        "PhpDocumentorMarkdown\\Test\\": "tests/"
+                                }
+                        },
+                        "scripts": {
+                                "test": [
+                                        "vendor/bin/phpunit"
+                                ],
+                                "create-docs": [
+                                        "phpdoc && cp -r example/* docs/.wiki"
+                                ]
+                        },
+                        "license": [
+                                "MIT"
+                        ],
+                        "authors": [
+                                {
+                                        "name": "Saggre",
+                                        "email": "sakri.koskimies@hotmail.com"
+                                }
+                        ],
+                        "description": "Markdown template for phpDocumentor3",
+                        "keywords": [
+                                "documentation",
+                                "github",
+                                "gitlab",
+                                "markdown",
+                                "phpdoc",
+                                "phpdocumentor"
+                        ],
+                        "support": {
+                                "source": "https://github.com/Saggre/phpDocumentor-markdown/tree/0.1.4",
+                                "issues": "https://github.com/Saggre/phpDocumentor-markdown/issues"
+                        },
+                        "install-path": "../saggre/phpdocumentor-markdown"
                 },
                 {
                         "name": "sebastian/cli-parser",
