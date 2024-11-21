@@ -1,8 +1,8 @@
 #!/bin/bash
 
-# To run this file, ./generate-docs.sh 
+# To run this file, run the command `./generate-docs.sh` in the terminal
 
-# Check if docs directory exists, and create it if not
+# Create a /docs directory if it doesn't exist
 
 if [ ! -d "docs" ]; then
     mkdir -p docs
@@ -11,8 +11,14 @@ else
     echo "Docs directory for markdown template already exists."
 fi
 
-# Generate hook documentation in Markdown format
+# Generate hook documentation in Markdown format using Pronamic WP Documentor
  vendor/bin/wp-documentor parse test --format=markdown --output=docs/hooks.md
 
-# Generate documentation for classes in Markdown format
- docker run --rm -v "$(pwd):/data" -v "/Users/andrea.dao/Documents/devFolder/phpDocumentor-markdown:/phpdoc" phpdoc/phpdoc:3 -d /data/test -t /data/docs --template=/phpdoc/themes/markdown
+# Generate documentation for classes in Markdown format using PHPDocumentor
+docker run --rm \
+  -v "$PWD:/data" \
+  -v "$PWD/vendor/saggre/phpdocumentor-markdown:/phpdoc" \
+  phpdoc/phpdoc:3 \
+  -d /data/test \
+  -t /data/docs \
+  --template=/phpdoc/themes/markdown
