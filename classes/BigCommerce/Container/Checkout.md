@@ -1,5 +1,5 @@
 ---
-permalink: /bigcommerce-for-wordpress/classes/BigCommerce/Container/Checkout/
+permalink: /classes/BigCommerce/Container/Checkout/
 ---
 
 # Checkout
