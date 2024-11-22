@@ -1,0 +1,11 @@
+title: BigCommerce for WordPress
+theme: minima
+
+# Navigation bar
+nav_links:
+  - title: "Home"
+    url: "/"
+  - title: "Checkout"
+    url: "/classes/BigCommerce/Container/Checkout/"
+  - title: "Forms"
+    url: "/classes/BigCommerce/Container/Forms/"

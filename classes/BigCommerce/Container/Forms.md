@@ -1,3 +1,7 @@
+---
+permalink: /classes/BigCommerce/Container/Forms/
+---
+
 ***
 
 # Forms
