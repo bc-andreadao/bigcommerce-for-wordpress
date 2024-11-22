@@ -1,3 +1,12 @@
+---
+permalink: /bigcommerce-for-wordpress/classes/BigCommerce/Container/Checkout/
+---
+
+# Checkout
+
+Your content here.
+
+
 ***
 
 # Checkout
