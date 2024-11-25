@@ -33,7 +33,12 @@ jobs:
         run: |
           git clone https://$GITHUB_ACTOR:${{ secrets.ACCESS_TOKEN }}@github.com/bc-andreadao/bc-wordpress-reference.git
           cd bc-wordpress-reference
-          git checkout test
+          git fetch origin
+          if git show-ref --quiet refs/heads/test; then
+            git checkout test
+          else
+            git checkout -b test
+          fi
 
       - name: Create a test file to debug
         run: |
