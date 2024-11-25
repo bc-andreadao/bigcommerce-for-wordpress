@@ -38,6 +38,8 @@ jobs:
       - name: Create a test file to debug
         run: |
           echo "This is a test file to debug the GitHub Action workflow." > test-debug-file.txt
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
           git add .
           git commit -m "Update documentation from $(date +'%Y-%m-%d')" || echo "No changes to commit"
           git push origin test
