@@ -25,18 +25,18 @@ jobs:
       - name: Run shell script to generate documentation
         run: ./generate-docs.sh
 
-      - name: Set git remote URL with token for authentication
-        run: |
-          git remote set-url origin https://your-username:${{ secrets.ACCESS_TOKEN }}@github.com/your-username/repository-name.git
-
       # - name: Copy generated docs into existing folder
       #   run: |
       #     rsync -av --ignore-existing ./docs/ bc-wordpress-reference/pages/
 
-      - name: Commit and push changes
+      - name: Checkout bc-wordpress-reference repository
         run: |
+          git clone https://$GITHUB_ACTOR:${{ secrets.ACCESS_TOKEN }}@github.com/bc-andreadao/bc-wordpress-reference.git
           cd bc-wordpress-reference
           git checkout test
+
+      - name: Create a test file to debug
+        run: |
           echo "This is a test file to debug the GitHub Action workflow." > test-debug-file.txt
           git add .
           git commit -m "Update documentation from $(date +'%Y-%m-%d')" || echo "No changes to commit"
