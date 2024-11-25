@@ -25,9 +25,19 @@ jobs:
       - name: Run shell script to generate documentation
         run: ./generate-docs.sh
 
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./docs
-          publish_branch: gh-pages-reference
+      - name: Set git remote URL with token for authentication
+        run: |
+          git remote set-url origin https://your-username:${{ secrets.ACCESS_TOKEN }}@github.com/your-username/repository-name.git
+
+      # - name: Copy generated docs into existing folder
+      #   run: |
+      #     rsync -av --ignore-existing ./docs/ bc-wordpress-reference/pages/
+
+      - name: Commit and push changes
+        run: |
+          cd bc-wordpress-reference
+          git checkout test
+          echo "This is a test file to debug the GitHub Action workflow." > test-debug-file.txt
+          git add .
+          git commit -m "Update documentation from $(date +'%Y-%m-%d')" || echo "No changes to commit"
+          git push origin test
