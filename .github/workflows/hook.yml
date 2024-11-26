@@ -25,10 +25,6 @@ jobs:
       - name: Run shell script to generate documentation
         run: ./generate-docs.sh
 
-      # - name: Copy generated docs into existing folder
-      #   run: |
-      #     rsync -av --ignore-existing ./docs/ bc-wordpress-reference/pages/
-
       - name: Checkout bc-wordpress-reference repository
         run: |
           git clone https://$GITHUB_ACTOR:${{ secrets.ACCESS_TOKEN }}@github.com/bc-andreadao/bc-wordpress-reference.git
@@ -39,6 +35,7 @@ jobs:
           else
             git checkout -b test
           fi
+          rsync -av --ignore-existing ./docs/ bc-wordpress-reference/pages/
 
       - name: Create a test file to debug
         run: |
