@@ -28,6 +28,7 @@ jobs:
       - name: Checkout bc-wordpress-reference repository
         run: |
           git clone https://$GITHUB_ACTOR:${{ secrets.ACCESS_TOKEN }}@github.com/bc-andreadao/bc-wordpress-reference.git
+          rsync -av --ignore-existing ./docs/ bc-wordpress-reference/pages/
           cd bc-wordpress-reference
           git fetch origin
           if git show-ref --quiet refs/heads/test; then
@@ -35,7 +36,6 @@ jobs:
           else
             git checkout -b test
           fi
-          rsync -av --ignore-existing ./docs/ bc-wordpress-reference/pages/
 
       - name: Create a test file to debug
         run: |
