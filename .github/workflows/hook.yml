@@ -28,7 +28,6 @@ jobs:
       - name: Checkout bc-wordpress-reference repository
         run: |
           git clone https://$GITHUB_ACTOR:${{ secrets.ACCESS_TOKEN }}@github.com/bc-andreadao/bc-wordpress-reference.git
-          rsync -av --ignore-existing ./docs/ bc-wordpress-reference/pages/
           cd bc-wordpress-reference
           git fetch origin
           if git show-ref --quiet refs/remotes/origin/test; then
@@ -40,6 +39,7 @@ jobs:
 
       - name: Create a test file to debug
         run: |
+          rsync -av --ignore-existing ../docs/ bc-wordpress-reference/pages/
           cd bc-wordpress-reference
           echo "This is a test file to debug the GitHub Action workflow. 11-26" > test-debug-file.txt
           git config user.name "GitHub Actions"
