@@ -30,7 +30,6 @@ class Checkout extends Provider {
 
     /**
      * Registers the checkout-related functionality in the container.
-     *
      * @param Container $container The Pimple container to register services in.
      * 
      * @return void

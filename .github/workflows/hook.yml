@@ -41,7 +41,7 @@ jobs:
       - name: Create a test file to debug
         run: |
           cd bc-wordpress-reference
-          echo "This is a test file to debug the GitHub Action workflow." > test-debug-file.txt
+          echo "This is a test file to debug the GitHub Action workflow. 11-26" > test-debug-file.txt
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
           git add .
