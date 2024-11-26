@@ -18,11 +18,11 @@ use Pimple\Container;
 /**
  * Provides form-related functionality for handling various form actions like user registration, address updates,
  * gift certificate purchases, and error handling. Registers form handlers and processes corresponding actions
- * based on incoming requests. This class interacts with the Pimple container for dependency injection.
+ * based on incoming requests. This class interacts with the Pimple container for dependency injection. test
  */
 class Forms extends Provider {
     /**
-     * Constant for the delete address form action. It is used to trigger the corresponding handler for address deletion. test
+     * Constant for the delete address form action. It is used to trigger the corresponding handler for address deletion.
      * @var string
      */
     const DELETE_ADDRESS   = 'forms.delete_address';
