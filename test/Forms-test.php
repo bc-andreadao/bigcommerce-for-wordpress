@@ -22,7 +22,7 @@ use Pimple\Container;
  */
 class Forms extends Provider {
     /**
-     * Constant for the delete address form action. It is used to trigger the corresponding handler for address deletion.
+     * Constant for the delete address form action. It is used to trigger the corresponding handler for address deletion. test
      * @var string
      */
     const DELETE_ADDRESS   = 'forms.delete_address';

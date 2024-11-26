@@ -17,7 +17,7 @@
  */
 function test_issue_10_prefix_1( $first_param, $second_param ) {
 	/**
-	 * Prefix 1 description.
+	 * Prefix 1 description. test.
 	 *
 	 * @param string $first_param_prefix_1 This is the first argument. Change up description!
 	 * @param object $second_param_prefix_1 This is the second argument for prefix 1
