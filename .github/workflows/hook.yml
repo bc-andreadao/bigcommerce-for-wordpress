@@ -39,7 +39,7 @@ jobs:
 
       - name: Create a test file to debug
         run: |
-          rsync -av --update $GITHUB_WORKSPACE/docs/ bc-wordpress-reference/pages/
+          rsync -av --ignore-times $GITHUB_WORKSPACE/docs/ bc-wordpress-reference/pages/
           cd bc-wordpress-reference
           echo "This is a test file to debug the GitHub Action workflow. 11-26" > test-debug-file.txt
           git config user.name "GitHub Actions"
