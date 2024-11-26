@@ -36,6 +36,7 @@ jobs:
           else
             git checkout -b test
           fi
+          git pull
 
       - name: Create a test file to debug
         run: |
