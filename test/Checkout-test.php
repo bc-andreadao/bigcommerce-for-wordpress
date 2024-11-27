@@ -10,7 +10,7 @@ use Pimple\Container;
 /**
  * Registers checkout-related functionality for the BigCommerce platform, including customer login and checkout requirements.
  * This class extends the Provider class and interacts with various BigCommerce services, such as customer login and checkout 
- * requirements, through a Pimple container. test.
+ * requirements, through a Pimple container.
  */
 class Checkout extends Provider {
 	/**
@@ -39,14 +39,6 @@ class Checkout extends Provider {
 		$this->customer_login( $container );
 	}
 
-    /**
-     * Registers services related to the checkout requirements.
-     * This method sets up services for the requirements notice, admin actions, and filters.
-     *
-     * @param Container $container The Pimple container to register services in.
-     * 
-     * @return void
-     */
 	private function requirements( Container $container ) {
 		$container[ self::REQUIREMENTS_NOTICE ] = function ( Container $container ) {
 			return new Requirements_Notice( $container[ Merchant::SETUP_STATUS ] );
@@ -89,14 +81,6 @@ class Checkout extends Provider {
 		} ), 1, 1 );
 	}
 
-    /**
-     * Registers services related to the customer login functionality during checkout.
-     * This method sets up the customer login service and modifies the checkout URL to include the login token.
-     *
-     * @param Container $container The Pimple container to register services in.
-     * 
-     * @return void
-     */
 	private function customer_login( Container $container ) {
 		$container[ self::LOGIN ] = function ( Container $container ) {
 			return new Customer_Login( $container[ Merchant::ONBOARDING_API ], $container[ Api::FACTORY ]->store() );
