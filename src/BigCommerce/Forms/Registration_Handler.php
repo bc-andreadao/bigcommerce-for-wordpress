@@ -18,8 +18,17 @@ use BigCommerce\Taxonomies\Channel\Channel;
 use BigCommerce\Taxonomies\Channel\Connections;
 use BigCommerce\Webhooks\Customer\Customer_Channel_Updater;
 
+/**
+ * Handles user registration requests and form submissions for account creation.
+ *
+ * @package BigCommerce\Forms
+ */
 class Registration_Handler implements Form_Handler {
 
+    /**
+     * The action name for processing the registration form.
+	 * @var string
+     */
 	const ACTION = 'register-account';
 
 	/**
@@ -32,11 +41,22 @@ class Registration_Handler implements Form_Handler {
 	 */
 	private $login;
 
+    /**
+     * Constructor for the Registration_Handler class.
+     *
+     * @param Spam_Checker $spam_checker Instance for checking spam submissions.
+     * @param Login        $login        Instance for handling user login.
+     */
 	public function __construct( Spam_Checker $spam_checker, Login $login ) {
 		$this->spam_checker = $spam_checker;
 		$this->login        = $login;
 	}
 
+    /**
+     * Handles form submission for user registration.
+     *
+     * @param array $submission The form submission data.
+     */
 	public function handle_request( $submission ) {
 
 		if ( ! $this->should_handle_request( $submission ) ) {
@@ -112,6 +132,12 @@ class Registration_Handler implements Form_Handler {
 
 			return $data;
 		};
+
+		/**
+		 * Filters the arguments used to create a customer in BigCommerce.
+		 *
+		 * @param array $data The customer creation arguments.
+		 */
 		add_filter( 'bigcommerce/customer/create/args', $profile_filter, 10, 1 );
 
 		$user = new \WP_User( $user_id );
