@@ -18,45 +18,189 @@ use BigCommerce\Rest\Terms_Controller;
 use BigCommerce\Reviews\Review_Fetcher;
 use Pimple\Container;
 
+/**
+ * Provides RESTful controllers and endpoints for BigCommerce integration.
+ *
+ * @package BigCommerce\Container
+ */
 class Rest extends Provider {
+	/**
+	 * The base namespace for REST API routes.
+	 *
+	 * @var string
+	 */
 	const NAMESPACE_BASE = 'rest.namespace';
-	const VERSION        = 'rest.version';
 
+	/**
+	 * The version of the REST API.
+	 *
+	 * @var string
+	 */
+	const VERSION = 'rest.version';
+
+	/**
+	 * The base route for the cart API.
+	 *
+	 * @var string
+	 */
 	const CART_BASE = 'rest.cart_base';
-	const CART      = 'rest.cart';
 
+	/**
+	 * The cart API identifier.
+	 *
+	 * @var string
+	 */
+	const CART = 'rest.cart';
+
+	/**
+	 * The base route for the products API.
+	 *
+	 * @var string
+	 */
 	const PRODUCTS_BASE = 'rest.products_base';
-	const PRODUCTS      = 'rest.products';
 
+	/**
+	 * The products API identifier.
+	 *
+	 * @var string
+	 */
+	const PRODUCTS = 'rest.products';
+
+	/**
+	 * The base route for the storefront API.
+	 *
+	 * @var string
+	 */
 	const STOREFRONT_BASE = 'rest.storefront_base';
-	const STOREFRONT      = 'rest.storefront';
 
+	/**
+	 * The storefront API identifier.
+	 *
+	 * @var string
+	 */
+	const STOREFRONT = 'rest.storefront';
+
+	/**
+	 * The base route for the terms API.
+	 *
+	 * @var string
+	 */
 	const TERMS_BASE = 'rest.terms_base';
-	const TERMS      = 'rest.terms';
 
+	/**
+	 * The terms API identifier.
+	 *
+	 * @var string
+	 */
+	const TERMS = 'rest.terms';
+
+	/**
+	 * The base route for the shortcode API.
+	 *
+	 * @var string
+	 */
 	const SHORTCODE_BASE = 'rest.shortcode_base';
-	const SHORTCODE      = 'rest.shortcode';
 
+	/**
+	 * The shortcode API identifier.
+	 *
+	 * @var string
+	 */
+	const SHORTCODE = 'rest.shortcode';
+
+	/**
+	 * The base route for the orders shortcode API.
+	 *
+	 * @var string
+	 */
 	const ORDERS_SHORTCODE_BASE = 'rest.orders_shortcode_base';
-	const ORDERS_SHORTCODE      = 'rest.orders_shortcode';
 
+	/**
+	 * The orders shortcode API identifier.
+	 *
+	 * @var string
+	 */
+	const ORDERS_SHORTCODE = 'rest.orders_shortcode';
+
+	/**
+	 * The base route for the product component shortcode API.
+	 *
+	 * @var string
+	 */
 	const COMPONENT_SHORTCODE_BASE = 'rest.product_component_shortcode_base';
-	const COMPONENT_SHORTCODE      = 'rest.product_component_shortcode';
 
+	/**
+	 * The product component shortcode API identifier.
+	 *
+	 * @var string
+	 */
+	const COMPONENT_SHORTCODE = 'rest.product_component_shortcode';
+
+	/**
+	 * The base route for the review list API.
+	 *
+	 * @var string
+	 */
 	const REVIEW_LIST_BASE = 'rest.review_list_base';
-	const REVIEW_LIST      = 'rest.review_list';
 
+	/**
+	 * The review list API identifier.
+	 *
+	 * @var string
+	 */
+	const REVIEW_LIST = 'rest.review_list';
+
+	/**
+	 * The base route for the pricing API.
+	 *
+	 * @var string
+	 */
 	const PRICING_BASE = 'rest.pricing_base';
-	const PRICING      = 'rest.pricing';
 
+	/**
+	 * The pricing API identifier.
+	 *
+	 * @var string
+	 */
+	const PRICING = 'rest.pricing';
+
+	/**
+	 * The base route for the shipping API.
+	 *
+	 * @var string
+	 */
 	const SHIPPING_BASE = 'rest.shipping_base';
-	const SHIPPING      = 'rest.shipping';
 
+	/**
+	 * The shipping API identifier.
+	 *
+	 * @var string
+	 */
+	const SHIPPING = 'rest.shipping';
+
+	/**
+	 * The base route for the coupon code API.
+	 *
+	 * @var string
+	 */
 	const COUPON_CODE_BASE = 'rest.coupon_code_base';
-	const COUPON_CODE      = 'rest.coupon_code';
+
+	/**
+	 * The coupon code API identifier.
+	 *
+	 * @var string
+	 */
+	const COUPON_CODE = 'rest.coupon_code';	
 
 	private $version = 1;
 
+	/**
+	 * Registers services and controllers in the container and sets up REST API hooks.
+	 *
+	 * @param Container $container The dependency injection container instance.
+	 *
+	 * @return void
+	 */
 	public function register( Container $container ) {
 		$container[ self::NAMESPACE_BASE ] = function ( Container $container ) {
 			/**
@@ -217,6 +361,7 @@ class Rest extends Provider {
 			return new Coupon_Code_Controller( $container[ self::NAMESPACE_BASE ], $container[ self::VERSION ], $container[ self::COUPON_CODE_BASE ], $container[ Api::FACTORY ]->checkout(), $container[ Api::FACTORY ]->cart() );
 		};
 
+		/** Initializes REST API routes during the 'rest_api_init' action. */
 		add_action( 'rest_api_init', $this->create_callback( 'rest_init', function () use ( $container ) {
 			$container[ self::PRODUCTS ]->register_routes();
 			$container[ self::TERMS ]->register_routes();
@@ -231,26 +376,71 @@ class Rest extends Provider {
 			$container[ self::STOREFRONT ]->register_routes();
 		} ), 10, 0 );
 
+		/**
+		 * Filters the REST URL for product reviews.
+		 *
+		 * @param string $url The current reviews REST URL.
+		 * @param int    $post_id The product post ID.
+		 *
+		 * @return string The filtered reviews REST URL.
+		 */
 		add_filter( 'bigcommerce/product/reviews/rest_url', $this->create_callback( 'review_list_rest_url', function ( $url, $post_id ) use ( $container ) {
 			return $container[ self::REVIEW_LIST ]->product_reviews_url( $post_id );
 		} ), 10, 2 );
 
+		/**
+		 * Filters the BigCommerce JS configuration for cart settings.
+		 *
+		 * @param array $config The existing JS configuration.
+		 *
+		 * @return array The filtered JS configuration for the cart.
+		 */
 		add_filter( 'bigcommerce/js_config', $this->create_callback( 'cart_js_config', function( $config ) use ( $container ) {
 			return $container[ self::CART ]->js_config( $config );
 		}), 10, 1 );
 
+		/**
+		 * Filters the BigCommerce JS configuration for pricing settings.
+		 *
+		 * @param array $config The existing JS configuration.
+		 *
+		 * @return array The filtered JS configuration for pricing.
+		 */
 		add_filter( 'bigcommerce/js_config', $this->create_callback( 'pricing_js_config', function( $config ) use ( $container ) {
 			return $container[ self::PRICING ]->js_config( $config );
 		}), 10, 1 );
 
+		/**
+		 * Filters the BigCommerce JS configuration for product settings.
+		 *
+		 * @param array $config The existing JS configuration.
+		 *
+		 * @return array The filtered JS configuration for products.
+		 */
 		add_filter( 'bigcommerce/js_config', $this->create_callback( 'products_js_config', function( $config ) use ( $container ) {
 			return $container[ self::PRODUCTS ]->js_config( $config );
 		}), 10, 1 );
 
+		/**
+		 * Filters the BigCommerce JS configuration for shipping settings.
+		 *
+		 * @param array $config The existing JS configuration.
+		 *
+		 * @return array The filtered JS configuration for shipping.
+		 */
 		add_filter( 'bigcommerce/js_config', $this->create_callback( 'shipping_js_config', function( $config ) use ( $container ) {
 			return $container[ self::SHIPPING ]->js_config( $config );
 		}), 10, 1 );
 
+		/**
+		 * Filters the BigCommerce JS configuration for coupon code settings.
+		 *
+		 * @param array $config The existing JS configuration.
+		 *
+		 * @return array The filtered JS configuration for coupon codes.
+		 *
+		 * @hook bigcommerce/js_config
+		 */
 		add_filter( 'bigcommerce/js_config', $this->create_callback( 'coupon_code_js_config', function( $config ) use ( $container ) {
 			return $container[ self::COUPON_CODE ]->js_config( $config );
 		}), 10, 1 );
