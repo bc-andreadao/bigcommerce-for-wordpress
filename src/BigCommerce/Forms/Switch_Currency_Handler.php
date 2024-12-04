@@ -13,6 +13,10 @@ use Bigcommerce\Post_Types\Product\Product;
 
 class Switch_Currency_Handler implements Form_Handler {
 
+    /**
+     * Action name for switching currency.
+	 * @var string
+     */
 	const ACTION = 'switch-currency';
 
 	/**
@@ -25,17 +29,26 @@ class Switch_Currency_Handler implements Form_Handler {
 	 */
 	private $cart_api;
 
-	/**
-	 * Switch_Currency_Handler constructor.
-	 *
-	 * @param Currency $currency
-	 */
+    /**
+     * Constructor for the Switch_Currency_Handler class.
+     *
+     * @param Currency $currency Currency management object.
+     * @param CartApi  $cart_api API client for managing carts.
+     */
 	public function __construct( Currency $currency, CartApi $cart_api ) {
 		$this->currency = $currency;
 		$this->cart_api = $cart_api;
 	}
 
-
+    /**
+     * Handles the form submission for switching currency.
+     *
+     * Validates the submission, switches the currency, and recreates the cart
+     * if necessary. It also triggers relevant hooks for success or error handling.
+     *
+     * @param array $submission Submitted form data.
+     * @return void
+     */
 	public function handle_request( $submission ) {
 		if ( ! $this->should_handle_request( $submission ) ) {
 			return;
@@ -142,12 +155,30 @@ class Switch_Currency_Handler implements Form_Handler {
 				$use_new_currency_code = function () use ( $new_currency_code ) {
 					return $new_currency_code;
 				};
+
+				/**
+				 * Filter the currency code used for cart operations.
+				 *
+				 * This filter temporarily overrides the currency code to use the new currency
+				 * during the cart recreation process.
+				 *
+				 * @param string $new_currency_code The currency code to use.
+				 */
 				add_filter( 'bigcommerce/currency/code', $use_new_currency_code, 10, 0 );
 				
 				// Use the COOKIE global directly to get the cart id
 				$use_cart_id_cookie_global = function () {
 					return $_COOKIE[ Cart::CART_COOKIE ] ?? null;
 				};
+
+				/**
+				 * Filter the cart ID used for cart operations.
+				 *
+				 * This filter temporarily overrides the cart ID to use the value from the COOKIE
+				 * global during the cart recreation process.
+				 *
+				 * @return string|null The cart ID from the COOKIE global.
+				 */
 				add_filter( 'bigcommerce/cart/cart_id', $use_cart_id_cookie_global, 10, 0 );
 				
 				$line_items        = $cart_data->getLineItems();

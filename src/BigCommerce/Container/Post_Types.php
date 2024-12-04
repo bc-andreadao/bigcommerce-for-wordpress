@@ -10,6 +10,16 @@ use BigCommerce\Post_Types\Sync_Log;
 use BigCommerce\Taxonomies\Channel\Channel;
 use Pimple\Container;
 
+/**
+ * Handles the management of custom post types, particularly for products in the WordPress admin interface.
+ * This class integrates with various hooks and filters to customize post behavior, including slug management, permalink modification,
+ * featured image handling, and custom product status for unsupported products.
+ *
+ * It also interfaces with the BigCommerce API to manage import processes, prevent publication of certain posts, and manage product deletion.
+ *
+ * @package YourNamespace
+ * @subpackage Post_Types
+ */
 class Post_Types extends Provider {
     /**
      * @var string Post type for product.
@@ -115,6 +125,16 @@ class Post_Types extends Provider {
         $this->queue($container);
         $this->sync_log($container);
 
+		/**
+		 * Registers the necessary post types and handlers during the 'init' action.
+		 *
+		 * This action is triggered on the 'init' hook to register several post types and
+		 * related configurations, including the product post type, queue task, synchronization logs,
+		 * and GraphQL product handlers. These handlers are instantiated from the container and
+		 * are responsible for managing product data, tasks, synchronization, and GraphQL operations.
+		 *
+		 * @return void
+		 */
         add_action('init', $this->create_callback('register', function () use ($container) {
             $container[self::PRODUCT_CONFIG]->register();
             $container[self::QUEUE_CONFIG]->register();

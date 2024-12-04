@@ -152,8 +152,8 @@ class Log extends Provider {
 			 * @param array $context Additional context for the log entry.
 			 * @return void
 			 */
-
 			add_action( 'bigcommerce/import/log', $log, 10, 3 );
+
 			/**
 			 * Action to log import errors during the BigCommerce import process.
 			 *
@@ -163,7 +163,6 @@ class Log extends Provider {
 			 * @param array $context Additional context for the error.
 			 * @return void
 			 */
-
 			add_action( 'bigcommerce/import/error', $this->create_callback( 'log_import_error', function ( $message, $context = [] ) use ( $container ) {
 				$container[ self::LOGGER ]->log( Error_Log::ERROR, $message, $context );
 			} ), 10, 2 );
