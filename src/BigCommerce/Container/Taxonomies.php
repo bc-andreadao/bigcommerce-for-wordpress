@@ -503,30 +503,172 @@ class Taxonomies extends Provider {
 			$container[ self::ROUTES ]->schedule_update_routes();
 		} );
 
+		/**
+		 * Schedules a route update when the `show_on_front` option is updated.
+		 *
+		 * Triggers the `schedule_update_routes` method of the `Routes` class whenever the `show_on_front` option is updated.
+		 *
+		 * @return void
+		 */
 		add_action( 'update_option_show_on_front', $route_changed, 10, 0 );
+
+		/**
+		 * Schedules a route update when the `show_on_front` option is added. 
+		 * 
+		 * Triggers the `schedule_update_routes` method of the `Routes` class whenever the `show_on_front` option is added.
+		 *
+		 * @return void
+		 */
 		add_action( 'add_option_show_on_front', $route_changed, 10, 0 );
+
+		/**
+		 * Schedules a route update when the `permalink_structure` option is updated.
+		 *
+		 * Triggers the `schedule_update_routes` method of the `Routes` class whenever the `permalink_structure` option is updated.
+		 *
+		 * @return void
+		 */
 		add_action( 'update_option_permalink_structure', $route_changed, 10, 0 );
+
+		/**
+		 * Schedules a route update when the `permalink_structure` option is added.
+		 *
+		 * Triggers the `schedule_update_routes` method of the `Routes` class whenever the `permalink_structure` option is added.
+		 *
+		 * @return void
+		 */
 		add_action( 'add_option_permalink_structure', $route_changed, 10, 0 );
+
+		/**
+		 * Schedules a route update when the `Cart_Page` option is updated.
+		 *
+		 * Triggers the `schedule_update_routes` method of the `Routes` class whenever the `Cart_Page` option is updated.
+		 *
+		 * @return void
+		 */
 		add_action( 'update_option_' . Cart_Page::NAME, $route_changed, 10, 0 );
+
+		/**
+		 * Schedules a route update when the `Cart_Page` option is updated or added.
+		 *
+		 * Triggers the `schedule_update_routes` method of the `Routes` class whenever the `Cart_Page` option is added.
+		 *
+		 * @return void
+		 */
 		add_action( 'add_option_' . Cart_Page::NAME, $route_changed, 10, 0 );
+
+		/**
+		 * Schedules a route update when the `Login_Page` option is updated.
+		 *
+		 * Triggers the `schedule_update_routes` method of the `Routes` class whenever the `Login_Page` option is updated.
+		 *
+		 * @return void
+		 */
 		add_action( 'update_option_' . Login_Page::NAME, $route_changed, 10, 0 );
+
+		/**
+		 * Schedules a route update when the `Login_Page` option is added.
+		 *
+		 * Triggers the `schedule_update_routes` method of the `Routes` class whenever the `Login_Page` option is added.
+		 *
+		 * @return void
+		 */
 		add_action( 'add_option_' . Login_Page::NAME, $route_changed, 10, 0 );
+
+		/**
+		 * Schedules a route update when the `Account_Page` option is updated.
+		 *
+		 * Triggers the `schedule_update_routes` method of the `Routes` class whenever the `Account_Page` option is updated.
+		 *
+		 * @return void
+		 */
 		add_action( 'update_option_' . Account_Page::NAME, $route_changed, 10, 0 );
+
+		/**
+		 * Schedules a route update when the `Account_Page` option is added.
+		 *
+		 * Triggers the `schedule_update_routes` method of the `Routes` class whenever the `Account_Page` option is added.
+		 *
+		 * @return void
+		 */
 		add_action( 'add_option_' . Account_Page::NAME, $route_changed, 10, 0 );
+
+		/**
+		 * Schedules a route update when the `Shipping_Returns_Page` option is updated.
+		 *
+		 * Triggers the `schedule_update_routes` method of the `Routes` class whenever the `Shipping_Returns_Page` option is updated.
+		 *
+		 * @return void
+		 */
 		add_action( 'update_option_' . Shipping_Returns_Page::NAME, $route_changed, 10, 0 );
+
+		/**
+		 * Schedules a route update when the `Shipping_Returns_Page` option is added.
+		 *
+		 * Triggers the `schedule_update_routes` method of the `Routes` class whenever the `Shipping_Returns_Page` option is added.
+		 *
+		 * @return void
+		 */
 		add_action( 'add_option_' . Shipping_Returns_Page::NAME, $route_changed, 10, 0 );
+
+		/**
+		 * Schedules a route update when the `Product_Archive::ARCHIVE_SLUG` option is updated.
+		 *
+		 * Triggers the `schedule_update_routes` method of the `Routes` class whenever the `Product_Archive::ARCHIVE_SLUG` option is updated.
+		 *
+		 * @return void
+		 */
 		add_action( 'update_option_' . Product_Archive::ARCHIVE_SLUG, $route_changed, 10, 0 );
+
+		/**
+		 * Schedules a route update when the `Product_Archive::ARCHIVE_SLUG` option is added.
+		 *
+		 * Triggers the `schedule_update_routes` method of the `Routes` class whenever the `Product_Archive::ARCHIVE_SLUG` option is added.
+		 *
+		 * @return void
+		 */
 		add_action( 'add_option_' . Product_Archive::ARCHIVE_SLUG, $route_changed, 10, 0 );
+
+		/**
+		 * Schedules a route update when the `Product_Archive::CATEGORY_SLUG` option is updated.
+		 *
+		 * Triggers the `schedule_update_routes` method of the `Routes` class whenever the `Product_Archive::CATEGORY_SLUG` option is updated.
+		 *
+		 * @return void
+		 */
 		add_action( 'update_option_' . Product_Archive::CATEGORY_SLUG, $route_changed, 10, 0 );
+
+		/**
+		 * Schedules a route update when the `Product_Archive::CATEGORY_SLUG` option is added.
+		 *
+		 * Triggers the `schedule_update_routes` method of the `Routes` class whenever the `Product_Archive::CATEGORY_SLUG` option is added.
+		 *
+		 * @return void
+		 */
 		add_action( 'add_option_' . Product_Archive::CATEGORY_SLUG, $route_changed, 10, 0 );
+
+		/**
+		 * Schedules a route update when the `Product_Archive::BRAND_SLUG` option is updated.
+		 *
+		 * Triggers the `schedule_update_routes` method of the `Routes` class whenever the `Product_Archive::BRAND_SLUG` option is updated.
+		 *
+		 * @return void
+		 */
 		add_action( 'update_option_' . Product_Archive::BRAND_SLUG, $route_changed, 10, 0 );
+
+		/**
+		 * Schedules a route update when the `Product_Archive::BRAND_SLUG` option is added.
+		 *
+		 * Triggers the `schedule_update_routes` method of the `Routes` class whenever the `Product_Archive::BRAND_SLUG` option is added.
+		 *
+		 * @return void
+		 */
 		add_action( 'add_option_' . Product_Archive::BRAND_SLUG, $route_changed, 10, 0 );
 
 		/**
 		 * Schedules a route update when the channel connection changes.
 		 *
-		 * This action hooks into the `bigcommerce/channel/connection_changed` event and triggers
-		 * the `schedule_update_routes` method in the `Routes` class to ensure routes are updated
+		 * Triggers the `schedule_update_routes` method in the `Routes` class to ensure routes are updated
 		 * when the channel connection status changes.
 		 *
 		 * @return void
@@ -536,8 +678,7 @@ class Taxonomies extends Provider {
 		/**
 		 * Updates site home route when the site's home option is updated.
 		 *
-		 * This action hooks into the `update_option_home` event and triggers the `update_site_home`
-		 * method of the `Routes` class to refresh the site home route when the `home` option is changed.
+		 * Triggers the `update_site_home` method of the `Routes` class to refresh the site home route when the `home` option is changed.
 		 *
 		 * @return void
 		 */
@@ -548,7 +689,7 @@ class Taxonomies extends Provider {
 		/**
 		 * Updates the route's permalink when a post is updated.
 		 *
-		 * This action hooks into the `post_updated` event, checking if a route is associated with
+		 * Checks if a route is associated with
 		 * the post and triggering the `update_route_permalink` method of the `Routes` class to update
 		 * the permalink if needed.
 		 *
@@ -565,8 +706,7 @@ class Taxonomies extends Provider {
 		/**
 		 * Checks and updates routes after fetching store settings during an import.
 		 *
-		 * This action hooks into the `bigcommerce/import/fetched_store_settings` event and triggers
-		 * the `maybe_update_routes` method of the `Routes` class to ensure routes are updated
+		 * Triggers the `maybe_update_routes` method of the `Routes` class to ensure routes are updated
 		 * after store settings are fetched during the import process.
 		 *
 		 * @return void
@@ -578,8 +718,7 @@ class Taxonomies extends Provider {
 		/**
 		 * Adds route-related diagnostics data to the BigCommerce diagnostics.
 		 *
-		 * This filter hooks into the `bigcommerce/diagnostics` event, modifying the diagnostic data
-		 * to include information related to routes, as fetched by the `diagnostic_data` method
+		 * Modifies the diagnostic data to include information related to routes, as fetched by the `diagnostic_data` method
 		 * of the `Routes` class.
 		 *
 		 * @param array $data The existing diagnostics data.

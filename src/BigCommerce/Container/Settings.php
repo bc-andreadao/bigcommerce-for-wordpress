@@ -708,9 +708,14 @@ class Settings extends Provider {
 			return new Headless();
 		};
 
+		/** Registers the settings section for the import functionality on the settings screen. */
 		add_action( 'bigcommerce/settings/register/screen=' . Settings_Screen::NAME, $this->create_callback( 'import_register', function () use ( $container ) {
 			$container[ self::IMPORT_SECTION ]->register_settings_section();
 		} ), 20, 0 );
+
+		/**
+		 * Registers the fields for connecting channels to the import functionality on the settings screen.
+		 */
 		add_action( 'bigcommerce/settings/register/screen=' . Connect_Channel_Screen::NAME, $this->create_callback( 'import_register_for_channels', function () use ( $container ) {
 			$container[ self::IMPORT_SECTION ]->register_connect_channel_fields();
 		} ), 20, 0 );
@@ -726,6 +731,13 @@ class Settings extends Provider {
 			$container[ self::IMPORT_NOW ]->render_button();
 		} ), 10, 0 );
 
+		/**
+		 * Modifies the product list table view to include an import link if the configuration status
+		 * meets the required condition.
+		 * 
+		 * @param array $views The views for the product list table.
+		 * @return array The modified views including the import link.
+		 */
 		add_filter( 'views_edit-' . Product::NAME, $this->create_callback( 'import_now_list_table_view', function ( $views ) use ( $container ) {
 			if ( $container[ self::CONFIG_STATUS ] >= self::STATUS_CHANNEL_CONNECTED ) {
 				$views = $container[ self::IMPORT_NOW ]->list_table_link( $views );
@@ -734,11 +746,14 @@ class Settings extends Provider {
 			return $views;
 		} ), 5, 1 );
 
-		/** Handles the import request. */
+		/** Handles the import request from the admin panel. */
 		add_action( 'admin_post_' . Import_Now::ACTION, $this->create_callback( 'import_now_handle', function () use ( $container ) {
 			$container[ self::IMPORT_NOW ]->handle_request();
 		} ), 10, 0 );
 
+		/**
+		 * Displays import notices in the admin area if the import process is complete.
+		 */
 		add_action( 'admin_notices', $this->create_callback( 'import_now_notices', function () use ( $container ) {
 			if ( $container[ self::CONFIG_STATUS ] >= self::STATUS_COMPLETE ) {
 				$container[ self::IMPORT_NOW ]->list_table_notice();
@@ -754,15 +769,32 @@ class Settings extends Provider {
 				$container[ self::IMPORT_STATUS ]->render_status();
 			}
 		} );
+
+		/**
+		 * Renders the import status after the fields section in the settings screen.
+		 */
 		add_action( 'bigcommerce/settings/section/after_fields/id=' . Import_Settings::NAME, $render_import_status, 20, 0 );
+
+		/**
+		 * Renders the import status before the title on the onboarding complete screen.
+		 */
 		add_action( 'bigcommerce/settings/before_title/page=' . Onboarding_Complete_Screen::NAME, $render_import_status, 0, 0 );
 
+		/**
+		 * Displays the current import status notice in the product list table.
+		 */
 		add_action( 'bigcommerce/settings/import/product_list_table_notice', $this->create_callback( 'import_current_status_notice', function () use ( $container ) {
 			if ( $container[ self::CONFIG_STATUS ] >= self::STATUS_COMPLETE ) {
 				$container[ self::IMPORT_STATUS ]->current_status_notice();
 			}
 		} ), 10, 0 );
 
+		/**
+		 * Caches the import queue size before initiating the import process, if certain product statuses
+		 * are marked for deletion.
+		 * 
+		 * @param string $status The current status of the import process.
+		 */
 		add_action( 'bigcommerce/import/before', $this->create_callback( 'cache_import_queue_size', function ( $status ) use ( $container ) {
 			if ( in_array( $status, [ Status::MARKING_DELETED_PRODUCTS, Status::MARKED_DELETED_PRODUCTS ] ) ) {
 				$container[ self::IMPORT_STATUS ]->cache_queue_size();
