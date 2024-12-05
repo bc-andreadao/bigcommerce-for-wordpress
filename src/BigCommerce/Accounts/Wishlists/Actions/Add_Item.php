@@ -10,13 +10,35 @@ use BigCommerce\Pages\Wishlist_Page;
 use BigCommerce\Post_Types\Product\Product;
 
 /**
- * Class Add_Item
+ * Handles requests for adding items to a customer's wishlist.
+ * 
+ * This class processes a request to add a product to the wishlist, sanitizes the request data,
+ * verifies its validity, adds the item, and then provides a success or error message accordingly.
  *
- * Handle requests for adding items
+ * @package BigCommerce\Accounts\Wishlists\Actions
  */
 class Add_Item extends Wishlist_Action {
+
+	/**
+	 * The action identifier for adding an item.
+	 *
+	 * This constant is used to identify the specific action for adding an item to the wishlist.
+	 *
+	 * @var string
+	 */
 	const ACTION = 'add-item';
 
+	/**
+	 * Handles the request to add an item to the wishlist.
+	 *
+	 * This method sanitizes the incoming request, verifies the wishlist and product IDs, 
+	 * and adds the item to the wishlist. If successful, a success message is triggered; 
+	 * if an error occurs, an error message is returned.
+	 *
+	 * @param array $args The arguments from the request.
+	 * 
+	 * @return void
+	 */
 	public function handle_request( $args ) {
 		$redirect = get_the_permalink( get_option( Wishlist_Page::NAME, 0 ) );
 		try {
@@ -49,14 +71,19 @@ class Add_Item extends Wishlist_Action {
 		}
 	}
 
-    /**
-     * Cleanup add item request
-     *
-     * @param array $args
-     * @param array $submission
-     *
-     * @return array
-     */
+	/**
+	 * Cleans up and sanitizes the add item request.
+	 *
+	 * This method verifies the wishlist ID and product ID, checks the nonce for security,
+	 * and ensures all required fields are provided and valid.
+	 *
+	 * @param array $args The arguments from the request.
+	 * @param array $submission The submission data from the request.
+	 * 
+	 * @return array The sanitized request data, including the wishlist and product IDs.
+	 * 
+	 * @throws \InvalidArgumentException If the request is invalid or missing required data.
+	 */
 	protected function sanitize_request( array $args, array $submission ) {
 		$wishlist_id = reset( $args );
 		if ( empty( $wishlist_id ) || ! is_numeric( $wishlist_id ) ) {

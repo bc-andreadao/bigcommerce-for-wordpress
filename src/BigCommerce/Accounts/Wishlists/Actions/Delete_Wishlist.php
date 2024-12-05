@@ -6,17 +6,34 @@ namespace BigCommerce\Accounts\Wishlists\Actions;
 use BigCommerce\Pages\Wishlist_Page;
 
 /**
- * Class Delete_Wishlist
+ * Handles the logic for deleting a wishlist.
  *
- * Handle delete wishlist logic
+ * This class processes the request to delete a specific wishlist for a customer. It validates
+ * the provided wishlist ID, deletes the wishlist, and redirects the user to the default wishlist page.
+ * It also triggers success or error actions based on the outcome of the operation.
+ *
+ * @package BigCommerce\Accounts\Wishlists\Actions
  */
 class Delete_Wishlist extends Wishlist_Action {
+	/**
+	 * The action identifier for deleting a wishlist.
+	 *
+	 * This constant is used to identify the specific action for deleting a wishlist.
+	 *
+	 * @var string
+	 */
 	const ACTION = 'delete';
 
     /**
-     * Delete requested wishlist
+     * Handles the request to delete a specific wishlist.
      *
-     * @param $args
+     * This method validates the request, retrieves the wishlist using the provided ID, and
+     * deletes the wishlist from the system. Upon successful deletion, the user is redirected
+     * to the wishlist page with a success message. If an error occurs, an error message is triggered.
+     *
+     * @param array $args The arguments from the request.
+     * 
+     * @return void
      */
 	public function handle_request( $args ) {
 		$redirect = get_the_permalink( get_option( Wishlist_Page::NAME, 0 ) );
@@ -32,12 +49,18 @@ class Delete_Wishlist extends Wishlist_Action {
 	}
 
     /**
-     * Validate and sanitize request
+     * Validates and sanitizes the request to delete a wishlist.
      *
-     * @param array $args
-     * @param array $submission
+     * This method processes the submission data, ensuring the wishlist ID is valid and sanitizing
+     * the request for security. It throws exceptions for invalid or missing data and returns a sanitized
+     * array of the request data.
      *
-     * @return int[]|string[]
+     * @param array $args The arguments from the request.
+     * @param array $submission The submission data from the request.
+     * 
+     * @return array The sanitized request data, including the wishlist ID.
+     * 
+     * @throws \InvalidArgumentException If the request is missing required fields or contains invalid data.
      */
 	protected function sanitize_request( array $args, array $submission ) {
 		$wishlist_id = reset( $args );

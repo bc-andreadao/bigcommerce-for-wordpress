@@ -21,19 +21,28 @@ use BigCommerce\Webhooks\Customer\Customer_Channel_Updater;
 use WP_User;
 
 /**
- * Class Login
- *
- * Handle login/lost password logic for the account
+ * Handles the login and lost password logic for the BigCommerce account integration with WordPress.
+ * This class connects WordPress users to BigCommerce customers, processes customer login, and provides the necessary functionality for user management.
  */
 class Login {
-	const CUSTOMER_ID_META = 'bigcommerce_customer_id';
+    /**
+     * The constant for storing the BigCommerce customer ID meta key.
+     */
+    const CUSTOMER_ID_META = 'bigcommerce_customer_id';
 
-	/** @var Api_Factory */
-	private $api_factory;
+    /**
+     * @var Api_Factory The factory class for creating API instances.
+     */
+    private $api_factory;
 
-	public function __construct( Api_Factory $api_factory ) {
-		$this->api_factory = $api_factory;
-	}
+    /**
+     * Login constructor.
+     *
+     * @param Api_Factory $api_factory The API factory to be used for creating API instances.
+     */
+    public function __construct( Api_Factory $api_factory ) {
+        $this->api_factory = $api_factory;
+    }
 
 	/**
 	 * Connect the user to a BigCommerce account, if it exists
