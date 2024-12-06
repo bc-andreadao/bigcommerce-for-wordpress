@@ -3,8 +3,6 @@
 namespace BigCommerce\Assets\Admin;
 
 /**
- * Class Scripts
- *
  * Handles the enqueueing and registration of admin scripts and Gutenberg-specific scripts.
  *
  * @package BigCommerce\Assets\Admin

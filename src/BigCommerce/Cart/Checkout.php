@@ -9,23 +9,44 @@ use BigCommerce\Pages\Checkout_Page;
 use BigCommerce\Settings\Sections\Cart as Cart_Settings;
 
 /**
- * Class Buy_Now
- *
- * Handles requests from the Buy Now button for products
+ * Handles requests during checkout from the Buy Now button for products.
  */
 class Checkout {
+	/**
+	 * The action endpoint for the checkout process.
+	 *
+	 * @var string
+	 */
 	const ACTION = 'checkout';
+
+	/**
+	 * The factory instance for creating BigCommerce API clients.
+	 *
+	 * @var Api_Factory
+	 */
 	private $api_factory;
 
+	/**
+	 * Constructor.
+	 *
+	 * @param Api_Factory $api_factory Factory for creating API clients.
+	 */
 	public function __construct( Api_Factory $api_factory ) {
 		$this->api_factory = $api_factory;
 	}
 
 	/**
-	 * @param string  $cart_id
-	 * @param CartApi $cart_api
+	 * Handle the request for redirecting to checkout.
+	 *
+	 * This method processes a checkout request based on the provided cart ID and redirects the user 
+	 * to the appropriate checkout page or URL. If the cart ID is missing or an error occurs, 
+	 * an error is displayed to the user.
+	 *
+	 * @param string  $cart_id  The ID of the cart to check out.
+	 * @param CartApi $cart_api The BigCommerce Cart API client.
 	 *
 	 * @return void
+	 *
 	 * @action bigcommerce/action_endpoint/ . self::ACTION
 	 */
 	public function handle_request( $cart_id, CartApi $cart_api ) {
