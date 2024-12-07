@@ -9,8 +9,6 @@ use Pimple\Container;
 use BigCommerce\Logging\Error_Log as Logger;
 
 /**
- * Class Log
- *
  * This class is responsible for setting up logging functionality in the BigCommerce container.
  * It registers services for logging, defines constants for log paths, and handles log-related actions 
  * during the BigCommerce import process, such as logging errors and diagnostics.

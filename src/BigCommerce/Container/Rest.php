@@ -192,6 +192,13 @@ class Rest extends Provider {
 	 */
 	const COUPON_CODE = 'rest.coupon_code';	
 
+	/**
+	 * The version of the REST API used by the container. It is referenced when setting up the
+	 * `VERSION` service in the container, ensuring that the API version can be applied to the various API endpoints
+	 * and controllers.
+	 *
+	 * @var string
+	 */
 	private $version = 1;
 
 	/**

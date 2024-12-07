@@ -5,6 +5,15 @@ namespace BigCommerce\Container;
 use BigCommerce\Banners\Banners as Banners_Manager;
 use Pimple\Container;
 
+/**
+ * This class is responsible for managing the banners service within the dependency injection container.
+ * It provides functionality to register the banners API factory and integrates banner-specific configurations
+ * into JavaScript settings via a filter hook.
+ *
+ * The `banners` service is registered, allowing the application to interact with the banners API and manage banner-related data.
+ *
+ * @package BigCommerce\Container
+ */
 class Banners extends Provider {
     const BANNERS = 'banners';
 

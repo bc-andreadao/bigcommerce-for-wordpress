@@ -12,17 +12,57 @@ use BigCommerce\Settings\Sections\Gift_Certificates as Gift_Certificate_Settings
 use BigCommerce\Settings\Sections\Wishlists as Wishlist_Settings;
 
 /**
- * Class Editor
+ * Loads behavior relevant to the admin post editor, including rendering custom buttons,
+ * templates, and Gutenberg blocks within the WordPress admin interface. It also handles 
+ * the integration of the Gutenberg editor with BigCommerce blocks and assets.
  *
- * Load behavior relevant to the admin post editor
+ * @package BigCommerce\Container
  */
 class Editor extends Provider {
-	const SHORTCODE_BUTTON  = 'admin.shortcode_button';
-	const UI_DIALOG         = 'admin.ui_dialog';
-	const GUTENBERG_BLOCKS  = 'gutenberg.blocks';
-	const GUTENBERG_MIGRATE = 'gutenberg.migrate';
-	const STYLES            = 'gutenberg.styles';
+    /**
+     * Constant for the shortcode button identifier.
+     *
+     * @var string
+     */
+    const SHORTCODE_BUTTON  = 'admin.shortcode_button';
 
+    /**
+     * Constant for the UI dialog identifier.
+     *
+     * @var string
+     */
+    const UI_DIALOG         = 'admin.ui_dialog';
+
+    /**
+     * Constant for the Gutenberg blocks identifier.
+     *
+     * @var string
+     */
+    const GUTENBERG_BLOCKS  = 'gutenberg.blocks';
+
+    /**
+     * Constant for the Gutenberg migration identifier.
+     *
+     * @var string
+     */
+    const GUTENBERG_MIGRATE = 'gutenberg.migrate';
+
+    /**
+     * Constant for the styles identifier.
+     *
+     * @var string
+     */
+    const STYLES            = 'gutenberg.styles';
+
+    /**
+     * Registers the necessary components for the editor, including buttons, dialog templates,
+     * and Gutenberg blocks.
+     *
+     * This function initializes and sets up the custom behavior for the WordPress admin post 
+     * editor, integrating custom buttons and templates for a more enhanced editing experience.
+     *
+     * @param Container $container The dependency injection container.
+     */
 	public function register( Container $container ) {
 		$this->render_button( $container );
 		$this->render_dialog_template( $container );

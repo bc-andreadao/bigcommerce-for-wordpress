@@ -17,19 +17,97 @@ use BigCommerce\Forms\Update_Profile_Handler;
 use BigCommerce\Forms\Switch_Currency_Handler;
 use Pimple\Container;
 
+/**
+ * Forms class handles various form actions within BigCommerce, such as registration, address updates, product reviews, and more.
+ * It registers form handlers and provides functionality to process form actions, handle errors, success messages, redirects, and messaging.
+ * This class is part of the container and utilizes dependency injection to manage the various handlers for each action.
+ *
+ * @package BigCommerce\Container
+ */
 class Forms extends Provider {
+	/**
+	 * Constant for deleting an address form action.
+	 *
+	 * @var string
+	 */
 	const DELETE_ADDRESS   = 'forms.delete_address';
+
+	/**
+	 * Constant for the user registration form action.
+	 *
+	 * @var string
+	 */
 	const REGISTER         = 'forms.register';
+
+	/**
+	 * Constant for the product review form action.
+	 *
+	 * @var string
+	 */
 	const REVIEW           = 'forms.review';
+
+	/**
+	 * Constant for updating an address form action.
+	 *
+	 * @var string
+	 */
 	const UPDATE_ADDRESS   = 'forms.update_address';
+
+	/**
+	 * Constant for updating a user's profile form action.
+	 *
+	 * @var string
+	 */
 	const UPDATE_PROFILE   = 'forms.update_profile';
+
+	/**
+	 * Constant for purchasing a gift certificate form action.
+	 *
+	 * @var string
+	 */
 	const GIFT_CERTIFICATE = 'forms.purchase_gift_certificate';
+
+	/**
+	 * Constant for form errors.
+	 *
+	 * @var string
+	 */
 	const ERRORS           = 'forms.errors';
+
+	/**
+	 * Constant for form success messages.
+	 *
+	 * @var string
+	 */
 	const SUCCESS          = 'forms.success';
+
+	/**
+	 * Constant for form redirects.
+	 *
+	 * @var string
+	 */
 	const REDIRECTS        = 'forms.redirects';
+
+	/**
+	 * Constant for form messaging.
+	 *
+	 * @var string
+	 */
 	const MESSAGING        = 'forms.messaging';
+
+	/**
+	 * Constant for switching currency in a form.
+	 *
+	 * @var string
+	 */
 	const SWITCH_CURRENCY  = 'forms.switch_currency';
 
+	/**
+	 * Registers all the form actions and handlers into the container.
+	 * This method sets up actions for handling form submissions, errors, success, redirects, and messaging.
+	 *
+	 * @param Container $container The dependency injection container.
+	 */
 	public function register( Container $container ) {
 
 		$this->actions( $container );

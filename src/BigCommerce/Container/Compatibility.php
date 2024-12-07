@@ -14,13 +14,54 @@ use BigCommerce\Pages\Login_Page;
 use BigCommerce\Container\Api;
 use Pimple\Container;
 
+/**
+ * Provides integration with various third-party services and themes, including WooCommerce, Matomo, and Akismet.
+ * It handles the registration of necessary services, theme compatibility, and custom functionality for BigCommerce.
+ *
+ * @package BigCommerce\Container
+ */
 class Compatibility extends Provider {
-	const TEMPLATES     = 'theme_compat.templates';
-	const THEME         = 'theme_compat.theme';
-	const WC_FACADE     = 'woo_compat.wc_facade';
-	const MATOMO        = 'compatibility.matomo';
-	const SPAM_CHECKER  = 'compatibility.spam_checker';
 
+    /**
+     * Template compatibility service.
+     *
+     * @var string
+     */
+    const TEMPLATES = 'theme_compat.templates';
+
+    /**
+     * Theme compatibility service.
+     *
+     * @var string
+     */
+    const THEME = 'theme_compat.theme';
+
+    /**
+     * WooCommerce facade service.
+     *
+     * @var string
+     */
+    const WC_FACADE = 'woo_compat.wc_facade';
+
+    /**
+     * Matomo tracking service.
+     *
+     * @var string
+     */
+    const MATOMO = 'compatibility.matomo';
+
+    /**
+     * Akismet spam checker service.
+     *
+     * @var string
+     */
+    const SPAM_CHECKER = 'compatibility.spam_checker';
+
+    /**
+     * Registers the necessary services and actions for compatibility with external plugins and themes.
+     *
+     * @param Container $container The container to register services with.
+     */
 	public function register( Container $container ) {
 		$container[ self::TEMPLATES ] = function ( Container $container ) {
 			return new Template_Compatibility();

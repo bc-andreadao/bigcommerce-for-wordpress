@@ -5,8 +5,24 @@ namespace BigCommerce\Container;
 use BigCommerce\Import\Image_Importer;
 use Pimple\Container;
 
+/**
+ * This class provides functionality for registering image-related services and hooks related to 
+ * image import and CDN management within the BigCommerce container. It includes hooks that 
+ * determine if image import is allowed and modify image HTML to load images from a CDN if applicable.
+ *
+ * @package BigCommerce\Container
+ */
 class Image extends Provider {
 
+    /**
+     * Registers image import and CDN-related filters.
+     *
+     * This method registers two filters:
+     * - A filter that checks if image import is allowed.
+     * - A filter that modifies image HTML to load images from CDN if a valid BigCommerce ID is found.
+     *
+     * @param Container $container The Pimple container instance used for managing dependencies.
+     */
 	public function register( Container $container ) {
 
 		/**

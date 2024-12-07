@@ -1,9 +1,4 @@
 <?php
-/**
- * This container provider adds a WordPress proxy layer on top of the BigCommerce API.
- *
- * @package BigCommerce
- */
 
 namespace BigCommerce\Container;
 
@@ -13,7 +8,8 @@ use BigCommerce\Proxy\AMP_Cart_Controller;
 use Pimple\Container;
 
 /**
- * Proxy provider class that registers the proxy container and sets up necessary services such as REST controllers, caching, and AMP cart controllers.
+ * This class registers the proxy container that adds a Wordpress proxy layer on top of the BigCommerce API.
+ * Sets up necessary services such as REST controllers, caching, and AMP cart controllers.
  *
  * @package BigCommerce
  */

@@ -11,18 +11,59 @@ use BigCommerce\Analytics\Segment;
 use Pimple\Container;
 
 /**
- * Class Analytics
+ * Handles the registration and configuration of analytics services and events for BigCommerce.
+ * This class provides integration for popular analytics platforms like Facebook Pixel, Google Analytics, and Segment.
+ * It also manages the registration of event tracking for actions such as adding to cart and viewing products.
  *
  * @package BigCommerce\Container
  */
 class Analytics extends Provider {
-	const FACEBOOK_PIXEL   = 'analytics.facebook';
-	const GOOGLE_ANALYTICS = 'analytics.google';
-	const SEGMENT          = 'analytics.segment';
+    
+    /**
+     * Constant for Facebook Pixel analytics provider
+     *
+     * @var string
+     */
+    const FACEBOOK_PIXEL   = 'analytics.facebook';
 
-	const ADD_TO_CART  = 'analytics.events.add_to_cart';
-	const VIEW_PRODUCT = 'analytics.events.view_product';
+    /**
+     * Constant for Google Analytics provider
+     *
+     * @var string
+     */
+    const GOOGLE_ANALYTICS = 'analytics.google';
 
+    /**
+     * Constant for Segment analytics provider
+     *
+     * @var string
+     */
+    const SEGMENT          = 'analytics.segment';
+
+    /**
+     * Constant for 'Add to Cart' event tracking
+     *
+     * @var string
+     */
+    const ADD_TO_CART  = 'analytics.events.add_to_cart';
+
+    /**
+     * Constant for 'View Product' event tracking
+     *
+     * @var string
+     */
+    const VIEW_PRODUCT = 'analytics.events.view_product';
+
+    /**
+     * Registers analytics services and events into the container
+     *
+     * This function registers all necessary analytics providers (Facebook Pixel, Google Analytics, Segment)
+     * and event listeners for tracking various interactions such as add-to-cart and product views.
+     *
+     * @param Container $container The dependency injection container.
+     *
+     * @return void
+     */
 	public function register( Container $container ) {
 		$this->providers( $container );
 		$this->events( $container );

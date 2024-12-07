@@ -29,26 +29,157 @@ use Pimple\Container;
  * @package BigCommerce\Container
  */
 class Accounts extends Provider {
-    const LOGIN            = 'accounts.login';
-    const REGISTER         = 'accounts.register';
-    const COUNTRIES        = 'accounts.countries';
-    const COUNTRIES_PATH   = 'accounts.countries.path';
-    const DELETE_ADDRESS   = 'accounts.delete_address';
-    const NAV_MENU         = 'accounts.nav_menu';
-    const SUB_NAV          = 'accounts.sub_nav';
-    const USER_PROFILE     = 'accounts.user_profile';
-    const GROUP_PROXY      = 'accounts.groups.proxy';
-    const PASSWORD_RESET   = 'accounts.password_reset';
-    const CHANNEL_SETTINGS = 'accounts.channel_settings';
+	/**
+	 * The constant for the login service.
+	 * Represents the key for the accounts login service in the container.
+	 *
+	 * @var string
+	 */
+	const LOGIN = 'accounts.login';
 
-    const PUBLIC_WISHLIST        = 'accounts.wishlist.public';
-    const WISHLIST_ROUTER        = 'accounts.wishlist.router';
-    const WISHLIST_CREATE        = 'accounts.wishlist.create';
-    const WISHLIST_EDIT          = 'accounts.wishlist.edit';
-    const WISHLIST_DELETE        = 'accounts.wishlist.delete';
-    const WISHLIST_ADD           = 'accounts.wishlist.add_item';
-    const WISHLIST_REMOVE        = 'accounts.wishlist.remove_item';
-    const WISHLIST_ADD_ITEM_VIEW = 'accounts.wishlist.add_item_view';
+	/**
+	 * The constant for the register service.
+	 * Represents the key for the accounts registration service in the container.
+	 *
+	 * @var string
+	 */
+	const REGISTER = 'accounts.register';
+
+	/**
+	 * The constant for the countries service.
+	 * Represents the key for the accounts countries service in the container.
+	 *
+	 * @var string
+	 */
+	const COUNTRIES = 'accounts.countries';
+
+	/**
+	 * The constant for the countries data file path.
+	 * Represents the key for the path to the countries data file in the container.
+	 *
+	 * @var string
+	 */
+	const COUNTRIES_PATH = 'accounts.countries.path';
+
+	/**
+	 * The constant for the delete address service.
+	 * Represents the key for the accounts delete address service in the container.
+	 *
+	 * @var string
+	 */
+	const DELETE_ADDRESS = 'accounts.delete_address';
+
+	/**
+	 * The constant for the navigation menu service.
+	 * Represents the key for the accounts navigation menu service in the container.
+	 *
+	 * @var string
+	 */
+	const NAV_MENU = 'accounts.nav_menu';
+
+	/**
+	 * The constant for the sub-navigation service.
+	 * Represents the key for the accounts sub-navigation service in the container.
+	 *
+	 * @var string
+	 */
+	const SUB_NAV = 'accounts.sub_nav';
+
+	/**
+	 * The constant for the user profile settings service.
+	 * Represents the key for the accounts user profile settings service in the container.
+	 *
+	 * @var string
+	 */
+	const USER_PROFILE = 'accounts.user_profile';
+
+	/**
+	 * The constant for the customer group proxy service.
+	 * Represents the key for the accounts customer group proxy service in the container.
+	 *
+	 * @var string
+	 */
+	const GROUP_PROXY = 'accounts.groups.proxy';
+
+	/**
+	 * The constant for the password reset service.
+	 * Represents the key for the accounts password reset service in the container.
+	 *
+	 * @var string
+	 */
+	const PASSWORD_RESET = 'accounts.password_reset';
+
+	/**
+	 * The constant for the channel settings service.
+	 * Represents the key for the accounts channel settings service in the container.
+	 *
+	 * @var string
+	 */
+	const CHANNEL_SETTINGS = 'accounts.channel_settings';
+
+	/**
+	 * The constant for the public wishlist service.
+	 * Represents the key for the public wishlist service in the container.
+	 *
+	 * @var string
+	 */
+	const PUBLIC_WISHLIST = 'accounts.wishlist.public';
+
+	/**
+	 * The constant for the wishlist router service.
+	 * Represents the key for the wishlist router service in the container.
+	 *
+	 * @var string
+	 */
+	const WISHLIST_ROUTER = 'accounts.wishlist.router';
+
+	/**
+	 * The constant for the wishlist creation service.
+	 * Represents the key for the wishlist creation service in the container.
+	 *
+	 * @var string
+	 */
+	const WISHLIST_CREATE = 'accounts.wishlist.create';
+
+	/**
+	 * The constant for the wishlist edit service.
+	 * Represents the key for the wishlist edit service in the container.
+	 *
+	 * @var string
+	 */
+	const WISHLIST_EDIT = 'accounts.wishlist.edit';
+
+	/**
+	 * The constant for the wishlist delete service.
+	 * Represents the key for the wishlist delete service in the container.
+	 *
+	 * @var string
+	 */
+	const WISHLIST_DELETE = 'accounts.wishlist.delete';
+
+	/**
+	 * The constant for the wishlist add item service.
+	 * Represents the key for the wishlist add item service in the container.
+	 *
+	 * @var string
+	 */
+	const WISHLIST_ADD = 'accounts.wishlist.add_item';
+
+	/**
+	 * The constant for the wishlist remove item service.
+	 * Represents the key for the wishlist remove item service in the container.
+	 *
+	 * @var string
+	 */
+	const WISHLIST_REMOVE = 'accounts.wishlist.remove_item';
+
+	/**
+	 * The constant for the wishlist add item view service.
+	 * Represents the key for the wishlist add item view service in the container.
+	 *
+	 * @var string
+	 */
+	const WISHLIST_ADD_ITEM_VIEW = 'accounts.wishlist.add_item_view';
 
     /**
      * Registers various services into the container

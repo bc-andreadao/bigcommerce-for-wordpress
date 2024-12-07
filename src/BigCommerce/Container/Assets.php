@@ -9,8 +9,6 @@ use BigCommerce\Taxonomies\Channel\Connections;
 use Pimple\Container;
 
 /**
- * Class Assets
- *
  * Provides asset management for the BigCommerce plugin, including scripts, styles,
  * configuration, and localization for both the admin and frontend.
  *

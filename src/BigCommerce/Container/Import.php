@@ -17,46 +17,218 @@ use BigCommerce\Settings\Sections\Import as Import_Settings;
 use BigCommerce\Taxonomies\Channel\Connections;
 use Pimple\Container;
 
+/** 
+* This class handles the import process for BigCommerce data. It includes functionality
+* to manage cron jobs, process various import tasks, handle batch sizes, and trigger 
+* different import-related actions.
+*/
 class Import extends Provider {
-	const CRON_MONITOR    = 'import.cron.monitor';
-	const CRON_RUNNER     = 'import.cron.runner';
-	const PARALLEL_RUNNER = 'import.async.runner';
-	const LOCK_MONITOR    = 'import.lock.monitor';
-	const TIMEOUT         = 'timeout';
+   
+   /**
+	* The service identifier for the cron monitor used to check scheduled crons.
+	* @var string
+	*/
+   const CRON_MONITOR = 'import.cron.monitor';
 
-	const CUSTOMER_DEFAULT_GROUP   = 'import.customer_default_group';
-	const MSF_STOREFRONT_PROCESSOR = 'import.msf_storefront_processor';
+   /**
+	* The service identifier for the cron runner responsible for processing cron jobs.
+	* @var string
+	*/
+   const CRON_RUNNER = 'import.cron.runner';
 
-	const TASK_MANAGER  = 'import.task_manager';
-	const TASK_LIST     = 'import.task_list';
-	const CACHE_CLEANUP = 'import.cache_cleanup';
-	const CHANNEL_LIST  = 'import.channel_list';
+   /**
+	* The service identifier for the parallel runner responsible for asynchronous job execution.
+	* @var string
+	*/
+   const PARALLEL_RUNNER = 'import.async.runner';
 
-	const BATCH_SIZE        = 'import.batch_size';
-	const LARGE_BATCH_SIZE  = 'import.large_batch_size';
-	const POST_TASK_MANAGER = 'import.postponed_task_manager';
+   /**
+	* The service identifier for monitoring locks during the import process.
+	* @var string
+	*/
+   const LOCK_MONITOR = 'import.lock.monitor';
 
-	const START            = 'import.start';
-	const LISTINGS         = 'import.listings';
-	const CHANNEL          = 'import.channel';
-	const PURGE_CATEGORIES = 'import.purge.categories';
-	const PURGE_BRANDS     = 'import.purge.brands';
-	const CATEGORIES       = 'import.categories';
-	const BRANDS           = 'import.brands';
-	const RESIZE           = 'import.resize';
-	const PRODUCTS         = 'import.products';
-	const MARK             = 'import.mark_deleted';
-	const QUEUE            = 'import.queue';
-	const STORE            = 'import.store';
-	const CURRENCIES       = 'import.currencies';
-	const CLEANUP          = 'import.cleanup';
-	const PRODUCT_CLEANUP  = 'import.product_cleanup';
-	const IMPORT_STATUS    = 'import.import_status';
-	const ERROR            = 'import.error';
-	const IMPORT_TYPE      = 'import.type';
+   /**
+	* The service identifier for the timeout setting used to control the import process timeout.
+	* @var string
+	*/
+   const TIMEOUT = 'timeout';
 
-	const HEADLESS_PROCESSOR = 'headless.processor';
+   /**
+	* The default customer group for the import process.
+	* @var string
+	*/
+   const CUSTOMER_DEFAULT_GROUP = 'import.customer_default_group';
 
+   /**
+	* The service identifier for the storefront processor used in the import process.
+	* @var string
+	*/
+   const MSF_STOREFRONT_PROCESSOR = 'import.msf_storefront_processor';
+
+   /**
+	* The service identifier for the task manager handling postponed tasks.
+	* @var string
+	*/
+   const TASK_MANAGER = 'import.task_manager';
+
+   /**
+	* The service identifier for the list of tasks to be processed during the import.
+	* @var string
+	*/
+   const TASK_LIST = 'import.task_list';
+
+   /**
+	* The service identifier for the cache cleanup process during import.
+	* @var string
+	*/
+   const CACHE_CLEANUP = 'import.cache_cleanup';
+
+   /**
+	* The service identifier for managing channels during the import process.
+	* @var string
+	*/
+   const CHANNEL_LIST = 'import.channel_list';
+
+   /**
+	* The service identifier for the batch size setting for the import process.
+	* @var string
+	*/
+   const BATCH_SIZE = 'import.batch_size';
+
+   /**
+	* The service identifier for a larger batch size setting for the import process.
+	* @var string
+	*/
+   const LARGE_BATCH_SIZE = 'import.large_batch_size';
+
+   /**
+	* The service identifier for managing postponed tasks after the import process.
+	* @var string
+	*/
+   const POST_TASK_MANAGER = 'import.postponed_task_manager';
+
+   /**
+	* The service identifier for starting the import process.
+	* @var string
+	*/
+   const START = 'import.start';
+
+   /**
+	* The service identifier for importing product listings during the import process.
+	* @var string
+	*/
+   const LISTINGS = 'import.listings';
+
+   /**
+	* The service identifier for the channel configuration used in the import process.
+	* @var string
+	*/
+   const CHANNEL = 'import.channel';
+
+   /**
+	* The service identifier for purging categories during the import process.
+	* @var string
+	*/
+   const PURGE_CATEGORIES = 'import.purge.categories';
+
+   /**
+	* The service identifier for purging brands during the import process.
+	* @var string
+	*/
+   const PURGE_BRANDS = 'import.purge.brands';
+
+   /**
+	* The service identifier for importing categories during the import process.
+	* @var string
+	*/
+   const CATEGORIES = 'import.categories';
+
+   /**
+	* The service identifier for importing brands during the import process.
+	* @var string
+	*/
+   const BRANDS = 'import.brands';
+
+   /**
+	* The service identifier for resizing images during the import process.
+	* @var string
+	*/
+   const RESIZE = 'import.resize';
+
+   /**
+	* The service identifier for importing products during the import process.
+	* @var string
+	*/
+   const PRODUCTS = 'import.products';
+
+   /**
+	* The service identifier for marking deleted products during the import process.
+	* @var string
+	*/
+   const MARK = 'import.mark_deleted';
+
+   /**
+	* The service identifier for managing the import queue.
+	* @var string
+	*/
+   const QUEUE = 'import.queue';
+
+   /**
+	* The service identifier for managing the store configuration during the import process.
+	* @var string
+	*/
+   const STORE = 'import.store';
+
+   /**
+	* The service identifier for handling currency settings during the import process.
+	* @var string
+	*/
+   const CURRENCIES = 'import.currencies';
+
+   /**
+	* The service identifier for the cleanup process during the import.
+	* @var string
+	*/
+   const CLEANUP = 'import.cleanup';
+
+   /**
+	* The service identifier for cleaning up product-related data during the import process.
+	* @var string
+	*/
+   const PRODUCT_CLEANUP = 'import.product_cleanup';
+
+   /**
+	* The service identifier for tracking the import status.
+	* @var string
+	*/
+   const IMPORT_STATUS = 'import.import_status';
+
+   /**
+	* The service identifier for handling import errors.
+	* @var string
+	*/
+   const ERROR = 'import.error';
+
+   /**
+	* The service identifier for specifying the type of import process.
+	* @var string
+	*/
+   const IMPORT_TYPE = 'import.type';
+
+   /**
+	* The service identifier for the headless processor used during import.
+	* @var string
+	*/
+   const HEADLESS_PROCESSOR = 'headless.processor';
+
+   /**
+	* Registers the import-related services and actions within the container.
+	* 
+	* @param Container $container The container instance for dependency injection.
+	* 
+	* @return void
+	*/
 	public function register( Container $container ) {
 		$this->cron( $container );
 		$this->process( $container );
