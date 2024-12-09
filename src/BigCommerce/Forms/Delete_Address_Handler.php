@@ -6,9 +6,22 @@ namespace BigCommerce\Forms;
 
 use BigCommerce\Accounts\Customer;
 
+/**
+ * Handles the deletion of a customer's address from their account.
+ */
 class Delete_Address_Handler implements Form_Handler {
+	/** 
+	 * The action identifier for deleting an address.
+	 *
+	 * @var string
+	 */
 	const ACTION = 'delete-address';
 
+	/**
+	 * Handle the address deletion request.
+	 *
+	 * @param array $submission The form submission data.
+	 */
 	public function handle_request( $submission ) {
 		if ( ! $this->should_handle_request( $submission ) ) {
 			return;
