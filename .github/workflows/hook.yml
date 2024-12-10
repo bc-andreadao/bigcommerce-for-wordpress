@@ -37,8 +37,8 @@ jobs:
       - name: Debug the problematic file
         run: |
           echo "Checking file size and content..."
-          ls -lh $GITHUB_WORKSPACE/docs/<file-name>
-          cat $GITHUB_WORKSPACE/docs/<file-name>
+          ls -lh $GITHUB_WORKSPACE/docs/hooks.md
+          cat $GITHUB_WORKSPACE/docs/hooks.md
   
       - name: Upload problematic file as an artifact
         run: |
