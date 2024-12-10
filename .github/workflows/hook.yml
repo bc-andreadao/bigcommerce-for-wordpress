@@ -40,7 +40,7 @@ jobs:
           cp $GITHUB_WORKSPACE/docs/hooks.md artifacts/
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: problematic-doc-file
           path: artifacts/
