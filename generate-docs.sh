@@ -12,13 +12,13 @@ else
 fi
 
 # Generate hook documentation in Markdown format using Pronamic WP Documentor
- vendor/bin/wp-documentor parse test --format=markdown --output=docs/hooks.md
+ vendor/bin/wp-documentor parse src --format=markdown --output=docs/hooks.md
 
 # Generate documentation for classes in Markdown format using PHPDocumentor
 docker run --rm \
   -v "$PWD:/data" \
   -v "$PWD/vendor/saggre/phpdocumentor-markdown:/phpdoc" \
   phpdoc/phpdoc:3 \
-  -d /data/test \
+  -d /data/src \
   -t /data/docs \
   --template=/phpdoc/themes/markdown
