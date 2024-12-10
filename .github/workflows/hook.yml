@@ -34,6 +34,12 @@ jobs:
             git checkout -b test
           fi
 
+      - name: Debug the problematic file
+        run: |
+          echo "Checking file size and content..."
+          ls -lh $GITHUB_WORKSPACE/docs/<file-name>
+          cat $GITHUB_WORKSPACE/docs/<file-name>
+  
       - name: Upload problematic file as an artifact
         run: |
           mkdir -p artifacts
