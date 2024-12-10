@@ -21,4 +21,5 @@ docker run --rm \
   phpdoc/phpdoc:3 \
   -d /data/src \
   -t /data/docs \
-  --template=/phpdoc/themes/markdown
+  --template=/phpdoc/themes/markdown \
+  --visibility=public,protected
