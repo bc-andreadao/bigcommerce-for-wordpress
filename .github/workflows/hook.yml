@@ -34,13 +34,24 @@ jobs:
             git checkout -b test
           fi
 
-      - name: Create a test file to debug
+      - name: Upload problematic file as an artifact
         run: |
-          rsync -av --ignore-times $GITHUB_WORKSPACE/docs/ bc-wordpress-reference/pages/
-          cd bc-wordpress-reference
-          echo "This is a test file to debug the GitHub Action workflow. 11-26" > test-debug-file.txt
-          git config user.name "GitHub Actions"
-          git config user.email "actions@github.com"
-          git add .
-          git commit -m "Update documentation from $(date +'%Y-%m-%d')" || echo "No changes to commit"
-          git push -u origin test
+          mkdir -p artifacts
+          cp $GITHUB_WORKSPACE/docs/hooks.md artifacts/
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: problematic-doc-file
+          path: artifacts/
+
+      # - name: Create a test file to debug
+      #   run: |
+      #     rsync -av --ignore-times $GITHUB_WORKSPACE/docs/ bc-wordpress-reference/pages/
+      #     cd bc-wordpress-reference
+      #     echo "This is a test file to debug the GitHub Action workflow. 11-26" > test-debug-file.txt
+      #     git config user.name "GitHub Actions"
+      #     git config user.email "actions@github.com"
+      #     git add .
+      #     git commit -m "Update documentation from $(date +'%Y-%m-%d')" || echo "No changes to commit"
+      #     git push -u origin test
