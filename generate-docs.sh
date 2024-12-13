@@ -17,7 +17,7 @@ fi
 # Generate documentation for classes in Markdown format using PHPDocumentor
 docker run --rm \
   -v "$PWD:/data" \
-  -v "$PWD/vendor/saggre/phpdocumentor-markdown:/phpdoc" \
+  -v "$PWD/vendor/bc-andreadao/phpdocumentor-markdown:/phpdoc" \
   phpdoc/phpdoc:3 \
   -d /data/src \
   -t /data/docs \
