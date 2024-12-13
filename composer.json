@@ -23,7 +23,7 @@
         "pimple/pimple": "3.2.3",
         "vlucas/phpdotenv": "2.4.0",
         "bc-andreadao/wp-documentor": "dev-main",
-        "saggre/phpdocumentor-markdown": "dev-master"
+        "bc-andreadao/phpdocumentor-markdown": "dev-master"
     },
     "repositories": [
         {
@@ -36,7 +36,7 @@
         },
         {
             "type": "vcs",
-            "url": "https://github.com/Saggre/phpDocumentor-markdown.git"
+            "url": "https://github.com/bc-andreadao/phpDocumentor-markdown.git"
         }
     ],
     "autoload": {

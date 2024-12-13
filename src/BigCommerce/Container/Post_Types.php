@@ -501,7 +501,25 @@ class Post_Types extends Provider {
 		 * @return void
 		 */
 		add_action( 'bigcommerce/import/before', function () {
+
+			/**
+			 * Filter to determine whether a channel listing should be updated.
+			 *
+			 * This filter allows developers to modify the behavior of channel listing updates.
+			 * By default, it is set to return `false`, preventing updates to channel listings.
+			 *
+			 * @return mixed The modified value determining whether the channel listing should be updated.
+			 */
 			add_filter( 'bigcommerce/channel/listing/should_update', '__return_false', 10, 0 );
+
+			/**
+			 * Filter to determine whether a channel listing should be deleted.
+			 *
+			 * This filter allows developers to modify the behavior of channel listing deletions.
+			 * By default, it is set to return `false`, preventing deletions of channel listings.
+			 *
+			 * @return mixed The modified value determining whether the channel listing should be deleted.
+			 */
 			add_filter( 'bigcommerce/channel/listing/should_delete', '__return_false', 10, 0 );
 		}, 10, 0 );
 

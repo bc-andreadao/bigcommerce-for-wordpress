@@ -26,6 +26,7 @@ class ComposerStaticInite3b7bc6dcf7f80d1326d7975fb9f5e3f
         '2203a247e6fda86070a5e4e07aed533a' => __DIR__ . '/..' . '/symfony/clock/Resources/now.php',
         '23c18046f52bef3eea034657bafda50f' => __DIR__ . '/..' . '/symfony/polyfill-php81/bootstrap.php',
         'a1105708a18b76903365ca1c4aa61b02' => __DIR__ . '/..' . '/symfony/translation/Resources/functions.php',
+        '23f09fe3194f8c2f70923f90d6702129' => __DIR__ . '/..' . '/illuminate/collections/functions.php',
         '60799491728b879e74601d83e38b2cad' => __DIR__ . '/..' . '/illuminate/collections/helpers.php',
         'ac949ce40a981819ba132473518a9a31' => __DIR__ . '/..' . '/wp-cli/wp-config-transformer/src/WPConfigTransformer.php',
         '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
@@ -224,8 +225,8 @@ class ComposerStaticInite3b7bc6dcf7f80d1326d7975fb9f5e3f
         'phpDocumentor\\Reflection\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
-            1 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
-            2 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
+            1 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
+            2 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
         ),
         'phpDocumentor\\' => 
         array (
@@ -410,7 +411,7 @@ class ComposerStaticInite3b7bc6dcf7f80d1326d7975fb9f5e3f
         ),
         'PhpDocumentorMarkdown\\' => 
         array (
-            0 => __DIR__ . '/..' . '/saggre/phpdocumentor-markdown/src',
+            0 => __DIR__ . '/..' . '/bc-andreadao/phpdocumentor-markdown/src',
         ),
         'Peast\\' => 
         array (
@@ -446,9 +447,9 @@ class ComposerStaticInite3b7bc6dcf7f80d1326d7975fb9f5e3f
         ),
         'Illuminate\\Support\\' => 
         array (
-            0 => __DIR__ . '/..' . '/illuminate/collections',
+            0 => __DIR__ . '/..' . '/illuminate/macroable',
             1 => __DIR__ . '/..' . '/illuminate/conditionable',
-            2 => __DIR__ . '/..' . '/illuminate/macroable',
+            2 => __DIR__ . '/..' . '/illuminate/collections',
             3 => __DIR__ . '/..' . '/illuminate/support',
         ),
         'Illuminate\\Contracts\\' => 
@@ -497,7 +498,7 @@ class ComposerStaticInite3b7bc6dcf7f80d1326d7975fb9f5e3f
         ),
         'Doctrine\\Deprecations\\' => 
         array (
-            0 => __DIR__ . '/..' . '/doctrine/deprecations/lib/Doctrine/Deprecations',
+            0 => __DIR__ . '/..' . '/doctrine/deprecations/src',
         ),
         'DeepCopy\\' => 
         array (
