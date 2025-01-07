@@ -41,8 +41,7 @@ jobs:
           cd bc-wordpress-reference
           git fetch origin
           if git show-ref --quiet refs/remotes/origin/test; then
-            git checkout test
-            git pull origin test --rebase
+            git checkout -t origin/test
           else
             git checkout -b test
           fi
