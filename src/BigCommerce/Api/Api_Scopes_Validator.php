@@ -87,6 +87,13 @@ class Api_Scopes_Validator extends v2ApiAdapter {
 
             return $result->id;
         } catch ( \Exception $e ) {
+            /**
+             * Fires when customer API scope validation fails
+             *
+             * @param string     $level   The error level (Error_Log::ERROR)
+             * @param string     $message The error message
+             * @param array      $data    Additional error data including stack trace
+             */
             do_action( 'bigcommerce/log', Error_Log::ERROR, __( 'Could not proceed with current API scopes for customers', 'bigcommerce' ), [
                 'trace' => $e->getTraceAsString(),
             ] );
@@ -105,6 +112,13 @@ class Api_Scopes_Validator extends v2ApiAdapter {
 
             return true;
         } catch ( \Exception $e ) {
+            /**
+             * Fires when marketing API scope validation fails
+             *
+             * @param string     $level   The error level (Error_Log::ERROR)
+             * @param string     $message The error message
+             * @param array      $data    Additional error data including stack trace
+             */
             do_action( 'bigcommerce/log', Error_Log::ERROR, __( 'Could not proceed with current API scopes for Marketing', 'bigcommerce' ), [
                 'trace' => $e->getTraceAsString(),
             ] );

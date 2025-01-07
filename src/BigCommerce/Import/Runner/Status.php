@@ -73,6 +73,11 @@ class Status {
 		// cast timestamp to string to preserve microtime
 		$log[ (string) microtime( true ) ] = $status;
 		$this->update_option( self::CURRENT_LOG, $log, false );
+		/**
+		 * Hook when the import status is set.
+		 *
+		 * @param string $status The status being set.
+		 */
 		do_action( 'bigcommerce/import/set_status', $status );
 	}
 

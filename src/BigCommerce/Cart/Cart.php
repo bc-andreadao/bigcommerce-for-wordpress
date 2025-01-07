@@ -344,6 +344,14 @@ class Cart {
 	}
 
 	private function get_currency() {
+		/**
+		 * Filters the currency code.
+		 *
+		 * This filter allows modification of the currency code being used. It returns
+		 * the current currency code based on the configured currency.
+		 *
+		 * @return string The currency code.
+		 */
 		return apply_filters( 'bigcommerce/currency/code', 'USD' );
 	}
 

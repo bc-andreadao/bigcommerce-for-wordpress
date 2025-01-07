@@ -423,6 +423,13 @@ class Customer {
 		$customer_groups = Client::getCustomerGroups( $query );
 
 		if ( empty( $customer_groups ) ) {
+			/**
+			 * Log information about empty customer groups.
+			 *
+			 * @param string $level The log level (INFO)
+			 * @param string $message The log message
+			 * @param array $context Additional context data
+			 */
 			do_action( 'bigcommerce/log', Error_Log::INFO, __( 'Customer groups are empty', 'bigcommerce' ), [] );
 			return null;
 		}

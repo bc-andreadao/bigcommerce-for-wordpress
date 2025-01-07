@@ -42,8 +42,24 @@ class Delete_Wishlist extends Wishlist_Action {
 			$wishlist   = $this->get_customer_wishlist( get_current_user_id(), $submission['id'] );
 			$this->wishlists->deleteWishlist( $wishlist->list_id() );
 
+			/**
+			 * Trigger success message after deleting wishlist.
+			 *
+			 * @param string $message Success message to display
+			 * @param array $submission The submitted form data
+			 * @param string $redirect The URL to redirect to
+			 * @param array $data Additional data
+			 */
 			do_action( 'bigcommerce/form/success', __( 'Wish List deleted', 'bigcommerce' ), $submission, $redirect, [] );
 		} catch ( \Exception $e ) {
+			/**
+			 * Trigger error message if deleting wishlist fails.
+			 *
+			 * @param \WP_Error $error The error object
+			 * @param array $submission The submitted form data
+			 * @param string $redirect The URL to redirect to
+			 * @param array $data Additional data
+			 */
 			do_action( 'bigcommerce/form/error', new \WP_Error( $e->getCode(), $e->getMessage() ), $_POST, $redirect, [] );
 		}
 	}

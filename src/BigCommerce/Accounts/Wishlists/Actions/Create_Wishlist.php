@@ -54,9 +54,24 @@ class Create_Wishlist extends Wishlist_Action {
 
 			$wishlist = new Wishlist( $response->getData() );
 			$redirect = $wishlist->user_url();
-
+			/**
+			 * Triggers success notification after creating a new wishlist.
+			 *
+			 * @param string $message The success message to display
+			 * @param array $submission The submitted wishlist data
+			 * @param string $redirect The URL to redirect to after creation
+			 * @param array $data Additional data passed to the action
+			 */
 			do_action( 'bigcommerce/form/success', __( 'Wish List created', 'bigcommerce' ), $submission, $redirect, [] );
 		} catch ( \Exception $e ) {
+			/**
+			 * Triggers error notification if wishlist creation fails.
+			 *
+			 * @param \WP_Error $error The error details
+			 * @param array $submission The submitted wishlist data
+			 * @param string $redirect The URL to redirect to after error
+			 * @param array $data Additional data passed to the action
+			 */
 			do_action( 'bigcommerce/form/error', new \WP_Error( $e->getCode(), $e->getMessage() ), $_POST, $redirect, [] );
 		}
 	}

@@ -66,6 +66,17 @@ class Buy_Now extends Add_To_Cart {
 				],
 			] );
 		}
+		/**
+		 * Fires when an error occurs during the Buy Now process.
+		 *
+		 * @since [VERSION]
+		 *
+		 * @param \WP_Error $error      The error object containing the error message and details.
+		 * @param array     $_POST      The POST data submitted with the request.
+		 * @param string    $cart_url   The URL to redirect to if the error needs to be displayed on the cart page.
+		 *
+		 * @return void
+		 */
 		do_action( 'bigcommerce/form/error', $error, $_POST, $cart->get_cart_url() );
 	}
 }

@@ -127,6 +127,11 @@ class Forms extends Provider {
 		add_action( 'parse_request', $this->create_callback( 'handle_form_action', function () use ( $container ) {
 			$action = filter_var_array( $_REQUEST, [ 'bc-action' => FILTER_SANITIZE_STRING ] );
 			if ( $action['bc-action'] ) {
+				/**
+				 * Fires when a BigCommerce form action is submitted.
+				 * 
+				 * @param array $submission The sanitized form submission data (typically from $_REQUEST)
+				 */
 				do_action( 'bigcommerce/form/action=' . $action['bc-action'], stripslashes_deep( $_REQUEST ) );
 			}
 		} ), 10, 0 );

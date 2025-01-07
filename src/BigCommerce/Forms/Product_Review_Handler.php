@@ -82,6 +82,12 @@ class Product_Review_Handler implements Form_Handler {
             $response = $this->api->createProductReview( $product_id, $review_request );
         } catch ( ApiException $e ) {
             $errors->add( 'api_error', __( 'There was an error saving your review. Please try again.', 'bigcommerce' ) );
+            /**
+             * Triggered when a form has errors that prevent completion.
+             *
+             * @param \WP_Error $errors     The message that will display to the user
+             * @param array     $submission The data submitted to the form
+             */
             do_action( 'bigcommerce/form/error', $errors, $submission );
             
             return;
@@ -93,6 +99,13 @@ class Product_Review_Handler implements Form_Handler {
          * @param string $message Message displayed after review submission.
          */
         $message = apply_filters( 'bigcommerce/form/review/created_message', __( 'Thank you for your review! It has been successfully submitted and is pending.', 'bigcommerce' ) );
+        /**
+         * Triggered when the form has been successfully submitted.
+         *
+         * @param string $message    The success message to display to the user
+         * @param array  $submission The data submitted to the form
+         * @param mixed  $data      Additional data related to the submission (null in this case)
+         */
         do_action( 'bigcommerce/form/success', $message, $submission, null );
     }
 

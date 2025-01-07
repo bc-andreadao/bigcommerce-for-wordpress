@@ -30,6 +30,13 @@ class Delete_Address_Handler implements Form_Handler {
 		$errors = $this->validate_submission( $submission );
 
 		if ( count( $errors->get_error_codes() ) > 0 ) {
+			/**
+			 * Triggered when an error occurs during a form submission. Allows developers to handle or log form submission errors.
+			 *
+			 * @param \WP_Error $error      The error object representing the validation or processing error. Contains error codes and messages.
+			 * @param array     $submission The sanitized form submission data (usually $_POST).
+			 * @param string    $redirect   The URL to redirect the user after processing the error. Defaults to the home URL.
+			 */
 			do_action( 'bigcommerce/form/error', $errors, $submission );
 
 			return;
@@ -39,7 +46,16 @@ class Delete_Address_Handler implements Form_Handler {
 		$address_id = (int) $submission[ 'address-id' ];
 		$customer->delete_address( $address_id );
 
-
+		/**
+		 * Handles form success and processes related actions.
+		 *
+		 * @param string $message The success message.
+		 * @param array $submission The form submission data.
+		 * @param string|null $url Optional redirect URL.
+		 * @param array $data Additional data associated with the submission.
+		 *
+		 * @return void
+		 */
 		do_action( 'bigcommerce/form/success', __( 'Address deleted.', 'bigcommerce' ), $submission, null, [ 'key' => 'address_deleted' ] );
 	}
 

@@ -26,6 +26,16 @@ class Term_Creator extends Term_Saver {
 	protected function save_wp_term( \ArrayAccess $bc_term ) {
 		$term = wp_insert_term( $this->term_name( $bc_term ), $this->taxonomy, $this->get_term_args( $bc_term ) );
 		if ( is_wp_error( $term ) ) {
+			/**
+			 * Action to log messages during the BigCommerce import process.
+			 *
+			 * This action is triggered during the BigCommerce import process to log important messages. It captures the log level, message, context, and path for further troubleshooting.
+			 *
+			 * @param string $level The log level (e.g., INFO, ERROR).
+			 * @param string $message The log message to be recorded.
+			 * @param array $context Additional context for the log entry.
+			 * @return void
+			 */
 			do_action( 'bigcommerce/import/log', Error_Log::NOTICE, __( 'Could not create term', 'bigcommerce' ), [
 				'term'  => $bc_term,
 				'error' => $term->get_error_messages(),

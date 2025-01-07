@@ -54,7 +54,15 @@ class Add_To_Cart {
                 'variant_id' => $data['variant_id'],
                 'name'       => get_the_title( $data['post_id'] ),
             ];
-
+            /**
+             * Modifies the tracking data options for analytics.
+             *
+             * This allows for customization of analytics tracking behavior.
+             *
+             * @param array $track_data Tracking data options.
+             *
+             * @return array Modified tracking data options.
+             */
             $track_data = apply_filters( Analytics::TRACK_BY_HOOK, $track_data );
 
             $args[ Message::ATTRIBUTES ] = array_merge( $args[ Message::ATTRIBUTES ], [

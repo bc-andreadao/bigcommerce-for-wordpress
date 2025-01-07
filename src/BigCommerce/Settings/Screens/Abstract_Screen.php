@@ -497,6 +497,11 @@ abstract class Abstract_Screen {
 		 * @return void
 		 */
 		add_action( 'admin_menu', function () {
+			/**
+			 * Redirects to the appropriate screen when an unregistered screen is encountered.
+			 *
+			 * @param string $unregistered_screen The name of the unregistered screen.
+			 */
 			do_action( 'bigcommerce/settings/unregistered_screen', static::NAME );
 		}, 10000, 0 );
 	}

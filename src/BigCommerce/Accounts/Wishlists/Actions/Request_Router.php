@@ -36,7 +36,12 @@ class Request_Router {
      */
 	public function handle_request( array $args ) {
 		$action = array_shift( $args );
-		// Trigger a WordPress action that will invoke the corresponding handler for the specified action
+		/**
+		 * Routes the request to the appropriate wishlist action handler.
+		 *
+		 * @param string $action The wishlist action to be executed
+		 * @param array $args The arguments for the wishlist request
+		 */
 		do_action( 'bigcommerce/wishlist_endpoint/' . $action, $args );
 	}
 }

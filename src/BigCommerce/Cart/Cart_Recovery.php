@@ -83,6 +83,13 @@ class Cart_Recovery {
 			} else {
 				$destination = get_post_type_archive_link( Product::NAME );
 			}
+			/**
+			 * Fires when an error occurs during cart recovery.
+			 *
+			 * @param \WP_Error $error      The WordPress error object containing the error details
+			 * @param array     $_POST      The POST data from the request
+			 * @param string    $destination The URL where the user will be redirected after the error
+			 */
 			do_action( 'bigcommerce/form/error', $error, $_POST, $destination );
 		}
 

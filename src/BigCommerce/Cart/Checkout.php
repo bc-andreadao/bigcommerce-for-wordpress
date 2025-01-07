@@ -52,6 +52,13 @@ class Checkout {
 	public function handle_request( $cart_id, CartApi $cart_api ) {
 		if ( empty( $cart_id ) ) {
 			$error = new \WP_Error( 'checkout', __( 'Please add some items to your cart before checking out.', 'bigcommerce' ) );
+			/**
+			 * Fires when a form error occurs during checkout.
+			 *
+			 * @param \WP_Error $error      The WordPress error object containing the error code and message
+			 * @param array     $submission The submitted form data ($_POST)
+			 * @param string    $redirect   The URL to redirect to after error handling
+			 */
 			do_action( 'bigcommerce/form/error', $error, $_POST, home_url( '/' ) );
 
 			return;
@@ -78,6 +85,13 @@ class Checkout {
 			exit();
 		} catch ( \Exception $e ) {
 			$error = new \WP_Error( 'api_error', __( "We're having some difficulty redirecting you to checkout. Please try again.", 'bigcommerce' ) );
+			/**
+			 * Fires when a form error occurs during checkout.
+			 *
+			 * @param \WP_Error $error      The WordPress error object containing the error code and message
+			 * @param array     $submission The submitted form data ($_POST)
+			 * @param string    $redirect   The URL to redirect to after error handling
+			 */
 			do_action( 'bigcommerce/form/error', $error, $_POST, home_url( '/' ) );
 
 			return;

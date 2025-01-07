@@ -40,6 +40,11 @@ class Error_Handler {
 			self::PARAM => $key,
 		], $url );
 
+		/**
+		 * Fires when a form is about to redirect due to an error.
+		 *
+		 * @param string $url The URL to redirect to, with error parameters added.
+		 */
 		do_action( 'bigcommerce/form/redirect', $url );
 	}
 

@@ -227,6 +227,15 @@ abstract class Term_Saver implements Import_Strategy {
 		if ( ! empty( $terms ) ) {
 			return (int) reset( $terms )->term_id;
 		} else {
+			/**
+			 * Filter category data before importing.
+			 *
+			 * This filter modifies the category data based on the BigCommerce category ID.
+			 *
+			 * @param array $data The original category data.
+			 * @param int   $bc_category_id The BigCommerce category ID.
+			 * @param array $data The filtered category data after applying the filter.
+			 */
 			$parent_term = apply_filters( 'bigcommerce/import/term/data', false, $bc_id );
 
 			if ( ! empty( $parent_term ) ) {

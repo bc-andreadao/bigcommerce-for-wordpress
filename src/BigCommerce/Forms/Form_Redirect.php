@@ -31,6 +31,11 @@ class Form_Redirect {
 			return;
 		}
 
+		/**
+		 * Fires immediately before redirecting the user after a form submission.
+		 *
+		 * @param string $url The destination URL of the redirect.
+		 */
 		do_action( 'bigcommerce/form/before_redirect', $url );
 		wp_safe_redirect( esc_url_raw( $url ) );
 		exit();

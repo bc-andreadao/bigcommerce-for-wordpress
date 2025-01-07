@@ -91,9 +91,24 @@ class Register {
 
             return false;
         } catch( \Exception $exception ) {
+            /**
+             * Log debug information when unable to check if a user exists.
+             *
+             * @param string $level The log level (DEBUG)
+             * @param string $message The log message
+             * @param array $context Additional context data
+             */
             do_action( 'bigcommerce/log', Error_Log::DEBUG, __( 'Could not check if user exists.', 'bigcommerce' ), [
                 'user_email' => $email,
             ] );
+
+            /**
+             * Log debug information about the exception that occurred.
+             *
+             * @param string $level The log level (DEBUG)
+             * @param string $message The exception message
+             * @param array $context Additional context data including stack trace
+             */
             do_action( 'bigcommerce/log', Error_Log::DEBUG, $exception->getMessage() , [
                 'trace' => $exception->getTraceAsString(),
             ] );
@@ -145,10 +160,25 @@ class Register {
                 return $response->id;
             }
         } catch ( \Exception $exception ) {
+            /**
+             * Log debug information when unable to create a customer.
+             *
+             * @param string $level The log level (DEBUG)
+             * @param string $message The log message
+             * @param array $context Additional context data
+             */
             do_action( 'bigcommerce/log', Error_Log::DEBUG, __( 'Unable to create customer.', 'bigcommerce' ), [
                 'user_id'  => $user_id,
                 'userdata' => $userdata,
             ] );
+
+            /**
+             * Log debug information about the exception that occurred.
+             *
+             * @param string $level The log level (DEBUG)
+             * @param string $message The exception message
+             * @param array $context Additional context data including stack trace
+             */
             do_action( 'bigcommerce/log', Error_Log::DEBUG, $exception->getMessage() , [
                 'trace' => $exception->getTraceAsString(),
             ] );

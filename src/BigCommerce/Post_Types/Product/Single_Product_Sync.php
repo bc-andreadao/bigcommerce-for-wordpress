@@ -127,9 +127,15 @@ class Single_Product_Sync {
         wp_cache_delete( 'generation_key', 'bigcommerce_api' );
 
         try {
-            /*
-             * Piggyback on the update handler already hooked in for handling
-             * webhook requests
+            /**
+             * Triggered by the cron task to update a product.
+             * 
+             * Handles the product update process for the specified product ID.
+             * Piggyback on the update handler already hooked in for handling webhook requests.
+             * 
+             * @param int $product_id The ID of the product to update.
+             * 
+             * @return void
              */
             do_action( Webhook_Cron_Tasks::UPDATE_PRODUCT, $product->bc_id() );
         } catch ( \Exception $e ) {

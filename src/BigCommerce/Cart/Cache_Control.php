@@ -27,6 +27,10 @@ class Cache_Control {
 			$object = get_queried_object();
 			foreach ( $shortcodes as $shortcode ) {
 				if ( strpos( $object->post_content, sprintf( '[%s', $shortcode ) ) ) {
+					/**
+					 * Fires when a BigCommerce shortcode is detected in the post content.
+					 * This action triggers cache prevention mechanisms to ensure dynamic cart content is always fresh.
+					 */
 					do_action( 'bigcommerce/do_not_cache' );
 					break;
 				}

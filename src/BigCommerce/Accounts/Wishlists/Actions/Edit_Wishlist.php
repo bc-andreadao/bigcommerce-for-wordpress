@@ -51,8 +51,24 @@ class Edit_Wishlist extends Wishlist_Action {
 			] );
 			$this->wishlists->updateWishlist( $submission['id'], $request );
 
+			/**
+			 * Trigger success message after updating wishlist.
+			 *
+			 * @param string $message Success message to display
+			 * @param array $submission The submitted form data
+			 * @param string $redirect The URL to redirect to
+			 * @param array $data Additional data
+			 */
 			do_action( 'bigcommerce/form/success', __( 'Wish List updated', 'bigcommerce' ), $submission, $redirect, [] );
 		} catch ( \Exception $e ) {
+			/**
+			 * Trigger error message if updating wishlist fails.
+			 *
+			 * @param \WP_Error $error The error object
+			 * @param array $submission The submitted form data
+			 * @param string $redirect The URL to redirect to
+			 * @param array $data Additional data
+			 */
 			do_action( 'bigcommerce/form/error', new \WP_Error( $e->getCode(), $e->getMessage() ), $_POST, $redirect, [] );
 		}
 	}

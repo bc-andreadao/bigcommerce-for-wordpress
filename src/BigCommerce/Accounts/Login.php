@@ -25,24 +25,24 @@ use WP_User;
  * This class connects WordPress users to BigCommerce customers, processes customer login, and provides the necessary functionality for user management.
  */
 class Login {
-    /**
-     * The constant for storing the BigCommerce customer ID meta key.
-     */
-    const CUSTOMER_ID_META = 'bigcommerce_customer_id';
+	/**
+	 * The constant for storing the BigCommerce customer ID meta key.
+	 */
+	const CUSTOMER_ID_META = 'bigcommerce_customer_id';
 
-    /**
-     * @var Api_Factory The factory class for creating API instances.
-     */
-    private $api_factory;
+	/**
+	 * @var Api_Factory The factory class for creating API instances.
+	 */
+	private $api_factory;
 
-    /**
-     * Login constructor.
-     *
-     * @param Api_Factory $api_factory The API factory to be used for creating API instances.
-     */
-    public function __construct( Api_Factory $api_factory ) {
-        $this->api_factory = $api_factory;
-    }
+	/**
+	 * Login constructor.
+	 *
+	 * @param Api_Factory $api_factory The API factory to be used for creating API instances.
+	 */
+	public function __construct( Api_Factory $api_factory ) {
+		$this->api_factory = $api_factory;
+	}
 
 	/**
 	 * Connect the user to a BigCommerce account, if it exists
@@ -86,7 +86,7 @@ class Login {
 	}
 
 	/**
-     * Create BC customer from wp user
+	 * Create BC customer from wp user
 	 * @param \WP_User $user
 	 *
 	 * @return int The new customer's ID, 0 on failure
@@ -184,7 +184,7 @@ class Login {
 	}
 
 	/**
-     * Get lost password url
+	 * Get lost password url
 	 * @param string $login_url
 	 * @param string $redirect
 	 *
@@ -474,8 +474,8 @@ class Login {
 	}
 
 	/**
-     * Validate password for accounts
-     *
+	 * Validate password for accounts
+	 *
 	 * @param bool       $match    Whether the passwords match.
 	 * @param string     $password The plaintext password.
 	 * @param string     $hash     The hashed password.
@@ -521,13 +521,13 @@ class Login {
 		}
 	}
 
-    /**
-     * Delete WP user
-     *
-     * @param $user_id
-     *
-     * @param $customer_id
-     */
+	/**
+	 * Delete WP user
+	 *
+	 * @param $user_id
+	 *
+	 * @param $customer_id
+	 */
 	private function delete_user( $user_id, $customer_id ) {
 		/**
 		 * Filter whether to delete WordPress users tied to BigCommerce

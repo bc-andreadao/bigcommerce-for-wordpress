@@ -51,6 +51,11 @@ class Success_Handler {
 			self::PARAM => $transient_key,
 		], $url );
 
+		/**
+		 * Triggered when a form is successfully processed.
+		 *
+		 * @param string $url The URL to redirect the user to
+		 */
 		do_action( 'bigcommerce/form/redirect', $url );
 	}
 }

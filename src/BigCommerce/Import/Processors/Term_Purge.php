@@ -73,6 +73,14 @@ abstract class Term_Purge implements Import_Processor {
 			$local_terms  = $this->get_local_term_ids( $page );
 			$remote_terms = $this->get_remote_term_ids( $local_terms );
 		} catch ( ApiException $e ) {
+			/**
+			 * Action to log import errors during the BigCommerce import process.
+			 *
+			 * This action is triggered when there is an error during the import process. It logs the error message and context for further analysis.
+			 *
+			 * @param string $message The error message to be logged.
+			 * @param array $context Additional context for the error.
+			 */
 			do_action( 'bigcommerce/import/error', $e->getMessage(), [
 				'response' => $e->getResponseBody(),
 				'headers'  => $e->getResponseHeaders(),

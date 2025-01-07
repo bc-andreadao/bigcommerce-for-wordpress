@@ -148,6 +148,17 @@ class BaseGQL {
             $this->impersonation_token = $response->data->token;
             set_site_transient( self::GQL_IMPERSONATION_TOKEN, $response->data->token, $expiration );
         } catch ( \Exception $e ) {
+			/**
+			 * Action to log messages during the BigCommerce logging process.
+			 *
+			 * This action is triggered when a log entry needs to be created. It logs the message, context, level, and path to the log file.
+			 *
+			 * @param string $level The log level (e.g., INFO, ERROR).
+			 * @param string $message The log message to be recorded.
+			 * @param array $context Additional context for the log entry.
+			 * @param string $path The path where the log is being written.
+			 * @return void
+			 */
             do_action( 'bigcommerce/log', Error_Log::ERROR, __( 'Could not retrieve the token', 'bigcommerce' ), [
                 'trace' => $e->getTraceAsString(),
             ] );

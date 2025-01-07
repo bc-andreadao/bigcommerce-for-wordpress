@@ -25,7 +25,15 @@ class Add_To_Cart {
     public function handle_request( $post_id, CartApi $cart_api ) {
         if ( ! $this->validate_request( $post_id, $_POST ) ) {
             $error = new \WP_Error( 'unknown_product', __( 'We were unable to process your request. Please go back and try again.', 'bigcommerce' ) );
-            do_action( 'bigcommerce/form/error', $error, $_POST, home_url( '/' ) );
+            /**
+             * Fires when there is an error processing the add to cart form.
+             *
+             * @param \WP_Error $error    The error object
+             * @param array     $submission The submitted form data
+             * @param string    $redirect  The URL to redirect to after handling submission
+             * @param array     $data     Additional data about the submission
+             */
+            do_action('bigcommerce/form/error', $error, $_POST, home_url('/'));
 
             return;
         }
@@ -145,7 +153,15 @@ class Add_To_Cart {
                 ],
             ] );
         }
-        do_action( 'bigcommerce/form/error', $error, $_POST, $cart->get_cart_url() );
+        /**
+         * Fires when there is an API error while adding an item to the cart.
+         *
+         * @param \WP_Error $error      The error object
+         * @param array     $submission The submitted form data
+         * @param string    $redirect   The URL to redirect to after handling submission
+         * @param array     $data      Additional data about the submission
+         */
+        do_action('bigcommerce/form/error', $error, $_POST, $cart->get_cart_url());
     }
 
     /**

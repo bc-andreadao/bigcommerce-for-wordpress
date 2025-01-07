@@ -65,8 +65,24 @@ class Add_Item extends Wishlist_Action {
 				$message = __( 'Item added to Wish List', 'bigcommerce' );
 			}
 
+			/**
+			 * Trigger success message after adding item to wishlist.
+			 *
+			 * @param string $message Success message to display
+			 * @param array $submission The submitted form data
+			 * @param string $redirect The URL to redirect to
+			 * @param array $data Additional data
+			 */
 			do_action( 'bigcommerce/form/success', $message, $submission, $redirect, [] );
 		} catch ( \Exception $e ) {
+			/**
+			 * Trigger error message if adding item to wishlist fails.
+			 *
+			 * @param \WP_Error $error The error object
+			 * @param array $submission The submitted form data
+			 * @param string $redirect The URL to redirect to
+			 * @param array $data Additional data
+			 */
 			do_action( 'bigcommerce/form/error', new \WP_Error( $e->getCode(), $e->getMessage() ), $_POST, $redirect, [] );
 		}
 	}

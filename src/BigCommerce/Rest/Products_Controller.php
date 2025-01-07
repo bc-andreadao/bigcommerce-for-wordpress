@@ -597,6 +597,13 @@ class Products_Controller extends Rest_Controller {
 	 */
 	protected function get_content_object( $post_id ) {
 		$content   = get_post_field( 'post_content', $post_id );
+		/**
+		 * Filters the content to render messages above the main content.
+		 *
+		 * @param string $content The post content.
+		 *
+		 * @return string The modified content with rendered messages.
+		 */
 		$formatted = apply_filters( 'the_content', $content );
 		/**
 		 * Filters rest product content trim words length.
