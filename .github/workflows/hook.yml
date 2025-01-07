@@ -25,6 +25,9 @@ jobs:
       - name: Install or Update Composer Dependencies
         run: composer update bc-andreadao/wp-documentor --no-dev
 
+      - name: Install or Update Composer Dependencies
+        run: composer update bc-andreadao/phpdocumentor-markdown --no-dev
+
       - name: Debug Composer Packages
         run: composer show bc-andreadao/wp-documentor
 
