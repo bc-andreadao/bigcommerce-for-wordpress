@@ -23,13 +23,14 @@ jobs:
         run: composer clear-cache
 
       - name: Install or Update Composer Dependencies
-        run: composer update bc-andreadao/wp-documentor --no-dev
-
-      - name: Install or Update Composer Dependencies
-        run: composer update bc-andreadao/phpdocumentor-markdown --no-dev
+        run: |
+          composer update bc-andreadao/wp-documentor --no-dev
+          composer update bc-andreadao/phpdocumentor-markdown --no-dev --with-all-dependencies
 
       - name: Debug Composer Packages
-        run: composer show bc-andreadao/wp-documentor
+        run: |
+          composer show bc-andreadao/wp-documentor
+          composer show bc-andreadao/phpdocumentor-markdown
 
       - name: Run shell script to generate documentation
         run: ./generate-docs.sh
