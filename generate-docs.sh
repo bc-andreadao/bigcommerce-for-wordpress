@@ -2,17 +2,13 @@
 
 # To run this file, run the command `./generate-docs.sh` in the terminal
 
-# Create a /docs directory if it doesn't exist
-
-if [ ! -d "docs" ]; then
-    mkdir -p docs
-    echo "Created directory for markdown template inside docs."
-else
-    echo "Docs directory for markdown template already exists."
-fi
+# Clean up existing docs directory completely
+rm -rf docs
+mkdir -p docs
+echo "Created clean directory for markdown template inside docs."
 
 # Generate hook documentation in Markdown format using Pronamic WP Documentor
- vendor/bin/wp-documentor parse src --format=markdown --output=docs/hooks.md
+vendor/bin/wp-documentor parse src --format=markdown --output=docs/Hooks.md
 
 # Generate documentation for classes in Markdown format using PHPDocumentor
 docker run --rm \
