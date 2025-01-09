@@ -16,9 +16,6 @@ jobs:
         with:
           php-version: '8.2'
 
-      # - name: Install Composer dependencies
-      #   run: composer install --no-dev
-
       - name: Clear Composer Cache
         run: composer clear-cache
 
@@ -26,11 +23,6 @@ jobs:
         run: |
           composer update bc-andreadao/wp-documentor --no-dev
           composer update bc-andreadao/phpdocumentor-markdown --no-dev --with-all-dependencies
-
-      - name: Debug Composer Packages
-        run: |
-          composer show bc-andreadao/wp-documentor
-          composer show bc-andreadao/phpdocumentor-markdown
 
       - name: Run shell script to generate documentation
         run: ./generate-docs.sh
@@ -46,28 +38,10 @@ jobs:
             git checkout -b test
           fi
 
-      # - name: Debug the problematic file
-      #   run: |
-      #     echo "Checking file size and content..."
-      #     ls -lh $GITHUB_WORKSPACE/docs/hooks.md
-      #     cat $GITHUB_WORKSPACE/docs/hooks.md
-  
-      # - name: Upload problematic file as an artifact
-      #   run: |
-      #     mkdir -p artifacts
-      #     cp $GITHUB_WORKSPACE/docs/hooks.md artifacts/
-
-      # - name: Upload artifact
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: problematic-doc-file
-      #     path: artifacts/
-
       - name: Create a test file to debug
         run: |
           rsync -av --ignore-times $GITHUB_WORKSPACE/docs/ bc-wordpress-reference/pages/
           cd bc-wordpress-reference
-          echo "This is a test file to debug the GitHub Action workflow. 11-26" > test-debug-file.txt
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
           git add .
