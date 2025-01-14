@@ -32,7 +32,7 @@ jobs:
           git clone https://$GITHUB_ACTOR:${{ secrets.ACCESS_TOKEN }}@github.com/bc-andreadao/bc-wordpress-reference.git
           cd bc-wordpress-reference
           git fetch origin
-          BRANCH_NAME="docs-$(date +'%Y%m%d-%H%M%S')"
+          BRANCH_NAME="docs-$(date +'%Y-%m-%d_%H-%M-%S')"
           git checkout main
           git checkout -b $BRANCH_NAME
           rsync -av --ignore-times $GITHUB_WORKSPACE/docs/ pages/

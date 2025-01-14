@@ -47,22 +47,33 @@ abstract class Term_Purge implements Import_Processor {
 
 	/**
 	 * Gets the WordPress taxonomy identifier that this purge processor handles.
-	 * @return string The taxonomy name (e.g., 'product_category', 'product_brand')
+	 * @return string The taxonomy name (e.g., 'product_category', 'product_brand').
 	 */
 	abstract protected function taxonomy();
 
 	/**
 	 * Gets the status identifier for when this term purge process is running.
-	 * @return string The status identifier for the running state
+	 * @return string The status identifier for the running state.
 	 */
 	abstract protected function running_state();
 
 	/**
 	 * Gets the status identifier for when this term purge process is completed.
-	 * @return string The status identifier for the completed state
+	 * @return string The status identifier for the completed state.
 	 */
 	abstract protected function completed_state();
 
+	/**
+	 * Executes the term purge process.
+	 * 
+	 * This method handles the deletion of WordPress terms that no longer exist in BigCommerce.
+	 * It processes terms in batches, comparing local terms with remote BigCommerce data.
+	 * The process tracks its state to support pagination and can be resumed if interrupted.
+	 * 
+	 * @return void
+	 * 
+	 * @throws \BigCommerce\Api\v3\ApiException If there's an error communicating with the BigCommerce API.
+	 */
 	public function run() {
 		$status = new Status();
 		$status->set_status( $this->running_state() );
