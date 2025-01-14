@@ -46,17 +46,20 @@ abstract class Term_Purge implements Import_Processor {
 	}
 
 	/**
-	 * @return string The name of the taxonomy to update
+	 * Gets the WordPress taxonomy identifier that this purge processor handles.
+	 * @return string The taxonomy name (e.g., 'product_category', 'product_brand')
 	 */
 	abstract protected function taxonomy();
 
 	/**
-	 * @return string The name of the state to set while the import is running
+	 * Gets the status identifier for when this term purge process is running.
+	 * @return string The status identifier for the running state
 	 */
 	abstract protected function running_state();
 
 	/**
-	 * @return string The name of the state to set when the import is complete
+	 * Gets the status identifier for when this term purge process is completed.
+	 * @return string The status identifier for the completed state
 	 */
 	abstract protected function completed_state();
 
