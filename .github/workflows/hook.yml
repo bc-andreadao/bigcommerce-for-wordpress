@@ -27,7 +27,7 @@ jobs:
       - name: Run shell script to generate documentation
         run: ./generate-docs.sh
 
-      - name: Checkout bc-wordpress-reference repository
+      - name: Generate and push documentation
         run: |
           git clone https://$GITHUB_ACTOR:${{ secrets.ACCESS_TOKEN }}@github.com/bc-andreadao/bc-wordpress-reference.git
           cd bc-wordpress-reference
@@ -35,17 +35,13 @@ jobs:
           BRANCH_NAME="docs-$(date +'%Y%m%d-%H%M%S')"
           git checkout main
           git checkout -b $BRANCH_NAME
-
-      - name: Create a test file to debug
-        run: |
-          rsync -av --ignore-times $GITHUB_WORKSPACE/docs/ bc-wordpress-reference/pages/
-          cd bc-wordpress-reference
+          rsync -av --ignore-times $GITHUB_WORKSPACE/docs/ pages/
           git config user.name "GitHub Actions"
-          git config user.email "actions@github.com"
+          git config user.email "actions@github.com"s
           git add .
           git commit -m "Update documentation from $(date +'%Y-%m-%d')" || echo "No changes to commit"
           echo "Current branch: $(git branch --show-current)"
-          git push -v --set-upstream origin "$BRANCH_NAME" || {
+          git push -v --set-upstream origin $BRANCH_NAME || {
             echo "Push failed. Current git status:"
             git status
             echo "Remote branches:"
