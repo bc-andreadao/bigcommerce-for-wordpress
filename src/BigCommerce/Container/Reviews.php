@@ -96,13 +96,6 @@ class Reviews extends Provider {
             return new Review_Cache($container[self::FETCHER]);
         };
 
-        /**
-         * Callback for updating the review cache.
-         *
-         * Triggered when a product update event occurs.
-         *
-         * @param int $product_id The ID of the updated product.
-         */
         add_action(Product_Update_Listener::TRIGGER_UPDATE, $this->create_callback('update_cache', function ($product_id) use ($container) {
             $container[self::CACHER]->update_cache($product_id);
         }), 10, 1);

@@ -208,11 +208,6 @@ class Pages extends Provider {
             return new Wishlist_Page();
         };
 
-        /**
-         * Ensures required pages exist during the `admin_init` action.
-         *
-         * @return void
-         */
         add_action( 'admin_init', $this->create_callback( 'create_pages', function () use ( $container ) {
             foreach ( $container[ self::REQUIRED_PAGES ] as $page ) {
                 /** @var Required_Page $page */
@@ -227,27 +222,10 @@ class Pages extends Provider {
             }
         } );
 
-        /**
-         * Clears page options when a page is trashed.
-         *
-         * @param int $post_id The ID of the post being trashed.
-         */
         add_action( 'trashed_post', $clear_options, 10, 1 );
 
-        /**
-         * Clears page options when a page is deleted.
-         *
-         * @param int $post_id The ID of the post being deleted.
-         */
         add_action( 'deleted_post', $clear_options, 10, 1 );
 
-        /**
-         * Adds custom post states to display required pages in admin post lists.
-         *
-         * @param array $post_states Current post states.
-         * @param WP_Post $post The current post object.
-         * @return array
-         */
         add_action( 'display_post_states', $this->create_callback( 'post_states', function ( $post_states, $post ) use ( $container ) {
             foreach ( $container[ self::REQUIRED_PAGES ] as $page ) {
                 /** @var Required_Page $page */
@@ -256,21 +234,10 @@ class Pages extends Provider {
             return $post_states;
         } ), 10, 2 );
 
-        /**
-         * Adds a registration notice after the registration page field in settings.
-         *
-         * @return void
-         */
         add_action( 'bigcommerce/settings/accounts/after_page_field/page=' . Registration_Page::NAME, $this->create_callback( 'enable_registration_notice', function () use ( $container ) {
             $container[ self::REGISTRATION_PAGE ]->enable_registration_notice();
         } ), 10, 0 );
 
-        /**
-         * Filters the content of required pages.
-         *
-         * @param string $content The original page content.
-         * @return string Filtered content.
-         */
         add_action( 'the_content', $this->create_callback( 'page_content', function ( $content ) use ( $container ) {
             if ( is_page() && in_the_loop() && is_main_query() ) {
                 foreach ( $container[ self::REQUIRED_PAGES ] as $page ) {

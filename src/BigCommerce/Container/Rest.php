@@ -368,7 +368,6 @@ class Rest extends Provider {
 			return new Coupon_Code_Controller( $container[ self::NAMESPACE_BASE ], $container[ self::VERSION ], $container[ self::COUPON_CODE_BASE ], $container[ Api::FACTORY ]->checkout(), $container[ Api::FACTORY ]->cart() );
 		};
 
-		/** Initializes REST API routes during the 'rest_api_init' action. */
 		add_action( 'rest_api_init', $this->create_callback( 'rest_init', function () use ( $container ) {
 			$container[ self::PRODUCTS ]->register_routes();
 			$container[ self::TERMS ]->register_routes();
@@ -383,71 +382,26 @@ class Rest extends Provider {
 			$container[ self::STOREFRONT ]->register_routes();
 		} ), 10, 0 );
 
-		/**
-		 * Filters the REST URL for product reviews.
-		 *
-		 * @param string $url The current reviews REST URL.
-		 * @param int    $post_id The product post ID.
-		 *
-		 * @return string The filtered reviews REST URL.
-		 */
 		add_filter( 'bigcommerce/product/reviews/rest_url', $this->create_callback( 'review_list_rest_url', function ( $url, $post_id ) use ( $container ) {
 			return $container[ self::REVIEW_LIST ]->product_reviews_url( $post_id );
 		} ), 10, 2 );
 
-		/**
-		 * Filters the BigCommerce JS configuration for cart settings.
-		 *
-		 * @param array $config The existing JS configuration.
-		 *
-		 * @return array The filtered JS configuration for the cart.
-		 */
 		add_filter( 'bigcommerce/js_config', $this->create_callback( 'cart_js_config', function( $config ) use ( $container ) {
 			return $container[ self::CART ]->js_config( $config );
 		}), 10, 1 );
 
-		/**
-		 * Filters the BigCommerce JS configuration for pricing settings.
-		 *
-		 * @param array $config The existing JS configuration.
-		 *
-		 * @return array The filtered JS configuration for pricing.
-		 */
 		add_filter( 'bigcommerce/js_config', $this->create_callback( 'pricing_js_config', function( $config ) use ( $container ) {
 			return $container[ self::PRICING ]->js_config( $config );
 		}), 10, 1 );
 
-		/**
-		 * Filters the BigCommerce JS configuration for product settings.
-		 *
-		 * @param array $config The existing JS configuration.
-		 *
-		 * @return array The filtered JS configuration for products.
-		 */
 		add_filter( 'bigcommerce/js_config', $this->create_callback( 'products_js_config', function( $config ) use ( $container ) {
 			return $container[ self::PRODUCTS ]->js_config( $config );
 		}), 10, 1 );
 
-		/**
-		 * Filters the BigCommerce JS configuration for shipping settings.
-		 *
-		 * @param array $config The existing JS configuration.
-		 *
-		 * @return array The filtered JS configuration for shipping.
-		 */
 		add_filter( 'bigcommerce/js_config', $this->create_callback( 'shipping_js_config', function( $config ) use ( $container ) {
 			return $container[ self::SHIPPING ]->js_config( $config );
 		}), 10, 1 );
 
-		/**
-		 * Filters the BigCommerce JS configuration for coupon code settings.
-		 *
-		 * @param array $config The existing JS configuration.
-		 *
-		 * @return array The filtered JS configuration for coupon codes.
-		 *
-		 * @hook bigcommerce/js_config
-		 */
 		add_filter( 'bigcommerce/js_config', $this->create_callback( 'coupon_code_js_config', function( $config ) use ( $container ) {
 			return $container[ self::COUPON_CODE ]->js_config( $config );
 		}), 10, 1 );

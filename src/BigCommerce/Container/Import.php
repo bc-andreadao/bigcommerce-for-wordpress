@@ -262,12 +262,6 @@ class Import extends Provider {
 			return new Runner\AsyncProcessing_Runner();
 		};
 
-		/**
-		 * Initializes the cron job processing for the import.
-		 * This action is hooked to the 'init' hook to ensure that cron jobs are processed during the init phase.
-		 *
-		 * @return void
-		 */
 		add_action( 'init', $this->create_callback( 'cron_init', function () use ( $container ) {
 			if ( $container[ Settings::CONFIG_STATUS ] >= Settings::STATUS_CHANNEL_CONNECTED ) {
 				$container[ self::CRON_MONITOR ]->check_for_scheduled_crons();
@@ -278,127 +272,57 @@ class Import extends Provider {
 			return new Runner\Lock_Monitor( $container[ self::TIMEOUT ] );
 		};
 
-		/**
-		 * Adds a custom cron schedule to the cron schedules.
-		 *
-		 * @param array $schedules The array of existing cron schedules.
-		 * @return array The modified array of cron schedules with a new interval added.
-		 */
 		add_filter( 'cron_schedules', function ( $schedules ) use ( $container ) {
 			return $container[ self::POST_TASK_MANAGER ]->add_interval( $schedules );
 		}, 10, 1 );
 
-		/**
-		 * Fired on the 'init' action to schedule a queue processor task.
-		 *
-		 * This hook schedules the queue processor if necessary, using the `$schedules` array.
-		 *
-		 * @param array $schedules The array of scheduled tasks.
-		 * 
-		 * @return array The modified `$schedules` array, potentially with a new scheduled task.
-		 */
 		add_action( 'init', function ( $schedules ) use ( $container ) {
 			return $container[ self::POST_TASK_MANAGER ]->maybe_schedule_queue_processor( $schedules );
 		}, 10, 1 );
 
-		/**
-		 * Runs the lock expiration check during the init phase.
-		 *
-		 * @return void
-		 */
 		add_action( 'init', $this->create_callback( 'lock_expiration', function () use ( $container ) {
 			$container[ self::LOCK_MONITOR ]->check_for_expired_lock();
 		} ), 0, 0 );
 
-		/**
-		 * Updates the cron schedule when the import frequency setting is updated.
-		 *
-		 * @param string $old_value The old value of the cron schedule.
-		 * @param string $new_value The new value of the cron schedule.
-		 * @return void
-		 */
 		add_action( 'update_option_' . Import_Settings::OPTION_FREQUENCY, $this->create_callback( 'cron_schedule_update', function ( $old_value, $new_value ) use ( $container ) {
 			if ( $container[ Settings::CONFIG_STATUS ] >= Settings::STATUS_CHANNEL_CONNECTED ) {
 				$container[ self::CRON_MONITOR ]->listen_for_changed_schedule( $old_value, $new_value );
 			}
 		} ), 10, 2 );
 
-		/**
-		 * Starts the import process when the `bigcommerce/import/run` action is triggered.
-		 *
-		 * @param string $status The status of the import process.
-		 * @return void
-		 */
 		add_action( 'bigcommerce/import/run', $this->create_callback( 'cron_unschedule_start', function ( $status ) use ( $container ) {
 			$container[ self::CRON_MONITOR ]->listen_for_import_start( $status );
 		} ), 9, 1 );
 
-		/**
-		 * Begins the import process when the `Runner\Cron_Runner::START_CRON` action is triggered.
-		 *
-		 * @return void
-		 */
 		add_action( Runner\Cron_Runner::START_CRON, $this->create_callback( 'cron_start', function () use ( $container ) {
 			if ( $container[ Settings::CONFIG_STATUS ] >= Settings::STATUS_CHANNEL_CONNECTED ) {
 				$container[ self::CRON_RUNNER ]->start_import();
 			}
 		} ), 10, 0 );
 
-		/**
-		 * Continues the import process when the `Runner\Cron_Runner::CONTINUE_CRON` action is triggered.
-		 *
-		 * @return void
-		 */
 		add_action( Runner\Cron_Runner::CONTINUE_CRON, $this->create_callback( 'cron_continue', function () use ( $container ) {
 			$container[ self::CRON_RUNNER ]->continue_import();
 		} ), 10, 0 );
 
-		/**
-		 * Executes the asynchronous import when the `Runner\AsyncProcessing_Runner::CONTINUE_IMPORT` action is triggered.
-		 *
-		 * @return void
-		 */
 		add_action( Runner\AsyncProcessing_Runner::CONTINUE_IMPORT, $this->create_callback( 'async_import_run', function () use ( $container ) {
 			if ( ! Import_Status::is_parallel_run_enabled() ) {
 				return;
 			}
 			$container[ self::PARALLEL_RUNNER ]->run();
 		} ), 10, 0 );
-
-		/**
-		 * Cleans up customer group transients when the `Processors\Cleanup::CLEAN_USERS_TRANSIENT` action is triggered.
-		 *
-		 * @return void
-		 */		
+	
 		add_action( Processors\Cleanup::CLEAN_USERS_TRANSIENT, $this->create_callback( 'clean_users_group_transient', function () use ( $container ) {
 			$container[ self::CLEANUP ]->clean_customer_group_transients();
 		} ), 10, 0 );
 
-		/**
-		 * Purges deleted products when the `Processors\Cleanup::PURGE_PRODUCTS` action is triggered.
-		 *
-		 * @return void
-		 */
 		add_action( Processors\Cleanup::PURGE_PRODUCTS, $this->create_callback( 'purge_bc_deleted_products', function () use ( $container ) {
 			$container[ self::PRODUCT_CLEANUP ]->run();
 		} ), 10, 0 );
 
-		/**
-		 * Cleans product data transients when the `Processors\Cleanup::CLEAN_PRODUCTS_TRANSIENT` action is triggered.
-		 *
-		 * @param int $offset The offset for fetching data.
-		 * @param bool $partially Whether to fetch partially or not.
-		 * @return void
-		 */
 		add_action( Processors\Cleanup::CLEAN_PRODUCTS_TRANSIENT, $this->create_callback( 'clean_products_data_transient', function ( $offset = 0, $partially = false ) use ( $container ) {
 			$container[ self::CLEANUP ]->refresh_products_transient( $offset, $partially );
 		} ), 10, 1 );
 
-		/**
-		 * Processes postponed tasks when the `Manager::CRON_PROCESSOR` action is triggered.
-		 *
-		 * @return void
-		 */
 		add_action( Manager::CRON_PROCESSOR, $this->create_callback( 'postponed_task_processing', function () use ( $container ) {
 			$container[ self::POST_TASK_MANAGER ]->run_tasks();
 		} ), 10, 1 );
@@ -516,11 +440,6 @@ class Import extends Provider {
 			$container[ self::CLEANUP ]->run( false, true );
 		} );
 
-		/**
-		 * Starts the import process when the `bigcommerce/import/start` action is triggered.
-		 *
-		 * @return void
-		 */
 		add_action( 'bigcommerce/import/start', $start, 10, 0 );
 
 		$container[ self::TASK_LIST ] = function ( Container $container ) {
@@ -618,13 +537,6 @@ class Import extends Provider {
 			return $manager;
 		};
 
-		/**
-		 * Fired when the 'bigcommerce/import/run' action is triggered to process the next import task.
-		 *
-		 * This hook attempts to run the next task in the import process and handles any exceptions by triggering error and log actions.
-		 *
-		 * @param string $status The status of the current import process.
-		 */
 		add_action( 'bigcommerce/import/run', function ( $status ) use ( $container ) {
 			try {
 				$container[ self::TASK_MANAGER ]->run_next( $status );
@@ -638,13 +550,6 @@ class Import extends Provider {
 			$container[ self::ERROR ]->run();
 		} );
 
-		/**
-		 * Fired when an error occurs during the BigCommerce import process.
-		 *
-		 * This hook allows handling errors and custom logging or responses when an import error is encountered.
-		 *
-		 * @param string $error The error message from the import process.
-		 */
 		add_action( 'bigcommerce/import/error', $error, 10, 0 );
 
 
@@ -656,49 +561,22 @@ class Import extends Provider {
 			$container[ self::CACHE_CLEANUP ]->flush_caches();
 		} );
 
-		/** Fired before the BigCommerce import process begins. This hook is used to execute any necessary tasks before starting the import, such as cache flushing. */
 		add_action( 'bigcommerce/import/before', $flush_option_caches, 0, 0 );
 
-		/** Fired after the BigCommerce import process finishes. This hook is used to execute any necessary tasks after the import, such as cache flushing. */
 		add_action( 'bigcommerce/import/after', $flush_option_caches, 0, 0 );
 
 		$container[ self::IMPORT_TYPE ] = function ( Container $container ) {
 			return new Import_Type( $container[ Api::FACTORY ]->catalog() );
 		};
 
-		/**
-		 * Filter the list of modified product IDs during the BigCommerce import.
-		 *
-		 * This filter allows modification of the product IDs returned for products that have been modified.
-		 *
-		 * @param array $modified_product_ids The list of modified product IDs.
-		 * @param array $modified_product_ids The modified product IDs list after applying the filter.
-		 */
 		add_filter( 'bigcommerce_modified_product_ids', $this->create_callback( 'modified_product_ids', function ( $modified_product_ids ) use ( $container ) {
 			return $container[ self::IMPORT_TYPE ]->fetch_modified_product_ids();
 		} ) );
 
-		/**
-		 * Filter the import task list.
-		 *
-		 * This filter modifies the list of tasks to be executed during the import process.
-		 * 
-		 * @param array $task_list The list of tasks in the import queue.
-		 * @param array $task_list The filtered list of tasks after applying the filter.
-		 */
 		add_filter( 'bigcommerce/import/task_list', $this->create_callback( 'filter_import_type_task_list', function ( $task_list ) use ( $container ) {
 			return $container[ self::IMPORT_TYPE ]->filter_task_list( $task_list );
 		} ) );
 
-		/**
-		 * Filter category data before importing.
-		 *
-		 * This filter modifies the category data based on the BigCommerce category ID.
-		 *
-		 * @param array $data The original category data.
-		 * @param int   $bc_category_id The BigCommerce category ID.
-		 * @param array $data The filtered category data after applying the filter.
-		 */
 		add_filter( 'bigcommerce/import/term/data', $this->create_callback( 'filter_import_parent_category_data', function ( $data, $bc_category_id ) use ( $container ) {
 			$category_data = $container[ self::CATEGORIES ]->get_category_data( $bc_category_id );
 			return $category_data->getData();

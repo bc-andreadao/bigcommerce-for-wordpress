@@ -303,17 +303,6 @@ class Products_Controller extends Rest_Controller {
 
 		$channel_filter = $this->get_channel_filter( $request->get_param( Channel::NAME ) );
 
-		/**
-		 * Adds a filter to modify the main query for filtering by channel.
-		 *
-		 * This action is triggered on the `pre_get_posts` hook to apply a filter that
-		 * modifies the query to include the channel(s) based on the provided `$channel` parameter.
-		 * 
-		 * Checks if the specified channel 
-		 * is valid and modify the query to filter by the valid channel IDs.
-		 * 
-		 * @param \WP_Query $query The `WP_Query` object being modified. This is the main query that will be filtered by the channel ID(s).
-		 */
 		add_action( 'pre_get_posts', $channel_filter, 9, 1 ); // run before Query_Filter::set_tax_query()
 
 		$posts_query  = new \WP_Query();

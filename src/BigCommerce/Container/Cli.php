@@ -87,12 +87,6 @@ class Cli extends Provider {
             return new Build_Resources( dirname( $container[ 'plugin_file' ] ) );
         };
 
-        /**
-         * Registers CLI commands during the `init` hook.
-         *
-         * @param void
-         * @return void
-         */
         add_action( 'init', $this->create_callback( 'init', function () use ( $container ) {
             if ( ! defined( 'WP_CLI' ) || ! WP_CLI ) {
                 return;

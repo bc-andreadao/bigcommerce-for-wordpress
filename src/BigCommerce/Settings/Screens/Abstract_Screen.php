@@ -172,16 +172,6 @@ abstract class Abstract_Screen {
 			[ $this, 'render_settings_page' ]
 		);
 
-		/**
-		 * Adds a custom body class to the admin panel.
-		 * 
-		 * This action hook adds a custom class to the admin body tag by calling the 
-		 * `set_admin_body_class` method when the `admin_body_class` hook is triggered.
-		 * 
-		 * @param string $classes The existing body classes.
-		 * 
-		 * @return string The modified body classes.
-		 */
 		add_action( 'admin_body_class', [ $this, 'set_admin_body_class' ], 10, 1 );
 
 		/**
@@ -487,15 +477,6 @@ abstract class Abstract_Screen {
 			return; // nothing to worry about
 		}
 
-		/**
-		 * Triggers an action for unregistered settings screens in the admin menu when the admin menu is loaded
-		 * 
-		 * This hook is intended to handle cases where settings
-		 * screens are not registered. The action is executed with a priority of 10000 to ensure
-		 * it's called after other actions have been triggered.
-		 * 
-		 * @return void
-		 */
 		add_action( 'admin_menu', function () {
 			/**
 			 * Redirects to the appropriate screen when an unregistered screen is encountered.

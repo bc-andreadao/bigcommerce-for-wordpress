@@ -130,22 +130,7 @@ class Reset_Listing {
 			return '';
 		};
 
-		/**
-		 * Filters the listing title, providing an empty value during reset.
-		 *
-		 * @param string $value The listing title.
-		 *
-		 * @return string Empty string to clear the title.
-		 */
 		add_filter( 'bigcommerce/channel/listing/title', $empty, 10, 0 );
-
-		/**
-		 * Filters the listing description, providing an empty value during reset.
-		 *
-		 * @param string $value The listing description.
-		 *
-		 * @return string Empty string to clear the description.
-		 */
 		add_filter( 'bigcommerce/channel/listing/description', $empty, 10, 0 );
 
 		$error = new \WP_Error();
@@ -164,22 +149,7 @@ class Reset_Listing {
 			) );
 		};
 
-		/**
-		 * Handles errors when a listing cannot be fetched from the BigCommerce API.
-		 *
-		 * @param int          $channel_id The channel ID.
-		 * @param int          $listing_id The listing ID.
-		 * @param ApiException $e          The exception thrown during the fetch attempt.
-		 */
 		add_action( 'bigcommerce/channel/error/could_not_fetch_listing', $error_handler, 10, 3 );
-
-		/**
-		 * Handles errors when a listing update fails in the BigCommerce API.
-		 *
-		 * @param int          $channel_id The channel ID.
-		 * @param int          $listing_id The listing ID.
-		 * @param ApiException $e          The exception thrown during the update attempt.
-		 */
 		add_action( 'bigcommerce/channel/error/could_not_update_listing', $error_handler, 10, 3 );
 
 		/**

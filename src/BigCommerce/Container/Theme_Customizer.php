@@ -164,11 +164,6 @@ class Theme_Customizer extends Provider {
             return new Styles($path);
         };
 
-		/**
-		 * Registers customizer panels and sections in WordPress.
-		 *
-		 * @param \WP_Customize_Manager $wp_customize The WordPress Customizer manager instance.
-		 */
         add_action('customize_register', $this->create_callback('customize_register', function ($wp_customize) use ($container) {
             $container[self::PANEL_PRIMARY]->register($wp_customize);
             $container[self::SECTION_BUTTONS]->register($wp_customize);
@@ -187,9 +182,6 @@ class Theme_Customizer extends Provider {
             }
         }), 10, 1);
 
-		/**
-		 * Outputs customizer styles in the WordPress head section.
-		 */
         add_action('wp_head', $this->create_callback('customizer_styles', function () use ($container) {
             $container[self::STYLES]->print_styles();
         }), 10, 0);

@@ -72,22 +72,7 @@ class Product_Creator
                 return false;
             };
             
-            /**
-             * Filter: Prevents product listings from being updated during import.
-             *
-             * Temporarily disables updates to product listings to avoid conflicts.
-             *
-             * @return bool Always returns false.
-             */
             add_filter( 'bigcommerce/channel/listing/should_update', $empty, 10, 0 );
-
-            /**
-             * Filter: Prevents product listings from being deleted during import.
-             *
-             * Temporarily disables deletion of product listings to preserve integrity.
-             *
-             * @return bool Always returns false.
-             */
             add_filter( 'bigcommerce/channel/listing/should_delete', $empty, 10, 0 );
 
             $product = $this->catalog->getProductById( $product_id, [

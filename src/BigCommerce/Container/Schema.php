@@ -96,9 +96,6 @@ class Schema extends Provider {
             return new Queue_Table();
         };
 
-        /**
-         * Hook registers database tables during the `plugins_loaded` action.
-         */
         add_action('plugins_loaded', $this->create_callback('tables_plugins_loaded', function () use ($container) {
             $container[self::TABLE_REVIEWS]->register_tables();
             $container[self::TABLE_QUEUES]->register_tables();
@@ -138,9 +135,6 @@ class Schema extends Provider {
             ]);
         };
 
-        /**
-         * Hook registers user roles during the `admin_init` action.
-         */
         add_action('admin_init', $this->create_callback('init_roles', function () use ($container) {
             $container[self::ROLE_SCHEMA]->register_roles();
         }), 10, 0);

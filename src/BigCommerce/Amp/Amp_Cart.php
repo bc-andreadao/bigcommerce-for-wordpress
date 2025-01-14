@@ -134,11 +134,6 @@ class Amp_Cart {
             $this->back_to_cart();
         }
 
-        /**
-         * Filters the allowed redirect hosts to include the checkout host from BigCommerce.
-         *
-         * @param array $hosts The array of allowed redirect hosts.
-         */
         add_filter(
             'allowed_redirect_hosts',
             function( $hosts ) use ( $host ) {

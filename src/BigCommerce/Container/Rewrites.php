@@ -50,18 +50,10 @@ class Rewrites extends Provider {
             return new Action_Endpoint();
         };
 
-        /**
-         * Registers the custom action route during WordPress initialization.
-         */
         add_action('init', $this->create_callback('register_action_route', function () use ($container) {
             $container[self::ACTION_ENDPOINT]->register_route();
         }), 10, 0);
 
-        /**
-         * Handles incoming requests for the custom action route.
-         *
-         * @param \WP $wp The WordPress environment instance containing the query vars.
-         */
         add_action('parse_request', $this->create_callback('parse_action_request', function (\WP $wp) use ($container) {
             $container[self::ACTION_ENDPOINT]->handle_request($wp);
         }), 10, 1);
@@ -77,9 +69,6 @@ class Rewrites extends Provider {
             return new Flusher();
         };
 
-        /**
-         * Flushes rewrite rules after WordPress has fully loaded.
-         */
         add_action('wp_loaded', $this->create_callback('flush', function () use ($container) {
             $container[self::FLUSH]->do_flush();
         }), 10, 0);
@@ -91,34 +80,11 @@ class Rewrites extends Provider {
             $container[self::FLUSH]->schedule_flush();
         });
 
-        /**
-         * Schedules a flush when the Product Archive Slug option is updated.
-         */
         add_action('update_option_' . Product_Archive::ARCHIVE_SLUG, $schedule_flush, 10, 0);
-
-        /**
-         * Schedules a flush when the Product Archive Category Slug option is updated.
-         */
         add_action('update_option_' . Product_Archive::CATEGORY_SLUG, $schedule_flush, 10, 0);
-
-        /**
-         * Schedules a flush when the Product Archive Brand Slug option is updated.
-         */
         add_action('update_option_' . Product_Archive::BRAND_SLUG, $schedule_flush, 10, 0);
-
-        /**
-         * Schedules a flush when the Product Archive Slug option is added.
-         */
         add_action('add_option_' . Product_Archive::ARCHIVE_SLUG, $schedule_flush, 10, 0);
-
-        /**
-         * Schedules a flush when the Product Archive Category Slug option is added.
-         */
         add_action('add_option_' . Product_Archive::CATEGORY_SLUG, $schedule_flush, 10, 0);
-
-        /**
-         * Schedules a flush when the Product Archive Brand Slug option is added.
-         */
         add_action('add_option_' . Product_Archive::BRAND_SLUG, $schedule_flush, 10, 0);
     }
 }

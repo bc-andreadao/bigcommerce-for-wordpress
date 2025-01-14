@@ -30,17 +30,6 @@ class Util extends Provider {
             return new Kses();
         };
 
-        /**
-         * Adds a callback to filter allowed HTML tags in KSES for product descriptions.
-         *
-         * This action hooks into `wp_kses_allowed_html` to filter the allowed HTML tags
-         * for product descriptions based on the provided context.
-         *
-         * @param string|array $allowed_tags The allowed HTML tags.
-         * @param string $context The context for the allowed tags (e.g., 'post', 'comment', etc.).
-         * 
-         * @return string|array The filtered allowed HTML tags.
-         */
         add_action( 
             'wp_kses_allowed_html', 
             $this->create_callback( 

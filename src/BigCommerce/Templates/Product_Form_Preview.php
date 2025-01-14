@@ -42,18 +42,6 @@ class Product_Form_Preview extends Product_Form {
 	 * @return array The data array for rendering the product form preview.
 	 */
 	public function get_data() {
-
-		/**
-		 * Filter to overwrite the purchase button HTML.
-		 *
-		 * Temporarily modifies the button in the product form preview to be disabled.
-		 *
-		 * @param string $html    The original button HTML.
-		 * @param int    $post_id The product post ID.
-		 * @param string $label   The label for the button.
-		 *
-		 * @return string The modified button HTML.
-		 */
 		add_filter( 'bigcommerce/button/purchase', [ $this, 'overwrite_purchase_button' ], 100, 3 );
 		$data = parent::get_data();
 		remove_filter( 'bigcommerce/button/purchase', [ $this, 'overwrite_purchase_button' ], 100 );

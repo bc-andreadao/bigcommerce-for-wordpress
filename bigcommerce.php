@@ -19,9 +19,6 @@ define( 'BIGCOMMERCE_WP_MINIMUM_VERSION', '4.8' );
 define( 'BIGCOMMERCE_WP_OPTIMAL_VERSION', '5.8' );
 
 if ( version_compare( PHP_VERSION, BIGCOMMERCE_PHP_MINIMUM_VERSION, '<' ) || version_compare( get_bloginfo( 'version' ), BIGCOMMERCE_WP_MINIMUM_VERSION, '<' ) ) {
-    /**
-     * Displays an admin notice when PHP or WordPress version does not meet the minimum requirements.
-     */
     add_action( 'admin_notices', function() {
         $message = sprintf( esc_html__( 'BigCommerce requires PHP version %s+ and WP version %s+, plugin is currently NOT RUNNING.', 'bigcommerce' ), BIGCOMMERCE_PHP_OPTIMAL_VERSION, BIGCOMMERCE_WP_OPTIMAL_VERSION );
         echo wp_kses_post( sprintf( '<div class="error">%s</div>', wpautop( $message ) ) );
@@ -29,9 +26,6 @@ if ( version_compare( PHP_VERSION, BIGCOMMERCE_PHP_MINIMUM_VERSION, '<' ) || ver
 
     return;
 } elseif ( version_compare( PHP_VERSION, BIGCOMMERCE_PHP_OPTIMAL_VERSION, '<' ) || version_compare( get_bloginfo( 'version' ), BIGCOMMERCE_WP_OPTIMAL_VERSION, '<' ) ) {
-    /**
-     * Displays a notice when PHP or WordPress version is below the optimal version.
-     */
     add_action( 'admin_notices', function() {
         $message = sprintf( esc_html__( 'BigCommerce requires PHP version %s+ and WP version %s+', 'bigcommerce' ), BIGCOMMERCE_PHP_OPTIMAL_VERSION, BIGCOMMERCE_WP_OPTIMAL_VERSION );
         echo wp_kses_post( sprintf( '<div class="notice">%s</div>', wpautop( $message ) ) );
@@ -44,7 +38,6 @@ if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
 
 register_activation_hook( __FILE__, [ \BigCommerce\Plugin::class, 'activate' ] );
 
-/**  Initializes the plugin after WordPress plugins are loaded. */
 add_action( 'plugins_loaded', 'bigcommerce_init', 2, 0 );
 
 /**
@@ -85,12 +78,6 @@ function bigcommerce_init() {
 function handle_404_redirect_in_prelaunch() {
 	// We have to do that here because we don't initialize the plugin in case of prelaunch status
 
-    /**
-     * Redirects to a 404 page for certain conditions in prelaunch status.
-     *
-     * @param bool $preempt Whether to short-circuit default 404 handling.
-     * @return bool|string The updated 404 handling response or the original value.
-     */
     add_filter( 'pre_handle_404', function ( $preempt ) {
         if ( is_admin() || ! ( is_page() && is_main_query() ) ) {
             return $preempt;

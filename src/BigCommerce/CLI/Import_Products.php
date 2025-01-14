@@ -67,24 +67,7 @@ class Import_Products extends Command {
 	public function run( $args, $assoc_args ) {
 
 		if ( ! empty( $assoc_args[ 'force' ] ) ) {
-			/**
-			 * Filter to determine if products need to be refreshed.
-			 *
-			 * This filter is applied when the 'force' flag is passed in the command arguments, forcing a refresh of all products.
-			 *
-			 * @param bool $needs_refresh Whether products need to be refreshed.
-			 * @return bool Always returns true to force a refresh.
-			 */
 			add_filter( 'bigcommerce/import/strategy/needs_refresh', '__return_true' );
-
-			/**
-			 * Filter to determine if terms need to be refreshed.
-			 *
-			 * This filter is applied when the 'force' flag is passed in the command arguments, forcing a refresh of terms.
-			 *
-			 * @param bool $needs_refresh Whether terms need to be refreshed.
-			 * @return bool Always returns true to force a refresh.
-			 */
 			add_filter( 'bigcommerce/import/strategy/term/needs_refresh', '__return_true' );
 		}
 
@@ -115,110 +98,50 @@ class Import_Products extends Command {
      * @throws \WP_CLI\ExitException
      */
 	private function hook_messages() {
-		/**
-		 * Hook before the import starts.
-		 *
-		 * @param string $status Current status of the import.
-		 */
 		add_action( 'bigcommerce/import/before', function ( $status ) {
 			\WP_CLI::debug( sprintf( __( 'Starting import phase. Status: %s', 'bigcommerce' ), $status ) );
 		}, 10, 1 );
 
-		/**
-		 * Hook after the import ends.
-		 *
-		 * @param string $status Final status after the import.
-		 */
 		add_action( 'bigcommerce/import/after', function ( $status ) {
 			\WP_CLI::debug( sprintf( __( 'Finished import phase. Status: %s', 'bigcommerce' ), $status ) );
 		}, 10, 1 );
 
-		/**
-		 * Hook when the import status is set.
-		 *
-		 * @param string $status The status being set.
-		 */
 		add_action( 'bigcommerce/import/set_status', function ( $status ) {
 			\WP_CLI::debug( sprintf( __( 'Status set to: %s', 'bigcommerce' ), $status ) );
 		}, 10, 1 );
 
-		/**
-		 * Hook when the import starts.
-		 */
 		add_action( 'bigcommerce/import/start', function () {
 			\WP_CLI::log( __( 'Starting import.', 'bigcommerce' ) );
 		}, 10, 0 );
 
-		/**
-		 * Hook after fetching product IDs.
-		 *
-		 * @param int $count Number of products added to the queue.
-		 */
 		add_action( 'bigcommerce/import/fetched_ids', function ( $count ) {
 			\WP_CLI::debug( sprintf( __( 'Added %d products to the queue', 'bigcommerce' ), $count ) );
 		}, 10, 1 );
 
-		/**
-		 * Hook after marking products for deletion.
-		 *
-		 * @param int $count Number of products marked for deletion.
-		 */
 		add_action( 'bigcommerce/import/marked_deleted', function ( $count ) {
 			\WP_CLI::debug( sprintf( __( 'Marked %d products to be deleted', 'bigcommerce' ), $count ) );
 		}, 10, 1 );
 
-		/**
-		 * Hook when a product post is created.
-		 *
-		 * @param int $post_id The created post ID.
-		 * @param array $data Product data.
-		 */
 		add_action( 'bigcommerce/import/product/created', function ( $post_id, $data ) {
 			\WP_CLI::log( sprintf( __( 'Created post %d for product %d', 'bigcommerce' ), $post_id, $data[ 'id' ] ) );
 		}, 10, 2 );
 
-		/**
-		 * Hook when a product post is updated.
-		 *
-		 * @param int $post_id The updated post ID.
-		 * @param array $data Product data.
-		 */
 		add_action( 'bigcommerce/import/product/updated', function ( $post_id, $data ) {
 			\WP_CLI::log( sprintf( __( 'Updated post %d for product %d', 'bigcommerce' ), $post_id, $data[ 'id' ] ) );
 		}, 10, 2 );
 
-		/**
-		 * Hook when a product post is skipped due to being up to date.
-		 *
-		 * @param int $post_id The skipped post ID.
-		 * @param array $data Product data.
-		 */
 		add_action( 'bigcommerce/import/product/skipped', function ( $post_id, $data ) {
 			\WP_CLI::log( sprintf( __( 'Skipped post %d for product %d. Already up to date.', 'bigcommerce' ), $post_id, $data[ 'id' ] ) );
 		}, 10, 2 );
 
-		/**
-		 * Hook after fetching currency code.
-		 *
-		 * @param string $currency_code The fetched currency code.
-		 */
 		add_action( 'bigcommerce/import/fetched_currency', function ( $currency_code ) {
 			\WP_CLI::log( sprintf( __( 'Set currency code to %s', 'bigcommerce' ), $currency_code ) );
 		}, 10, 1 );
 
-		/**
-		 * Hook when store settings cannot be fetched.
-		 */
 		add_action( 'bigcommerce/import/could_not_fetch_store_settings', function () {
 			\WP_CLI::log( __( 'Unable to fetch store settings', 'bigcommerce' ) );
 		}, 10, 0 );
 
-		/**
-		 * Hook when there is an import error.
-		 *
-		 * @param string $message Error message.
-		 * @param array $data Additional error data.
-		 */
 		add_action( 'bigcommerce/import/error', function ( $message = '', $data = [] ) {
 			if ( $data ) {
 				\WP_CLI::debug( print_r( $data, true ) );
@@ -226,22 +149,10 @@ class Import_Products extends Command {
 			\WP_CLI::error( sprintf( __( 'Import failed with message: %s', 'bigcommerce' ), $message ) ?: __( 'Import failed.', 'bigcommerce' ), false );
 		}, 10, 2 );
 
-		/**
-		 * Hook when a product import fails.
-		 *
-		 * @param int $product_id The product ID.
-		 * @param CatalogApi $catalog_api The catalog API object.
-		 * @param \Exception $exception The exception that occurred.
-		 */
 		add_action( 'bigcommerce/import/product/error', function ( $product_id, CatalogApi $catalog_api, \Exception $exception ) {
 			\WP_CLI::warning( sprintf( __( 'Failed to import product with ID %d. Error: %s', 'bigcommerce' ), $product_id, $exception->getMessage() ) );
 		}, 10, 3 );
 
-		/**
-		 * Hook when a term import is skipped.
-		 *
-		 * @param array $data Term data.
-		 */
 		add_action( 'bigcommerce/import/term/skipped', function ( $data ) {
 			\WP_CLI::log( sprintf( __( 'Skipped term "%s". Already up to date.', 'bigcommerce' ), $data[ 'name' ] ) );
 		}, 10, 2 );

@@ -80,9 +80,6 @@ class Scripts {
             'bigcommerce-admin-scripts',
         ], $this->version, false );
 
-        /**
-         * Inline script added for the Gutenberg editor initialization.
-         */
         add_action( 'admin_print_scripts-post.php', function() {
             wp_add_inline_script( 'wp-edit-post', 'window._wpLoadBlockEditor.then( window.bigcommerce_gutenberg_config.initPlugins() );' );
         });
@@ -91,11 +88,7 @@ class Scripts {
         wp_localize_script( 'bigcommerce-admin-scripts', 'bigcommerce_admin_i18n', $this->localization->get_data() );
         wp_localize_script( 'bigcommerce-gutenberg-scripts', 'bigcommerce_gutenberg_config', $this->config->get_gutenberg_data() );
 
-        /*
-         * Rather than enqueuing this immediately, delay until after
-         * admin_print_footer_scripts:50. This is when the WP visual
-         * editor prints the tinymce config.
-         */
+        add_action( 'admin_print_footer_scripts', [ $this, 'print_footer_scripts' ], 60, 0 );
         add_action( 'admin_print_footer_scripts', [ $this, 'print_footer_scripts' ], 60, 0 );
     }
 
@@ -110,9 +103,6 @@ class Scripts {
 
         wp_enqueue_script( 'bigcommerce-admin-scripts' );
 
-        /**
-         * Process the script queue again for the current admin footer.
-         */
         add_action( "admin_footer-" . $GLOBALS['hook_suffix'], '_wp_footer_scripts' );
     }
 }

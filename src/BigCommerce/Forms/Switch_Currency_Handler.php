@@ -178,14 +178,6 @@ class Switch_Currency_Handler implements Form_Handler {
                     return $new_currency_code;
                 };
 
-				/**
-				 * Filter the currency code used for cart operations.
-				 *
-				 * This filter temporarily overrides the currency code to use the new currency
-				 * during the cart recreation process.
-				 *
-				 * @param string $new_currency_code The currency code to use.
-				 */
 				add_filter( 'bigcommerce/currency/code', $use_new_currency_code, 10, 0 );
 				
 				// Use the COOKIE global directly to get the cart id
@@ -193,14 +185,6 @@ class Switch_Currency_Handler implements Form_Handler {
                     return $_COOKIE[ Cart::CART_COOKIE ] ?? null;
                 };
 
-				/**
-				 * Filter the cart ID used for cart operations.
-				 *
-				 * This filter temporarily overrides the cart ID to use the value from the COOKIE
-				 * global during the cart recreation process.
-				 *
-				 * @return string|null The cart ID from the COOKIE global.
-				 */
                 add_filter( 'bigcommerce/cart/cart_id', $use_cart_id_cookie_global, 10, 0 );
 
                 $line_items        = $cart_data->getLineItems();

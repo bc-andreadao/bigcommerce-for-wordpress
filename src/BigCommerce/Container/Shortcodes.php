@@ -171,9 +171,6 @@ class Shortcodes extends Provider {
             return new Codes\Wishlist($container[Api::FACTORY]->wishlists());
         };
 
-        /**
-         * Hook registers all WordPress shortcodes during the `after_setup_theme` action.
-         */
         add_action('after_setup_theme', $this->create_callback('register', function () use ($container) {
             add_shortcode(Codes\Products::NAME, [$container[self::PRODUCTS], 'render']);
             add_shortcode(Codes\Cart::NAME, [$container[self::CART], 'render']);

@@ -133,11 +133,6 @@ class Registration_Handler implements Form_Handler {
 			return $data;
 		};
 
-		/**
-		 * Filters the arguments used to create a customer in BigCommerce.
-		 *
-		 * @param array $data The customer creation arguments.
-		 */
 		add_filter( 'bigcommerce/customer/create/args', $profile_filter, 10, 1 );
 
 		$user = new \WP_User( $user_id );

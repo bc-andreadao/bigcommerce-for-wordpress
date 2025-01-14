@@ -149,9 +149,6 @@ class Assets extends Provider {
             return new Admin\JS_Localization();
         };
 
-		/**
-		 * Enqueues admin scripts and styles.
-		 */
         add_action(
             'admin_enqueue_scripts',
             $this->create_callback( 'admin_admin_enqueue_scripts', function () use ( $container ) {
@@ -162,9 +159,6 @@ class Assets extends Provider {
             0
         );
 
-		/**
-		 * Removes Google Site Kit scripts on BigCommerce admin pages to prevent conflicts.
-		 */
         add_action(
             'admin_enqueue_scripts',
             $this->create_callback( 'admin_remove_google_sitekit_script_on_bc_admin_pages', function ( $hook ) {
@@ -210,7 +204,6 @@ class Assets extends Provider {
             return new Theme\Image_Sizes();
         };
 
-		/** Registers custom image sizes for the theme. */
         add_action(
             'after_setup_theme',
             $this->create_callback( 'frontend_after_setup_theme', function () use ( $container ) {
@@ -220,10 +213,6 @@ class Assets extends Provider {
             0
         );
 
-		/**
-		 * Enqueues frontend scripts and styles.
-		 * @param string $hook_suffix The current page's hook suffix.
-		 */
         add_action(
             'wp_enqueue_scripts',
             $this->create_callback( 'frontend_wp_enqueue_scripts', function () use ( $container ) {

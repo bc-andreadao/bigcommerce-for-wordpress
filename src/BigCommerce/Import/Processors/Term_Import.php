@@ -156,14 +156,6 @@ abstract class Term_Import implements Import_Processor {
 
 		// Put the term description filter back where we found it
 		if ( $terms_descriptions_filtered ) {
-			/**
-			 * Filters the term description before it is saved or displayed.
-			 *
-			 * This hook is used to apply content sanitization to term descriptions.
-			 *
-			 * @param string $description The term description before filtering.
-			 * @return string The sanitized term description.
-			 */
 			add_filter( 'pre_term_description', 'wp_filter_kses' );
 		}
 

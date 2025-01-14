@@ -78,41 +78,10 @@ class Migrate_Blocks {
 	 * @return void
 	 */
 	private function set_gutenberg_editor_hooks( $post ) {
-		/**
-		 * Filters the REST response for a post type, modifying the content if needed.
-		 *
-		 * This filter is triggered when preparing a REST response for a post. It ensures
-		 * that any post content is processed before being returned to the API response.
-		 *
-		 * @param \WP_REST_Response $response The response object.
-		 * @param \WP_Post          $post     Post object.
-		 * @param \WP_REST_Request  $request  Request object.
-		 *
-		 * @return \WP_REST_Response The modified response object.
-		 * @see    filter_post_rest_response()
-		 * @filter 'rest_prepare_' . $post->post_type
-		 * @since  4.7.0
-		 */
 		add_filter( 'rest_prepare_' . $post->post_type, [ $this, 'filter_post_rest_response' ], 10, 3 );
 	}
 
 	private function set_classic_editor_hooks( $post ) {
-
-		/**
-		 * Filters the content of the editor when using the classic editor.
-		 *
-		 * This filter checks if the content matches the original post content. If it does,
-		 * it will attempt to replace blocks with shortcodes. If the content doesn't match
-		 * the original post content, it returns the unchanged content to avoid unnecessary
-		 * modification.
-		 *
-		 * @param string   $content        The content of the editor.
-		 * @param string   $default_editor The default editor being used.
-		 * 
-		 * @return string The filtered content, potentially with replaced shortcodes.
-		 * @see    replace_blocks_with_shortcodes()
-		 * @filter 'the_editor_content'
-		 */
 		add_filter( 'the_editor_content', function ( $content, $default_editor ) use ( $post ) {
 			if ( $content != $post->post_content ) {
 				/**

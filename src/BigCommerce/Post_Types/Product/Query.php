@@ -168,17 +168,6 @@ class Query {
 						return "FIELD({$alias}.meta_value," . implode( ',', array_map( 'absint', $query->query_vars['bigcommerce_id__in'] ) ) . ')';
 					};
 
-					/**
-					 * Customize the SQL `ORDER BY` clause for posts.
-					 *
-					 * This filter modifies the `ORDER BY` clause used in the SQL query for fetching posts,
-					 * enabling custom sorting logic.
-					 *
-					 * @param string   $orderby The existing SQL `ORDER BY` clause.
-					 * @param WP_Query $query   The current WP_Query instance.
-					 *
-					 * @return string Modified SQL `ORDER BY` clause.
-					 */
 					add_filter( 'posts_orderby', $orderby_filter, 10, 2 );
 					break;
 

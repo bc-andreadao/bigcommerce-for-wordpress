@@ -105,14 +105,6 @@ class Proxy extends Provider {
             );
         };
 
-		/**
-		 * Registers the proxy controller routes when the REST API is initialized.
-		 *
-		 * This action hooks into the `rest_api_init` action and ensures that the
-		 * proxy controller's routes are registered during the API initialization process.
-		 *
-		 * @param Container $container The container instance.
-		 */
         add_action(
             'rest_api_init',
             $this->create_callback(
@@ -151,18 +143,6 @@ class Proxy extends Provider {
             return;
         }
 
-		/**
-		 * Filters the proxy result before fetching from the cache.
-		 *
-		 * This filter applies the `bigcommerce/proxy/result_pre` filter to modify or
-		 * cache the result before it is returned from the proxy. It allows for caching
-		 * the result before the response is sent back.
-		 *
-		 * @param mixed $result The result to be cached.
-		 * @param array $args Arguments for the cache request.
-		 *
-		 * @return mixed The cached result if available, or the original result.
-		 */
         add_filter(
             'bigcommerce/proxy/result_pre',
             $this->create_callback(
@@ -180,17 +160,6 @@ class Proxy extends Provider {
             2
         );
 
-		/**
-		 * Action triggered when a response is received from the proxy.
-		 *
-		 * This action hooks into the `bigcommerce/proxy/response_received` event and
-		 * handles the caching of the result after the response is received.
-		 *
-		 * @param mixed $result The response result from the proxy request.
-		 * @param array $args The arguments passed to the proxy request.
-		 *
-		 * @return void
-		 */
         add_action(
             'bigcommerce/proxy/response_received',
             $this->create_callback(
@@ -205,16 +174,6 @@ class Proxy extends Provider {
             2
         );
 
-		/**
-		 * Action triggered when a product is updated.
-		 *
-		 * This action hooks into the `bigcommerce/webhooks/product_updated` event and
-		 * handles clearing the cache for the updated product.
-		 *
-		 * @param array $product_id The updated product ID.
-		 *
-		 * @return void
-		 */
         add_action(
             'bigcommerce/webhooks/product_updated',
             $this->create_callback(
@@ -245,12 +204,6 @@ class Proxy extends Provider {
             );
         };
 
-		/**
-		 * Registers the AMP cart controller routes when the REST API is initialized.
-		 *
-		 * This action hooks into the `rest_api_init` action and ensures that the
-		 * AMP cart controller's routes are registered during the API initialization process.
-		 */
         add_action(
             'rest_api_init',
             $this->create_callback(

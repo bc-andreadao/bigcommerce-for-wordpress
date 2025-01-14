@@ -116,17 +116,6 @@ class Merchant extends Provider {
 			return new Create_Account( $container[ self::ONBOARDING_API ] );
 		};
 
-        /**
-         * Action to handle the submission of account creation requests.
-         *
-         * This action processes data submitted for account creation, logs errors,
-         * and invokes the Create_Account service to handle the request.
-         *
-         * @param array $data Submitted data for account creation.
-         * @param array $errors An array of errors, if any, encountered during submission.
-         * @return void
-         * @throws \Exception If an error occurs during account creation.
-         */
 		add_action( 'bigcommerce/create_account/submit_request', $this->create_callback( 'request_account', function ( $data, $errors ) use ( $container ) {
 			$container[ self::CREATE_ACCOUNT ]->request_account( $data, $errors );
 		} ), 10, 2 );
@@ -143,25 +132,10 @@ class Merchant extends Provider {
 			return new Connect_Account( $container[ self::ONBOARDING_API ] );
 		};
 
-        /**
-         * Filter to modify the account connection URL.
-         *
-         * Allows customization of the URL used to connect a BigCommerce account.
-         *
-         * @param string $url The default account connection URL.
-         * @return string The modified URL.
-         */
 		add_filter( 'bigcommerce/settings/connect_account_url', $this->create_callback( 'connect_account_url', function ( $url ) use ( $container ) {
 			return $container[ self::CONNECT_ACCOUNT ]->connect_account_url( $url );
 		} ), 10, 1 );
 
-        /**
-         * Action to handle the account connection process.
-         *
-         * Triggers the Connect_Account service to connect the merchant's account.
-         *
-         * @return void
-         */
 		add_action( 'admin_post_' . Connect_Account::CONNECT_ACTION, $this->create_callback( 'connect_account_handler', function () use ( $container ) {
 			$container[ self::CONNECT_ACCOUNT ]->connect_account();
 		} ), 10, 0 );
@@ -178,36 +152,14 @@ class Merchant extends Provider {
 			return new Account_Status( $container[ self::ONBOARDING_API ] );
 		};
 
-        /**
-         * Action to render the account status placeholder on settings pages.
-         *
-         * Displays a placeholder for account status on specific admin settings pages.
-         *
-         * @return void
-         */
 		add_action( 'bigcommerce/settings/after_content/page=' . Pending_Account_Screen::NAME, $this->create_callback( 'account_status_placeholder', function () use ( $container ) {
 			$container[ self::ACCOUNT_STATUS ]->render_status_placeholder();
 		} ), 10, 0 );
 
-        /**
-         * Action to handle AJAX requests for account status updates.
-         *
-         * Handles requests to check and refresh the merchant's account status.
-         *
-         * @return void
-         */
 		add_action( 'wp_ajax_' . Account_Status::STATUS_AJAX, $this->create_callback( 'ajax_account_status', function () use ( $container ) {
 			$container[ self::ACCOUNT_STATUS ]->handle_account_status_request();
 		} ), 10, 0 );
 
-        /**
-         * Action to handle status checks for pending accounts.
-         *
-         * Processes errors during status checks and updates the account status as needed.
-         *
-         * @param array $errors An array of errors encountered during the status check.
-         * @return void
-         */
 		add_action( 'bigcommerce/pending_account/check_status', $this->create_callback( 'pending_check_status', function ( $errors ) use ( $container ) {
 			$container[ self::ACCOUNT_STATUS ]->handle_refresh_status_request( $errors );
 		} ), 10, 1 );

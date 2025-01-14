@@ -107,14 +107,6 @@ class Single_Product_Sync {
             ) );
         };
 
-		/**
-		 * Adds an error handler for the 'bigcommerce/import/error' action hook.
-		 *
-		 * This hook listens for errors during the product import process. If an error occurs, the handler adds
-		 * the error message to the `WP_Error` object for further processing.
-		 *
-		 * @param string $message The error message to be logged if the import fails.
-		 */
 		add_action( 'bigcommerce/import/error', $error_handler, 0, 1 );
 
         $product = new Product( $post_id );

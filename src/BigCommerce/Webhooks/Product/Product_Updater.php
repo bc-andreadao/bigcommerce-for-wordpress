@@ -82,22 +82,7 @@ class Product_Updater {
 				return false;
 			};
 
-			/**
-			 * Prevents product listing updates during the product re-import process.
-			 *
-			 * This filter ensures that listing data for products is not automatically 
-			 * updated when a product is being re-imported, maintaining the integrity of the
-			 * existing listings during the operation.
-			 */
 			add_filter( 'bigcommerce/channel/listing/should_update', $empty, 10, 0 );
-
-			/**
-			 * Prevents product listing deletions during the product re-import process.
-			 *
-			 * This filter ensures that listing data for products is not automatically 
-			 * deleted when a product is being re-imported, preserving existing listings 
-			 * until the process is complete.
-			 */
 			add_filter( 'bigcommerce/channel/listing/should_delete', $empty, 10, 0 );
 
 			$product = $this->catalog->getProductById( $product_id, [

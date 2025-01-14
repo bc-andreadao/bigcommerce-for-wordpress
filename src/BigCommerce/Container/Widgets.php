@@ -38,15 +38,6 @@ class Widgets extends Provider {
             ];
         };
 
-        /**
-         * Registers each widget in the container during the `widgets_init` action.
-         *
-         * This action hooks into `widgets_init` to register the defined widgets with WordPress.
-         *
-         * @param void
-         * 
-         * @return void
-         */
         add_action( 'widgets_init', $this->create_callback( 'widgets_init', function () use ( $container ) {
             foreach ( $container[ self::WIDGET_LIST ] as $class ) {
                 register_widget( $class );

@@ -107,13 +107,6 @@ class Order_History implements Shortcode {
 			return $order['currency_code'];
 		};
 
-		/**
-		 * Temporarily filters the currency code to match the order's currency.
-		 *
-		 * @param string $currency The original currency code.
-		 *
-		 * @return string The currency code from the order if available.
-		 */
 		add_filter( 'pre_option_' . Currency::CURRENCY_CODE, $currency_filter, 100, 1 );
 		$controller = Templates\Order_Details::factory( [ Templates\Order_Details::ORDER => $order ] );
 		$output = $controller->render();
@@ -137,13 +130,6 @@ class Order_History implements Shortcode {
 				Order_Summary::ORDER => $order,
 			] );
 			
-			/**
-			 * Temporarily filters the currency code to match the order's currency.
-			 *
-			 * @param string $currency The original currency code.
-			 *
-			 * @return string The currency code from the order if available.
-			 */
 			add_filter( 'pre_option_' . Currency::CURRENCY_CODE, $currency_filter, 100, 1 );
 			$orders[]  = $component->render();
 			remove_filter( 'pre_option_' . Currency::CURRENCY_CODE, $currency_filter, 100 );
