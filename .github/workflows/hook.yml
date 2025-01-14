@@ -44,4 +44,11 @@ jobs:
           git config user.email "actions@github.com"
           git add .
           git commit -m "Update documentation from $(date +'%Y-%m-%d')" || echo "No changes to commit"
-          git push --set-upstream origin $BRANCH_NAME
+          echo "Current branch: $(git branch --show-current)"
+          git push -v --set-upstream origin "$BRANCH_NAME" || {
+            echo "Push failed. Current git status:"
+            git status
+            echo "Remote branches:"
+            git branch -r
+            exit 1
+          }
