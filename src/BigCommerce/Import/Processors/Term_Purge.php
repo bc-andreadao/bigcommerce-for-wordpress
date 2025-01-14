@@ -17,6 +17,11 @@ use BigCommerce\Logging\Error_Log;
 abstract class Term_Purge implements Import_Processor {
 	use No_Cache_Options;
 
+	/**
+	 * Option name for storing the term purge state in WordPress options table.
+	 * 
+	 * @var string STATE_OPTION
+	 */
 	const STATE_OPTION = 'bigcommerce_purge_terms_state';
 
 	/**
