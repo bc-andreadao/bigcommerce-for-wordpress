@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit9f56a5c2911017136344a43be2570fff
+class ComposerStaticInite3b7bc6dcf7f80d1326d7975fb9f5e3f
 {
     public static $files = array (
         '5255c38a0faeba867671b61dfda6d864' => __DIR__ . '/..' . '/paragonie/random_compat/lib/random.php',
@@ -823,7 +823,6 @@ class ComposerStaticInit9f56a5c2911017136344a43be2570fff
         'BigCommerce\\Templates\\Address_List' => __DIR__ . '/../..' . '/src/BigCommerce/Templates/Address_List.php',
         'BigCommerce\\Templates\\Address_New' => __DIR__ . '/../..' . '/src/BigCommerce/Templates/Address_New.php',
         'BigCommerce\\Templates\\Amp_Cart_Actions' => __DIR__ . '/../..' . '/src/BigCommerce/Templates/Amp_Cart_Actions.php',
-        'BigCommerce\\Templates\\Amp_Cart_Items' => __DIR__ . '/../..' . '/src/BigCommerce/Templates/Amp_Cart_items.php',
         'BigCommerce\\Templates\\Amp_Cart_Summary' => __DIR__ . '/../..' . '/src/BigCommerce/Templates/Amp_Cart_Summary.php',
         'BigCommerce\\Templates\\Body_Classes' => __DIR__ . '/../..' . '/src/BigCommerce/Templates/Body_Classes.php',
         'BigCommerce\\Templates\\CDN_Images' => __DIR__ . '/../..' . '/src/BigCommerce/Templates/CDN_Images.php',
@@ -1038,8 +1037,7 @@ class ComposerStaticInit9f56a5c2911017136344a43be2570fff
         'Bigcommerce\\Test\\Unit\\Api\\Resources\\ShippingZoneTest' => __DIR__ . '/..' . '/bigcommerce/api/test/Unit/Api/Resources/ShippingZoneTest.php',
         'Bigcommerce\\Test\\Unit\\Api\\Resources\\SkuOptionTest' => __DIR__ . '/..' . '/bigcommerce/api/test/Unit/Api/Resources/SkuOptionTest.php',
         'Bigcommerce\\Test\\Unit\\Api\\Resources\\SkuTest' => __DIR__ . '/..' . '/bigcommerce/api/test/Unit/Api/Resources/SkuTest.php',
-        'Bigcommerce\\Test\\Unit\\ConnectionTest' => __DIR__ . '/..' . '/bigcommerce/api/test/Unit/Api/ConnectionTest.php',
-        'Bigcommerce\\Test\\Unit\\ErrorTest' => __DIR__ . '/..' . '/bigcommerce/api/test/Unit/Api/ErrorTest.php',
+        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'Dotenv\\Dotenv' => __DIR__ . '/..' . '/vlucas/phpdotenv/src/Dotenv.php',
         'Dotenv\\Exception\\ExceptionInterface' => __DIR__ . '/..' . '/vlucas/phpdotenv/src/Exception/ExceptionInterface.php',
         'Dotenv\\Exception\\InvalidCallbackException' => __DIR__ . '/..' . '/vlucas/phpdotenv/src/Exception/InvalidCallbackException.php',
@@ -1184,10 +1182,10 @@ class ComposerStaticInit9f56a5c2911017136344a43be2570fff
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit9f56a5c2911017136344a43be2570fff::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit9f56a5c2911017136344a43be2570fff::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit9f56a5c2911017136344a43be2570fff::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInit9f56a5c2911017136344a43be2570fff::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInite3b7bc6dcf7f80d1326d7975fb9f5e3f::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInite3b7bc6dcf7f80d1326d7975fb9f5e3f::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInite3b7bc6dcf7f80d1326d7975fb9f5e3f::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInite3b7bc6dcf7f80d1326d7975fb9f5e3f::$classMap;
 
         }, null, ClassLoader::class);
     }
