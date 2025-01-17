@@ -1,0 +1,50 @@
+# generated files #
+###################
+
+.DS_Store*
+ehthumbs.db
+._*
+*~
+.svn
+.cvs
+*.bak
+*.swp
+Thumbs.db
+.DS_Store
+.idea
+pimple.json
+.phpstorm.meta.php
+*.un~
+.sass-cache
+.scssc
+/node_modules/
+phpdoc.json
+vendor/*
+.phpdoc/*
+docs/*
+composer.phar
+
+# Packages #
+############
+
+*.7z
+*.dmg
+*.gz
+*.bz2
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+*.tgz
+
+# Logs and databases #
+######################
+
+*.log
+*.sql
+
+# Local configuration #
+#######################
+
+local-config.json
