@@ -12,6 +12,13 @@ As with any WordPress plugin, upload the plugin ZIP file to the
 * WordPress: 5.8+
 * SSL
 * The PHP intl extension will enable better currency formatting
+* Support for tmpfile() function in php.ini
+
+### Assets build
+
+* Run `nvm use`
+* Run `yarn install`
+* Run `grunt build` for production and `grunt` for development
 
 ### Settings
 
@@ -79,6 +86,10 @@ canonical using the dropdowns in this settings section.
 
 The "Support Email" field will be used to give customers an address to contact you
 with questions about orders.
+
+**Updating Account Information:** In order to update account information, including a users
+password and have it syncronize to BigCommerce you will need to ensure you have global 
+PHP tmpfile() function enabled. Please not this can be disabled on some hosting providers.
 
 ### Theme Customizer
 
@@ -192,6 +203,34 @@ registration is enabled, it will also give a link to the registration page.
 `[bigcommerce_shipping_address_list]` - A list of the customer's shipping addresses, and
 forms to add, remove, or update addresses.
 
+## WP-CLI Commands
+
+The BigCommerce for WordPress plugin includes several WP-CLI commands to help manage your store and work with products. All of the commands are subcommands of `bigcommerce`.
+
+### `bigcommerce countries update`
+
+Update the cache of countries and states in `countries.json`.
+
+### `bigcommerce docs build <file>`
+
+Builds plugin documentation. `<file>` refers to a specific JSON file in the WordPress install to export the documentation to. Requires [WP Parser](https://github.com/WordPress/phpdoc-parser) to build documentation.
+
+### `bigcommerce docs import <file>>`
+
+Imports plugin documentation from a JSON file (`<file>`).
+
+### `bigcommerce import products`
+
+Imports products from the connected BigCommerce store.
+
+### `bigcommerce resources build <file> [--pretty]`
+
+Builds plugin resources JSON from a CSV file. `<file>` refers to the CSV file with resource data to import. The `--pretty` flag will format the JSON output for readability.
+
+### `bigcommerce dev reset-plugin`
+
+Resets the database options for the plugin to bring you back to the beginning of the account onboarding flow. Primarily used for development purposes. **Note:** This command does not delete any products that may have been imported from your BigCommerce store.
+
 ## Template Overrides
 
 All templates that render on the front end are found in the `templates/public` directory. To
@@ -243,7 +282,7 @@ your customers. Proceed at your own risk.*
 
 The `bigcommerce/init` action fires after the plugin has completed initializing all of
 it service providers and hooked them into WordPress. It passes two arguments: the primary
-plugin controller (an instance of the `BigCommerce\Plugin` class) and the depenency
+plugin controller (an instance of the `BigCommerce\Plugin` class) and the dependency
 injection container itself. The former is also available at any time after initialization
 by calling the function `bigcommerce()`.
 
