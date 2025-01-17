@@ -8,7 +8,6 @@ use BigCommerce\Accounts\Customer;
 use BigCommerce\Accounts\Login;
 use BigCommerce\Accounts\Roles\Customer as Customer_Role;
 use BigCommerce\Accounts\User_Profile_Settings;
-use BigCommerce\Container\Accounts;
 use BigCommerce\Import\Processors\Default_Customer_Group;
 use BigCommerce\Import\Processors\Store_Settings;
 use BigCommerce\Pages\Account_Page;
@@ -18,8 +17,17 @@ use BigCommerce\Taxonomies\Channel\Channel;
 use BigCommerce\Taxonomies\Channel\Connections;
 use BigCommerce\Webhooks\Customer\Customer_Channel_Updater;
 
+/**
+ * Handles user registration requests and form submissions for account creation.
+ *
+ * @package BigCommerce\Forms
+ */
 class Registration_Handler implements Form_Handler {
 
+    /**
+     * The action name for processing the registration form.
+	 * @var string
+     */
 	const ACTION = 'register-account';
 
 	/**
@@ -32,11 +40,22 @@ class Registration_Handler implements Form_Handler {
 	 */
 	private $login;
 
+    /**
+     * Constructor for the Registration_Handler class.
+     *
+     * @param Spam_Checker $spam_checker Instance for checking spam submissions.
+     * @param Login        $login        Instance for handling user login.
+     */
 	public function __construct( Spam_Checker $spam_checker, Login $login ) {
 		$this->spam_checker = $spam_checker;
 		$this->login        = $login;
 	}
 
+    /**
+     * Handles form submission for user registration.
+     *
+     * @param array $submission The form submission data.
+     */
 	public function handle_request( $submission ) {
 
 		if ( ! $this->should_handle_request( $submission ) ) {
@@ -78,7 +97,7 @@ class Registration_Handler implements Form_Handler {
 					$errors->add( 'email', $user_id->get_error_message() );
 					break;
 				case 'existing_user_login':
-					$errors->add( 'email', __( 'Sorry, that email address is already used!', 'bigcommerce' ) );
+					$errors->add( 'email', __( 'Failed to create your account.', 'bigcommerce' ) );
 					break;
 				case 'empty_user_login':
 				case 'user_login_too_long':
@@ -112,6 +131,7 @@ class Registration_Handler implements Form_Handler {
 
 			return $data;
 		};
+
 		add_filter( 'bigcommerce/customer/create/args', $profile_filter, 10, 1 );
 
 		$user = new \WP_User( $user_id );
@@ -176,17 +196,6 @@ class Registration_Handler implements Form_Handler {
 		return true;
 	}
 
-	/**
-	 * @param $email
-	 *
-	 * @return bool
-	 */
-	private function is_email_free( $email ): bool {
-		$user = get_user_by( 'login', $email );
-
-		return empty( $user );
-	}
-
 	private function validate_submission( $submission ) {
 		$errors = new \WP_Error();
 
@@ -205,9 +214,8 @@ class Registration_Handler implements Form_Handler {
 			$errors->add( 'email', __( 'Email Address is required.', 'bigcommerce' ) );
 		} elseif ( ! is_email( $submission[ 'bc-register' ][ 'email' ] ) ) {
 			$errors->add( 'email', __( 'Please verify that you have submitted a valid email address.', 'bigcommerce' ) );
-		} elseif ( ! $this->is_email_free( $submission['bc-register']['email'] ) ) {
-			$errors->add( 'email', __( 'Sorry, that email address is already used!', 'bigcommerce' ) );
 		}
+
 
 		if ( empty( $submission[ 'bc-register' ][ 'new_password' ] ) ) {
 			$errors->add( 'new_password', __( 'Please set your password.', 'bigcommerce' ) );

@@ -5,7 +5,6 @@ namespace BigCommerce\Accounts;
 
 
 use BigCommerce\Accounts\Roles\Customer as Customer_Role;
-use Bigcommerce\Api;
 use BigCommerce\Api_Factory;
 use BigCommerce\Import\Processors\Store_Settings;
 use BigCommerce\Pages\Account_Page;
@@ -21,16 +20,25 @@ use BigCommerce\Webhooks\Customer\Customer_Channel_Updater;
 use WP_User;
 
 /**
- * Class Login
- *
- * Handle login/lost password logic for the account
+ * Handles the login and lost password logic for the BigCommerce account integration with WordPress.
+ * This class connects WordPress users to BigCommerce customers, processes customer login, and provides the necessary functionality for user management.
  */
 class Login {
+	/**
+	 * The constant for storing the BigCommerce customer ID meta key.
+	 */
 	const CUSTOMER_ID_META = 'bigcommerce_customer_id';
 
-	/** @var Api_Factory */
+	/**
+	 * @var Api_Factory The factory class for creating API instances.
+	 */
 	private $api_factory;
 
+	/**
+	 * Login constructor.
+	 *
+	 * @param Api_Factory $api_factory The API factory to be used for creating API instances.
+	 */
 	public function __construct( Api_Factory $api_factory ) {
 		$this->api_factory = $api_factory;
 	}
@@ -77,7 +85,7 @@ class Login {
 	}
 
 	/**
-     * Create BC customer from wp user
+	 * Create BC customer from wp user
 	 * @param \WP_User $user
 	 *
 	 * @return int The new customer's ID, 0 on failure
@@ -175,7 +183,7 @@ class Login {
 	}
 
 	/**
-     * Get lost password url
+	 * Get lost password url
 	 * @param string $login_url
 	 * @param string $redirect
 	 *
@@ -202,7 +210,7 @@ class Login {
 
 
 	/**
-	 * If a user exists only on BC, try to sync before reset pasword email is sent.
+	 * If a user exists only on BC, try to sync before reset password email is sent.
 	 *
 	 * @param WP_User|false $user_data WP_User object if found, false if the user does not exist.
 	 * @param \WP_Error      $errors    A WP_Error object containing any errors generated
@@ -428,7 +436,7 @@ class Login {
 			if ( Store_Settings::is_msf_on() && ! $is_allow_global_logins && ! $is_belong_to_channel ) {
 				return new \WP_Error( 'incorrect_email',
 					sprintf(
-						__( 'The access for %s is prohibited. Please create a new user ot try another one', 'bigcommerce' ),
+						__( 'The access for %s is prohibited. Please create a new user or try another one', 'bigcommerce' ),
 						$username
 					)
 				);
@@ -465,8 +473,8 @@ class Login {
 	}
 
 	/**
-     * Validate password for accounts
-     *
+	 * Validate password for accounts
+	 *
 	 * @param bool       $match    Whether the passwords match.
 	 * @param string     $password The plaintext password.
 	 * @param string     $hash     The hashed password.
@@ -512,13 +520,13 @@ class Login {
 		}
 	}
 
-    /**
-     * Delete WP user
-     *
-     * @param $user_id
-     *
-     * @param $customer_id
-     */
+	/**
+	 * Delete WP user
+	 *
+	 * @param $user_id
+	 *
+	 * @param $customer_id
+	 */
 	private function delete_user( $user_id, $customer_id ) {
 		/**
 		 * Filter whether to delete WordPress users tied to BigCommerce

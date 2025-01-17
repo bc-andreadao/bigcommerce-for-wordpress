@@ -4,7 +4,7 @@
 namespace BigCommerce;
 
 class Plugin {
-	const VERSION = '5.0.2';
+	const VERSION = '5.1.2';
 
 	protected static $_instance;
 
@@ -126,7 +126,7 @@ class Plugin {
 		/**
 		 * Filters the credentials set
 		 *
-		 * @param boolean false
+		 * @param boolean $set false
 		 */
 		return apply_filters( 'bigcommerce/plugin/credentials_set', false );
 	}

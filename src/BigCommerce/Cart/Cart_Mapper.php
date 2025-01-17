@@ -22,29 +22,34 @@ use BigCommerce\Util\Cart_Item_Iterator;
 
 
 /**
- * Class Cart_Mapper
- *
  * Maps a cart from the API to a standard format usable by the
- * REST API and other templates
+ * REST API and other templates.
  */
 class Cart_Mapper {
-	/**
-	 * @var BigCommerce_Cart
-	 */
-	private $cart;
+    /**
+     * @var BigCommerce_Cart
+     */
+    private $cart;
 
-	/**
-	 * @var \WP_Term
-	 */
-	private $channel;
+    /**
+     * @var \WP_Term
+     */
+    private $channel;
 
-	public function __construct( BigCommerce_Cart $cart ) {
-		$this->cart = $cart;
-	}
+    /**
+     * Cart_Mapper constructor.
+     *
+     * @param BigCommerce_Cart $cart The cart to map.
+     */
+    public function __construct( BigCommerce_Cart $cart ) {
+        $this->cart = $cart;
+    }
 
-	/**
-	 * @return array
-	 */
+    /**
+     * Maps the cart data into a format for API and template usage.
+     *
+     * @return array Mapped cart data.
+     */
 	public function map() {
 		$this->identify_channel();
 		$cart = [
@@ -87,7 +92,7 @@ class Cart_Mapper {
 
 		/**
 		 * If tax is not already included in item prices
-		 * then we need to deduct the calulated tax from the subtotal
+		 * then we need to deduct the calculated tax from the subtotal
 		 * as we are displaying the tax separately
 		 */
 		if ( $cart[ 'tax_included' ] || $tax_amount < 0 ) {
