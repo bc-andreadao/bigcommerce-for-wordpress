@@ -43,7 +43,7 @@
     "lodash": "^4.17.21",
     "mt-a11y-dialog": "^5.2.0",
     "spin.js": "^3.1.0",
-    "superagent": "^3.8.2",
+    "superagent": "^10.2.2",
     "swiper": "^4.0.5",
     "verge": "^1.10.2",
     "waypoints": "^4.0.1",
