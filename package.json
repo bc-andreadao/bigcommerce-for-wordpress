@@ -40,7 +40,7 @@
     "js-cookie": "^2.2.0",
     "lazysizes": "^4.0.0-rc3",
     "load-grunt-tasks": "^3.5.2",
-    "lodash": "^4.17.21",
+    "lodash": "^4.17.23",
     "mt-a11y-dialog": "^5.2.0",
     "spin.js": "^3.1.0",
     "superagent": "^3.8.2",
@@ -48,7 +48,7 @@
     "verge": "^1.10.2",
     "waypoints": "^4.0.1",
     "webfontloader": "^1.6.28",
-    "webpack": "3.11.0",
+    "webpack": "5.0.0",
     "youtube-player": "^5.5.2"
   },
   "devDependencies": {
